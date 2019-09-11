@@ -24,7 +24,7 @@ date_default_timezone_set('America/Bogota');//Time zone
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'https://operativoicfes.com/bolivia/';
+$config['base_url'] = '';
 
 /*
 |--------------------------------------------------------------------------

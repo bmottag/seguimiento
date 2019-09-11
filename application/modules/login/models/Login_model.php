@@ -58,11 +58,15 @@
 	    		case 0: //NEW USER, must change the password
 	    				redirect("/employee","location",301);
 	    				break;
-	    		case 1: //ACTIVE USER
-						if($userRol==2){//vista para supervisores
-							redirect("/encuesta/manzana","location",301);
+	    		case 1: //ACTIVE USER						
+						if($userRol==1){//vista para ADMINISTRADORES
+							redirect("/dashboard/operador","location",301);
+						}elseif($userRol==2){//vista para OPERADPRES
+							redirect("/dashboard/operador","location",301);
+						}elseif($userRol==3){//vista para AUDITORES
+							redirect("/dashboard/coordinador","location",301);
 						}else{
-							redirect("/encuesta/manzana","location",301);
+							redirect("/dashboard/admin","location",301);
 						}
 	    				break;
 	    		case 2: //INACTIVE USER
