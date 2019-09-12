@@ -26,10 +26,11 @@
 						DASHBOARD
 <!--
 <input type="button" onclick="sonido.play()" value="play">
- Audio que se reproduce cuando se activa una alerta -->						
+ Audio que se reproduce cuando se activa una alerta 
 <audio id="sonido">
 	<source src="<?php echo base_url(); ?>images/notificacion.mp3"></source>
 </audio>
+-->
 					</h4>
 				</div>
 			</div>
@@ -212,7 +213,7 @@ if ($retornoError) {
 						</div>
 						
 						<div class="form-group">
-							<label class="col-sm-12 control-label" for="observacion">Observación</label>
+							<label class="col-sm-12 control-label" for="observacion">Observación: *</label>
 							<div class="col-sm-12">
 								<textarea id="observacion" name="observacion" placeholder="Observación"  class="form-control" rows="2"></textarea>
 							</div>
@@ -303,196 +304,6 @@ $( document ).ready( function () {
 						<input type="hidden" id="citados" name="citados" value="<?php echo $lista["numero_citados"]; ?>"/>
 						
 						<div class="form-group">
-							<label class="col-sm-12 control-label" for="ausentes">Cantidad</label>
-							<div class="col-sm-12">
-								<input type="text" id="ausentes" name="ausentes" class="form-control" required/>
-							</div>
-						</div>
-						
-						<div class="form-group">
-							<label class="col-sm-12 control-label" for="ausentesConfirmar">Confirmar cantidad</label>
-							<div class="col-sm-12">
-								<input type="text" id="ausentesConfirmar" name="ausentesConfirmar" class="form-control" required/>
-							</div>
-						</div>
-											
-						<div class="form-group">
-							<div class="row" align="center">
-								<div style="width:50%;" align="center">
-									<input type="submit" id="btnConsolidacion" name="btnConsolidacion" value="Enviar" class="btn btn-success"/>
-								</div>
-							</div>
-						</div>
-					</form>	
-							
-						</div>
-					</div>
-
-				</div>
-			</div>
-		</div>
-
-<?php
-		}
-		endforeach;
-} ?>
-<!--FIN ALERTA -->
-
-
-
-<!--INICIO ALERTA CONSOLIDACION -->
-<?php 
-if($infoAlertaConsolidacionTipo4)
-{ 
-		foreach ($infoAlertaConsolidacionTipo4 as $lista):
-		
-		//consultar si ya el usuario dio respuesta a esta alerta
-		$ci = &get_instance();
-		$ci->load->model("dashboard_model");
-		
-		$arrParam = array("idAlerta" => $lista["id_alerta"]);
-		$existeRegistro = $this->dashboard_model->get_registro_by($arrParam);
-
-		if(!$existeRegistro){
-			
-?>
-	
-		<div class="col-lg-6">				
-			<div class="panel panel-green">
-				<div class="panel-heading">
-					<i class="fa fa-calendar fa-fw"></i> ALERTA - <?php echo $infoAlertaConsolidacionTipo4[0]['nombre_tipo_alerta']; ?>
-				</div>
-				<div class="panel-body">
-
-<?php
-$retornoError = $this->session->flashdata('retornoErrorConsolidacion');
-if ($retornoError) {
-    ?>
-	<div class="row">
-		<div class="col-lg-12">	
-			<div class="alert alert-danger ">
-				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-				<?php echo $retornoError ?>
-			</div>
-		</div>
-	</div>
-    <?php
-}
-?>
-						
-					<div class="col-lg-12">	
-						<div class="alert alert-success">
-							<strong>Mensaje Alerta: </strong><?php echo $lista['mensaje_alerta']; ?><br>
-							<strong>Nombre de Prueba: </strong><?php echo $lista['nombre_prueba']; ?><br>
-							<strong>Grupo Instrumentos: </strong><?php echo $lista['nombre_grupo_instrumentos']; ?><br>
-							<strong>Fecha: </strong><?php echo $lista['fecha']; ?><br>
-							<strong>Sesión Prueba: </strong><?php echo $lista['sesion_prueba']; ?><br>
-							<strong>Número de Citados: </strong><?php echo $lista['numero_citados']; ?><br>
-							
-					<br>
-<script>
-$( document ).ready( function () {
-	$("#ausentes").bloquearTexto().maxlength(5);
-	$("#ausentesConfirmar").bloquearTexto().maxlength(5);
-});
-</script>
-					<form  name="formConsolidacion" id="<?php echo "formConsolidacionTipo4_" . $lista["id_alerta"]; ?>" class="form-horizontal" method="post" action="<?php echo base_url("dashboard/registro_consolidacion"); ?>">
-						<input type="hidden" id="hddId" name="hddId" value="<?php echo $lista["id_alerta"]; ?>"/>
-						<input type="hidden" id="hddIdSitioSesion" name="hddIdSitioSesion" value="<?php echo $lista["id_sitio_sesion"]; ?>"/>
-						
-						<input type="hidden" id="citados" name="citados" value="<?php echo $lista["numero_citados"]; ?>"/>
-						
-						<div class="form-group">
-							<label class="col-sm-12 control-label" for="ausentes">Cantidad</label>
-							<div class="col-sm-12">
-								<input type="text" id="ausentes" name="ausentes" class="form-control" required/>
-							</div>
-						</div>
-						
-						<div class="form-group">
-							<label class="col-sm-12 control-label" for="ausentesConfirmar">Confirmar cantidad</label>
-							<div class="col-sm-12">
-								<input type="text" id="ausentesConfirmar" name="ausentesConfirmar" class="form-control" required/>
-							</div>
-						</div>
-											
-						<div class="form-group">
-							<div class="row" align="center">
-								<div style="width:50%;" align="center">
-									<input type="submit" id="btnConsolidacion" name="btnConsolidacion" value="Enviar" class="btn btn-success"/>
-								</div>
-							</div>
-						</div>
-					</form>	
-							
-						</div>
-					</div>
-
-				</div>
-			</div>
-		</div>
-
-<?php
-		}else{
-			
-//si existe el registro entonces que actualice la informacion y guarde otro registro en el log
-?>
-	
-		<div class="col-lg-6">				
-			<div class="panel panel-green">
-				<div class="panel-heading">
-					<i class="fa fa-calendar fa-fw"></i> ALERTA - <?php echo $infoAlertaConsolidacionTipo4[0]['nombre_tipo_alerta']; ?>
-				</div>
-				<div class="panel-body">
-				
-	<div class="row">
-		<div class="col-lg-12">	
-			<div class="alert alert-danger ">
-				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-				Ya hay registros para esta alerta, si sigue guardando son nuevos registros.
-			</div>
-		</div>
-	</div>
-
-<?php
-$retornoError = $this->session->flashdata('retornoErrorConsolidacion');
-if ($retornoError) {
-    ?>
-	<div class="row">
-		<div class="col-lg-12">	
-			<div class="alert alert-danger ">
-				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-				<?php echo $retornoError ?>
-			</div>
-		</div>
-	</div>
-    <?php
-}
-?>
-						
-					<div class="col-lg-12">	
-						<div class="alert alert-success">
-							<strong>Mensaje Alerta: </strong><?php echo $lista['mensaje_alerta']; ?><br>
-							<strong>Nombre de Prueba: </strong><?php echo $lista['nombre_prueba']; ?><br>
-							<strong>Grupo Instrumentos: </strong><?php echo $lista['nombre_grupo_instrumentos']; ?><br>
-							<strong>Fecha: </strong><?php echo $lista['fecha']; ?><br>
-							<strong>Sesión Prueba: </strong><?php echo $lista['sesion_prueba']; ?><br>
-							<strong>Número de Citados: </strong><?php echo $lista['numero_citados']; ?><br>
-							
-					<br>
-<script>
-$( document ).ready( function () {
-	$("#ausentes").bloquearTexto().maxlength(5);
-	$("#ausentesConfirmar").bloquearTexto().maxlength(5);
-});
-</script>
-					<form  name="formConsolidacion" id="<?php echo "formConsolidacionTipo4_" . $lista["id_alerta"]; ?>" class="form-horizontal" method="post" action="<?php echo base_url("dashboard/update_registro_consolidacion_by_delegado"); ?>">
-						<input type="hidden" id="hddIdAlerta" name="hddIdAlerta" value="<?php echo $lista["id_alerta"]; ?>"/>
-						<input type="hidden" id="hddIdSitioSesion" name="hddIdSitioSesion" value="<?php echo $lista["id_sitio_sesion"]; ?>"/>
-						<input type="hidden" id="citados" name="citados" value="<?php echo $lista["numero_citados"]; ?>"/>
-						<input type="hidden" id="idRegistro" name="idRegistro" value="<?php echo $existeRegistro[0]['id_registro']; ?>"/>					
-						
-						<div class="form-group">
 							<label class="col-sm-12 control-label" for="ausentes">Cantidad de ausentes</label>
 							<div class="col-sm-12">
 								<input type="text" id="ausentes" name="ausentes" class="form-control" required/>
@@ -522,14 +333,11 @@ $( document ).ready( function () {
 			</div>
 		</div>
 
-<?php			
+<?php
 		}
 		endforeach;
 } ?>
 <!--FIN ALERTA -->
-
-
-
 	</div>
 
 
@@ -556,7 +364,7 @@ if(!$infoSitoDelegado){
 	$conteoSesiones = $this->general_model->countSesionesbySitio($arrParam);
 	$infoSesiones = false;
 	if($conteoSesiones != 0){
-		$infoSesiones = $this->general_model->get_sesiones_sitio($arrParam);
+		$infoSesiones = $this->general_model->get_sesiones_sitio_activas($arrParam);
 	}
 ?>
 
@@ -658,7 +466,7 @@ if(!$infoSitoDelegado){
 								<th>Hora Inicio</th>
 								<th>Hora Fin</th>
 								<th>Número de Citados</th>
-								<th>Número de Ausentes</th>
+								<th>Ausentes</th>
 							</tr>
 						</thead>
 						<tbody>							
@@ -674,7 +482,13 @@ if(!$infoSitoDelegado){
 								echo "<td class='text-center'>" . $lista['hora_inicio_prueba'] . "</td>";
 								echo "<td class='text-center'>" . $lista['hora_fin_prueba'] . "</td>";
 								echo "<td class='text-center'>" . $lista['numero_citados'] . "</td>";
-								echo "<td class='text-center'>" . $lista['numero_ausentes'] . "</td>";
+								//echo "<td class='text-center'>" . $lista['numero_ausentes'] . "</td>";
+								
+						?>
+		<td class='text-center'>
+		<a href="<?php echo base_url("dashboard/ausentes/" . $infoSitoDelegado[0]['codigo_dane'] . "/" . $lista['id_sesion']); ?>" class="btn btn-warning btn-xs">Ausentes <span class="fa fa-gears fa-fw" aria-hidden="true"></a>
+		</td>
+						<?php
 								echo "</tr>";
 							endforeach;
 						?>
@@ -729,13 +543,7 @@ if(!$infoSitoDelegado){
 									echo $acepta = $lista['acepta']==1?"Si":"No";
 									echo "<br><strong>Ausentes: </strong>" . $lista['ausentes'];
 									echo "<br><strong>Observación: </strong>" . $lista['observacion'];
-									echo "<br><strong>Fecha registro: </strong>" . $lista['fecha_registro'];
-									
-									//si el tipo de mensaje es 4, entonces mostrar historial
-									if($lista['ausentes'] = 4){
-echo "<br><a href=" . base_url("dashboard/historico/delegados/" . $lista['fk_id_alerta'])  . "/" . $lista['fk_id_sitio_sesion'] . " ><strong>Historial</strong> </a>";
-									}
-									
+									echo "<br><strong>Fecha registro: </strong>" . $lista['fecha_registro'];									
 									echo "</td>";
 								echo "</tr>";
 							endforeach;

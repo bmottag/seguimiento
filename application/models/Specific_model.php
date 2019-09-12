@@ -157,7 +157,7 @@ class Specific_model extends CI_Model {
 				$this->db->where('A.estado_alerta', 1); //ALERTAS ACTIVAS
 				$this->db->where('A.fk_id_rol', 4); //ALERTAS QUE SON PARA DELEGADO
 				
-				$tipoMensaje = array(1, 2, 4);//filtrar por alertas que se muestren en el APP
+				$tipoMensaje = array(1, 2);//filtrar por alertas que se muestren en el APP
 				$this->db->where_in('A.tipo_mensaje', $tipoMensaje);
 				
 				//$this->db->where('A.fecha_fin <=', $fechaActual); //FECHA FINAL SEA MAYOR A LA FECHA ACTUAL
@@ -266,34 +266,32 @@ class Specific_model extends CI_Model {
 		}
 		
 		/**
-		 * Historial de los registros de las alertas
-		 * @since 10/9/2017
+		 * Contar Sitios por sesion
+		 * @since  3/11/2017
 		 */
-		public function get_historial($idAlerta,$idSitioSesion) 
-		{			
-				$this->db->select();
-				//SITIO-SESION
-				$this->db->join('sitio_sesion SS', 'SS.id_sitio_sesion = R.fk_id_sitio_sesion', 'INNER');
-				//ALERTA
-				$this->db->join('alertas A', 'A.id_alerta = R.fk_id_alerta', 'INNER');
-				$this->db->join('param_tipo_alerta T', 'T.id_tipo_alerta = A.fk_id_tipo_alerta', 'INNER');
-				//SESIONES
-				$this->db->join('sesiones S', 'S.id_sesion = SS.fk_id_sesion', 'INNER');
+		public function countSitiosBySesion($arrDatos)
+		{
 
-
-				$this->db->where('SS.id_sitio_sesion', $idSitioSesion);
-				$this->db->where('A.id_alerta', $idAlerta);				
-
+				$sql = "SELECT count(X.fk_id_sitio) CONTEO";
+				$sql.= " FROM sitio_sesion X";
+				$sql.= " INNER JOIN sitios S ON S.id_sitio = X.fk_id_sitio";
+				$sql.= " WHERE 1 = 1";
 				
-				//$this->db->where('fk_id_usuario', $userID ); 
-				
-				$query = $this->db->get('log_registro R');
-
-				if ($query->num_rows() > 0) {
-					return $query->result_array();;
-				} else {
-					return false;
+				if (array_key_exists("idSesion", $arrDatos)) {
+					$sql.= " AND X.fk_id_sesion = " . $arrDatos["idSesion"];
 				}
+				
+				if (array_key_exists("idCoordinador", $arrDatos)) {
+					$sql.= " AND S.fk_id_user_coordinador = " . $arrDatos["idCoordinador"];
+				}
+				
+				if (array_key_exists("idOperador", $arrDatos)) {
+					$sql.= " AND S.fk_id_user_operador = " . $arrDatos["idOperador"];
+				}
+				
+				$query = $this->db->query($sql);
+				$row = $query->row();
+				return $row->CONTEO;
 		}
 
 

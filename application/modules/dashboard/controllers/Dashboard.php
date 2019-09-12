@@ -7,7 +7,7 @@ class Dashboard extends MX_Controller {
         parent::__construct();
 		$this->load->model("dashboard_model");
     }
-
+	
 	/**
 	 * Index Page for this controller.
 	 */
@@ -25,11 +25,74 @@ class Dashboard extends MX_Controller {
 				show_error('ERROR!!! - You are in the wrong place.');
 			}
 			
-			 
+	 //inicio consulta de PUESTOS DE VOTACION
+			$arrParam = array();
+			$data['noSitios'] = $this->dashboard_model->countPuestos($arrParam);//cuenta de sitios
+			
+	//listado de PUESTOS DE VOTACION
+			$arrParam = array();
+			$data['infoPuestos'] = $this->general_model->get_puesto($arrParam);
+			
 
 			$data["view"] = "dashboard";
 			$this->load->view("layout", $data);
 	}
+	
+	/**
+	 * Controlador para operadores
+	 */
+	public function operador()
+	{	
+			$this->load->model("general_model");
+			$userRol = $this->session->userdata("rol");
+			$userID = $this->session->userdata("id");
+			
+	/**
+	 * ACA SOLO PUEDE INGRESAR EL USUARIO OPERADOR
+	 */
+			if($userRol!=2){
+				show_error('ERROR!!! - You are in the wrong place.');	
+			}
+			
+			//Informacion del Puesto de trabajo
+			$arrParam = array('idUsuario' => $userID);
+			$data['infopUESTO'] = $this->general_model->get_info_encargado_puesto($arrParam);
+
+					
+//se buscan las alertas asignadas al operador			
+			$arrParam = array();
+			$data['infoAlertaInformativa'] = $this->dashboard_model->get_alerta_operadors_by($arrParam);
+			
+
+			
+
+			$data["view"] = "dashboard_operador";
+			$this->load->view("layout", $data);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+
+/**
+ * BASURA DE ACA PARA ABAJO
+ */				 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
 	
 	/**
 	 * Registro de la aceptacion de la alerta informativa
@@ -69,7 +132,7 @@ class Dashboard extends MX_Controller {
 			$acepta = $this->input->post('acepta');
 			$observacion = $this->input->post('observacion');
 
-			if($acepta==2 && $observacion == ""){
+			if($observacion == ""){
 				$this->session->set_flashdata('retornoErrorNotificacion', '<strong>Error!!!</strong> Debe indicar la Observación.');
 			}elseif($acepta==""){
 				$this->session->set_flashdata('retornoErrorNotificacion', '<strong>Error!!!</strong> Debe indicar su respuesta.');
@@ -163,9 +226,6 @@ class Dashboard extends MX_Controller {
 
 			$arrParam = array("tipoAlerta" => 3);
 			$data['infoAlertaConsolidacion'] = $this->dashboard_model->get_alerta_by($arrParam);
-
-			//alertas tipo de mensaje 4, para mostrarlas cada hora
-			$data['infoAlertaConsolidacionTipo4'] = $this->dashboard_model->get_alerta_consolidacion_tipo_4();
 
 			//LISTADO DE RESPUESTAS QUE HA DADO EL USUARIO
 			$arrParam = array("idSitio" => $data['infoSitoDelegado'][0]['id_sitio']);
@@ -283,61 +343,6 @@ class Dashboard extends MX_Controller {
 			$this->load->view("layout", $data);
 	}
 	
-	/**
-	 * Controlador para operadores
-	 */
-	public function operador()
-	{	
-			$this->load->model("general_model");
-			$userRol = $this->session->userdata("rol");
-			$userID = $this->session->userdata("id");
-			$data['rol_busqueda'] = "Representantes";
-	 //inicio consulta de SITIOS
-			$arrParam = array("idOperador" => $userID);
-			$data['noSitios'] = $this->dashboard_model->countSitios($arrParam);//cuenta de sitios
-			
-	//listado de sitios para el operador
-			$arrParam = array('idOperador' => $userID);
-			$data['infoSitios'] = $this->general_model->get_sitios($arrParam);
-	/**
-	 * ACA SOLO PUEDE INGRESAR EL USUARIO OPERADOR
-	 */
-			if($userRol!=6){
-				show_error('ERROR!!! - You are in the wrong place.');	
-			}
-					
-//se buscan las alertas asignadas al operador			
-			$arrParam = array("tipoAlerta" => 1);
-			$data['infoAlertaInformativa'] = $this->dashboard_model->get_alerta_operadors_by($arrParam);
-			
-			$arrParam = array("tipoAlerta" => 2);
-			$data['infoAlertaNotificacion'] = $this->dashboard_model->get_alerta_operadors_by($arrParam);
-
-			$arrParam = array("tipoAlerta" => 3);
-			$data['infoAlertaConsolidacion'] = $this->dashboard_model->get_alerta_operadors_by($arrParam);
-
-//conteo de los sitios segun el filtro
-			$data['conteoSitios'] = $this->general_model->get_numero_sitios_por_filtro_by_coordinador($arrParam);
-//conteo de citados			
-			$data['conteoCitados'] = $this->general_model->get_numero_citados_por_filtro_by_coordinnador();
-
-			/**
-			 * INICIO
-			 * Listado de alertas
-			 * @since 28/7/2017
-			 */			 
-			 
-			 //alertas para el coordinador en sesion
-			$this->load->model("specific_model");
-			$data["listadoSesiones"] = $this->specific_model->get_sesiones_operador();
-		
-			/**
-			 * FIN
-			 */				 
-
-			$data["view"] = "dashboard_operador";
-			$this->load->view("layout", $data);
-	}
 	
 	/**
 	 * Dashboard directivo
@@ -426,67 +431,52 @@ class Dashboard extends MX_Controller {
 	}
 	
 	/**
-	 * Actualizacion de las alertas de consolidacion que son tipo 4
-	 * @since 10/9/2017
+	 * Formulario para seleccionar los ausentes
+     * @since 3/11/2017
 	 */
-	public function update_registro_consolidacion_by_delegado()
+	public function ausentes($codigoDane, $idSesion)
 	{
-			$data = array();
-			$ausentes = $this->input->post('ausentes');
-			$ausentesConfirmar = $this->input->post('ausentesConfirmar');
-			$citados = $this->input->post('citados');
+			$this->load->helper('form');
+			$this->load->model("general_model");
+			
+			$data['codigoDane'] = $codigoDane;
+			$data['idSesion'] = $idSesion;
+			
+			$arrParam = array("codigoDane" => $codigoDane, "idSesion" => $idSesion);
+			$data['infoExaminandos'] = $this->general_model->get_examinandos($arrParam);//info lista de examinandos por sitio
 
-			$idAlerta = $this->input->post('hddIdAlerta');
-			$idSitioSesion = $this->input->post('hddIdSitioSesion');
-			
-			$idRegistro = $this->input->post('idRegistro');
-			
-			$error = false;
-			
-			
-			
-			if($ausentes == ""){
-				$this->session->set_flashdata('retornoErrorConsolidacion', '<strong>Error!!!</strong> Debe indicar los ausentes.');
-			}else{
-				if($ausentes < 0){
-					$this->session->set_flashdata('retornoErrorConsolidacion', '<strong>Error!!!</strong> La cantidad de ausentes no puede ser menor que 0.');
-				}else{				
-					if($ausentes != $ausentesConfirmar){
-						$this->session->set_flashdata('retornoErrorConsolidacion', '<strong>Error!!!</strong> Confirmar la cantidad de ausentes.');
-					}else{				
-							if($ausentes > $citados){
-								$this->session->set_flashdata('retornoErrorConsolidacion', '<strong>Error!!!</strong> La cantidad de ausentes no puede ser mayor a la cantidad de citados.');
-							}else{
-								if ($this->dashboard_model->updateRegistroConsolidacionDelegado()) 
-								{
-									$error = true;
-									$this->session->set_flashdata('retornoExito', "Gracias por su respuesta.");
-								} else {
-									$this->session->set_flashdata('retornoErrorConsolidacion', '<strong>Error!!!</strong> Contactarse con el Administrador.');
-								}
-							}
-					}
-				}
-			}
-			
-
-			redirect("/dashboard/delegados","location",301);
-
+			$data["view"] = 'ausentes';
+			$this->load->view("layout", $data);
 	}
 	
 	/**
-	 * historial de una alerta especifica
-     * @since 10/9/2016
+	 * Guardar ausentes
+     * @since 3/11/2017
      * @author BMOTTAG
 	 */
-	public function historico($rol, $idAlerta, $idSitioSesion)
-	{
-			$this->load->model("specific_model");
-			$data["info"] = $this->specific_model->get_historial($idAlerta,$idSitioSesion);
+	public function save_ausentes()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			$codigoDane = $this->input->post('hddCodigoDane');
+			$idSesion = $this->input->post('hddIdSesion');
+			$data["idRecord"] = $codigoDane . "/" . $idSesion;
 
-			$data["view"] = 'historico';
-			$this->load->view("layout", $data);
-	}
+			if ($this->dashboard_model->guardar_ausentes($codigoDane, $idSesion)) {
+				$data["result"] = true;
+				$data["mensaje"] = "Solicitud guardada correctamente.";
+				
+				$this->session->set_flashdata('retornoExito', 'Solicitud guardada correctamente.');
+			} else {
+				$data["result"] = "error";
+				$data["mensaje"] = "Error al guardar. Intente nuevamente o actualice la p\u00e1gina.";
+				
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Intente nuevamente o actualice la p\u00e1gina');
+			}
+
+			echo json_encode($data);
+    }
+
 	
 	
 }

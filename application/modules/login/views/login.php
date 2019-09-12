@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 	
-    <title>Elecciones 2019</title>
+    <title>Pruebas - Icfes</title>
 
     <!-- Bootstrap Core CSS -->
 	<link href="<?php echo base_url("assets/bootstrap/vendor/bootstrap/css/bootstrap.min.css"); ?>" rel="stylesheet">

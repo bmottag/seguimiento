@@ -24,48 +24,70 @@ class General_model extends CI_Model {
         } else
             return false;
     }
-	
+		
+	/**
+	 * Update field in a table
+	 * @since 25/5/2017
+	 */
+	public function updateRecord($arrDatos) {
+			$data = array(
+				$arrDatos ["column"] => $arrDatos ["value"]
+			);
+			$this->db->where($arrDatos ["primaryKey"], $arrDatos ["id"]);
+			$query = $this->db->update($arrDatos ["table"], $data);
+			if ($query) {
+				return true;
+			} else {
+				return false;
+			}
+	}	
 	
 		/**
-		 * Contar establecimientos
-		 * filtrado por id manzana
-		 * @since  19/9/2017
+		 * Info PUESTO DE VOTACION
+		 * @since 11/9/2019
 		 */
-		public function countEstablecimientos($arrDatos)
+		public function get_puesto($arrDatos) 
 		{
-				$sql = "SELECT count(id_establecimiento) CONTEO";
-				$sql.= " FROM form_establecimiento E";
-				$sql.= " WHERE 1 = 1";
+				$this->db->select();
 				
-				if (array_key_exists("idManzana", $arrDatos)) {
-					$sql.= " AND fk_id_manzana = " . $arrDatos["idManzana"];
+				if (array_key_exists("idPuesto", $arrDatos)) {
+					$this->db->where('P.id_puesto_votacion', $arrDatos["idPuesto"]);
 				}
-				$sql.= " AND estado != 2";
+												
+				$this->db->order_by('P.nombre_puesto_votacion', 'asc');
+				$query = $this->db->get('puesto_votacion P');
 
-				$query = $this->db->query($sql);
-				$row = $query->row();
-				return $row->CONTEO;
-		}
-	
-		/**
-		 * Update field in a table
-		 * @since 25/5/2017
-		 */
-		public function updateRecord($arrDatos) {
-				$data = array(
-					$arrDatos ["column"] => $arrDatos ["value"]
-				);
-				$this->db->where($arrDatos ["primaryKey"], $arrDatos ["id"]);
-				$query = $this->db->update($arrDatos ["table"], $data);
-				if ($query) {
-					return true;
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
 				} else {
 					return false;
 				}
-		}	
+		}
 	
 	
-	
+		/**
+		 * Info PUESTO DE VOTACION
+		 * @since 11/9/2019
+		 */
+		public function get_info_encargado_puesto($arrDatos) 
+		{
+				$this->db->select();
+				$this->db->join('usuario U', 'U.id_usuario = E.fk_id_usuario', 'INNER');
+				$this->db->join('puesto_votacion P', 'P.id_puesto_votacion = E.fk_id_puesto_votacion', 'INNER');
+				
+				if (array_key_exists("idUsuario", $arrDatos)) {
+					$this->db->where('E.fk_id_usuario', $arrDatos["idUsuario"]);
+				}
+								
+				$this->db->order_by('P.nombre_puesto_votacion', 'asc');
+				$query = $this->db->get('encargado_puesto_votacion E');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
 	
 	
 	

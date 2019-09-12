@@ -18,37 +18,23 @@
 		}
 		
 		/**
-		 * Verify if the user already exist by the social insurance number
-		 * @since  7/6/2017
-		 */
-		public function verifyCodigoDane() 
-		{
-				$codigoDane = $this->input->post('codigoDane');
-			
-				$this->db->where("codigo_dane", $codigoDane);
-				$query = $this->db->get("sitios");
-
-				if ($query->num_rows() >= 1) {
-					return true;
-				} else{ return false; }
-		}
-		
-		/**
 		 * Lista de usuarios
 		 * @since 10/5/2017
 		 */
 		public function get_users($arrDatos) 
 		{
-				$this->db->select("U.*, R.*, J.nombres_usuario nombre_jefe, J.apellidos_usuario apellido_jefe");
+				$this->db->select();
 				$this->db->join('param_roles R', 'R.id_rol = U.fk_id_rol', 'INNER');
-				$this->db->join('usuario J', 'J.id_usuario = U.fk_id_jefe', 'LEFT');
 				if (array_key_exists("idUsuario", $arrDatos)) {
-					$this->db->where('U.id_usuario', $arrDatos["idUsuario"]);
+					$this->db->where('id_usuario', $arrDatos["idUsuario"]);
 				}
 				if (array_key_exists("idRol", $arrDatos)) {
-					$this->db->where('U.fk_id_rol', $arrDatos["idRol"]);
+					$this->db->where('fk_id_rol', $arrDatos["idRol"]);
 				}
-				$this->db->where('U.estado', 1); //solo muestra las activas
+				if (array_key_exists("codigo_dane", $arrDatos)) {
+					$where = "fk_codigo_dane is not NULL";
+					$this->db->where($where);
+				}
 				
 				$this->db->order_by('nombres_usuario', 'asc');
 				$query = $this->db->get('usuario U');
@@ -78,8 +64,7 @@
 					'celular' => $this->input->post('movilNumber'),
 					'email' => $this->input->post('email'),
 					'log_user' => $this->input->post('documento'),
-					'fk_id_rol' => $this->input->post('rol'),
-					'fk_id_jefe' => $this->input->post('jefe')
+					'fk_id_rol' => $this->input->post('rol')
 				);	
 
 				//revisar si es para adicionar o editar
@@ -152,6 +137,818 @@
 				}
 	    }
 		
+		/**
+		 * Add/Edit TIPO ALERTA
+		 * @since 10/5/2017
+		 */
+		public function saveTipoAlerta() 
+		{
+				$idTipoAlerta = $this->input->post('hddId');
+				
+				$data = array(
+					'nombre_tipo_alerta' => $this->input->post('nombreTipoAlerta'),
+					'descripcion_tipo_alerta' => $this->input->post('descripcion'),
+					'observacion_alerta' => $this->input->post('observacion')
+				);
+				
+				//revisar si es para adicionar o editar
+				if ($idTipoAlerta == '') {
+					$data['fecha_creacion'] = date("Y-m-d");
+					$query = $this->db->insert('param_tipo_alerta', $data);
+					$idTipoAlerta = $this->db->insert_id();				
+				} else {
+					$this->db->where('id_tipo_alerta', $idTipoAlerta);
+					$query = $this->db->update('param_tipo_alerta', $data);
+				}
+				if ($query) {
+					return $idTipoAlerta;
+				} else {
+					return false;
+				}
+		}
+	
+		/**
+		 * Add/Edit PRUEBA
+		 * @since 10/5/2017
+		 */
+		public function savePrueba() 
+		{
+				$idPrueba = $this->input->post('hddId');
+				
+				$data = array(
+					'nombre_prueba' => $this->input->post('nombrePrueba'),
+					'descripcion_prueba' => $this->input->post('descripcion'),
+					'anio_prueba' => $this->input->post('anio'),
+					'semestre_prueba' => $this->input->post('semestre'),
+					'sigla' => $this->input->post('sigla')
+				);
+				
+				//revisar si es para adicionar o editar
+				if ($idPrueba == '') {
+					$data['fecha_creacion'] = date("Y-m-d");
+					$query = $this->db->insert('pruebas', $data);
+					$idPrueba = $this->db->insert_id();				
+				} else {
+					$this->db->where('id_prueba', $idPrueba);
+					$query = $this->db->update('pruebas', $data);
+				}
+				if ($query) {
+					return $idPrueba;
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Add/Edit SITIO
+		 * @since 11/5/2017
+		 */
+		public function saveSitio() 
+		{
+				$idSitio = $this->input->post('hddId');
+				
+				$data = array(
+					'nombre_sitio' => $this->input->post('nombreSitio'),
+					'direccion_sitio' => $this->input->post('direccion'),
+					'codigo_postal_sitio' => $this->input->post('codigoPostal'),
+					'barrio_sitio' => $this->input->post('barrioSitio'),
+					'telefono_sitio' => $this->input->post('telefono'),
+					'fax_sitio' => $this->input->post('fax'),
+					'celular_sitio' => $this->input->post('celular'),
+					'email_sitio' => $this->input->post('email'),
+					'fk_id_region' => $this->input->post('region'),
+					'fk_dpto_divipola' => $this->input->post('depto'),
+					'fk_mpio_divipola' => $this->input->post('mcpio'),
+					'estado_sitio' => $this->input->post('estado'),
+					'codigo_dane' => $this->input->post('codigoDane')
+				);
+				
+				$zona = $this->input->post('zona');
+				$organizacion = $this->input->post('organizacion');
+				if($zona != ""){
+					$data['fk_id_zona'] = $zona;
+				}
+				if($organizacion != ""){
+					$data['fk_id_organizacion'] = $organizacion;
+				}
+				
+				//revisar si es para adicionar o editar
+				if ($idSitio == '') {
+					$data['fecha_creacion'] = date("Y-m-d");
+					$query = $this->db->insert('sitios', $data);
+					$idSitio = $this->db->insert_id();				
+				} else {
+					$this->db->where('id_sitio', $idSitio);
+					$query = $this->db->update('sitios', $data);
+				}
+				if ($query) {
+					return $idSitio;
+				} else {
+					return false;
+				}
+		}
+						
+		/**
+		 * Add/Edit GRUPO INSTRUMENTOS
+		 * @since 12/5/2017
+		 */
+		public function saveGrupoInstrumentos() 
+		{
+				$identificador = $this->input->post('hddId');
+				
+				$data = array(
+					'nombre_grupo_instrumentos' => $this->input->post('nombreGrupoInstrumentos'),
+					'fk_id_prueba' => $this->input->post('prueba'),
+					'fecha' => $this->input->post('fecha')
+				);
+				
+				//revisar si es para adicionar o editar
+				if ($identificador == '') {
+					$data['fecha_creacion'] = date("Y-m-d");
+					$query = $this->db->insert('param_grupo_instrumentos', $data);
+					$identificador = $this->db->insert_id();				
+				} else {
+					$this->db->where('id_grupo_instrumentos', $identificador);
+					$query = $this->db->update('param_grupo_instrumentos', $data);
+				}
+				if ($query) {
+					return $identificador;
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Add/Edit SESIONES
+		 * @since 11/5/2017
+		 */
+		public function saveSesiones() 
+		{
+				$idGrupo = $this->input->post('hddIdGrupo');
+				$idSesion = $this->input->post('hddId');
+				
+				$hourIn = $this->input->post('hourIni');
+				$hourOut = $this->input->post('hourFin');
+				
+				$hourIn = $hourIn<10?"0".$hourIn:$hourIn;
+				$hourOut = $hourOut<10?"0".$hourOut:$hourOut;
+				
+				$timeIn = $hourIn . ":" . $this->input->post('minIni');
+				$timeOut = $hourOut . ":" . $this->input->post('minFin');
+				
+				$data = array(
+					'fk_id_grupo_instrumentos' => $idGrupo,
+					'sesion_prueba' => $this->input->post('sesion'),
+					'hora_inicio_prueba' => $timeIn ,
+					'hora_fin_prueba' => $timeOut
+				);
+				
+				//revisar si es para adicionar o editar
+				if ($idSesion == '') {
+					$data['fecha_creacion'] = date("Y-m-d");
+					$query = $this->db->insert('sesiones', $data);
+					$idSesion = $this->db->insert_id();				
+				} else {
+					$this->db->where('id_sesion', $idSesion);
+					$query = $this->db->update('sesiones', $data);
+				}
+				if ($query) {
+					return $idSesion;
+				} else {
+					return false;
+				}
+		}
+		
+	    /**
+	     * Actualiar delegado del SITIO
+		 * param Id municipio int no se usa es para el modelo de asignar coordinador
+	     * @since  13/5/2017
+	     */
+	    public function updateSitio_delegado($idMunicipio)
+		{
+				$idSitio = $this->input->post("hddId");
+
+				$data = array(
+					'fk_id_user_delegado' => $this->input->post("usuario")
+				);
+
+				$this->db->where('id_sitio', $idSitio);
+				$query = $this->db->update('sitios', $data);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+	    }
+		
+	    /**
+	     * Actualiar coordinador del SITIO
+		 * param Id municipio int para asignar coordinador a todos los sitios con ese id
+	     * @since  13/5/2017
+	     */
+	    public function updateSitio_coordinador($idMunicipio)
+		{
+				$data = array(
+					'fk_id_user_coordinador' => $this->input->post("usuario")
+				);
+
+				$this->db->where('fk_mpio_divipola', $idMunicipio);
+				$query = $this->db->update('sitios', $data);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+	    }
+		
+	    /**
+	     * Actualiar coordinador del SITIO
+		 * param Id region int para asignar coordinador a todos los sitios con ese id
+	     * @since  5/8/2017
+	     */
+	    public function updateSitio_coordinador_nodo($idRegion)
+		{
+				$data = array(
+					'fk_id_user_coordinador' => $this->input->post("usuario")
+				);
+
+				$this->db->where('fk_id_region', $idRegion);
+				$query = $this->db->update('sitios', $data);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+	    }
+		
+	    /**
+	     * Actualiar operador del SITIO
+		 * param Id municipio int para asignar operador a todos los sitios con ese id
+	     * @since  4/6/2017
+	     */
+	    public function updateSitio_operador($idMunicipio)
+		{
+				$data = array(
+					'fk_id_user_operador' => $this->input->post("usuario")
+				);
+
+				$this->db->where('fk_mpio_divipola', $idMunicipio);
+				$query = $this->db->update('sitios', $data);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+	    }
+		
+	    /**
+	     * Actualiar operador del SITIO
+		 * param Id region int para asignar operador a todos los sitios con ese id
+	     * @since  5/8/2017
+	     */
+	    public function updateSitio_operador_nodo($idRegion)
+		{
+				$data = array(
+					'fk_id_user_operador' => $this->input->post("usuario")
+				);
+
+				$this->db->where('fk_id_region', $idRegion);
+				$query = $this->db->update('sitios', $data);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+	    }
+		
+	    /**
+	     * Actualiar contacto del SITIO 
+	     * @since  20/5/2017
+	     */
+	    public function updateSitioContacto()
+		{
+				$idSitio = $this->input->post("hddId");
+
+				$data = array(
+					'contacto_nombres' => $this->input->post("nombres"),
+					'contacto_apellidos' => $this->input->post("apellidos"),
+					'contacto_cargo' => $this->input->post("cargo"),
+					'contacto_telefono' => $this->input->post("telefono"),
+					'contacto_celular' => $this->input->post("movilNumber"),
+					'contacto_email' => $this->input->post("email")
+				);
+
+				$this->db->where('id_sitio', $idSitio);
+				$query = $this->db->update('sitios', $data);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+	    }
+		
+		/**
+		 * Add/Edit ALERTA
+		 * @since 14/5/2017
+		 */
+		public function saveAlerta($fechaGrupoInstrumentos) 
+		{
+				$idAlerta = $this->input->post('hddId');
+				$fechaAlerta = $fechaGrupoInstrumentos;
+				$duracion = $this->input->post('duracion');
+				
+				$hour = $this->input->post('hour');
+				$min = $this->input->post('min');
+
+				
+				$time = $hour . ":" . $min;
+				
+				$fechaInicio = $fechaAlerta . " " . $time . ":00";
+				
+				$fechaFin = strtotime ( '+' . $duracion . ' minute' , strtotime ( $fechaInicio ) ) ;
+				$fechaFin = date ( 'Y-m-d G:i:s' , $fechaFin );
+
+				$data = array(
+					'descripcion_alerta' => $this->input->post('descripcion'),
+					'fk_id_tipo_alerta' => $this->input->post('tipoAlerta'),
+					'fecha_alerta' => $fechaAlerta,
+					'mensaje_alerta' => $this->input->post('mensaje'),
+					'hora_alerta' => $time,
+					'tiempo_duracion_alerta' => $duracion,
+					'fk_id_rol' => $this->input->post('rol'),
+					'fk_id_sesion' => $this->input->post('sesion'),
+					'fecha_inicio' => $fechaInicio,
+					'fecha_fin' => $fechaFin,
+					'estado_alerta' => $this->input->post('estado'),
+					'tipo_mensaje' => $this->input->post('tipoMensaje')
+				);
+				
+				//revisar si es para adicionar o editar
+				if ($idAlerta == '') {
+					$data['fecha_creacion'] = date("Y-m-d");
+					$query = $this->db->insert('alertas', $data);
+					$idAlerta = $this->db->insert_id();				
+				} else {
+					$this->db->where('id_alerta', $idAlerta);
+					$query = $this->db->update('alertas', $data);
+				}
+				if ($query) {
+					return $idAlerta;
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Lista de alertas
+		 * @since 14/5/2017
+		 */
+		public function get_alertas($arrDatos) 
+		{
+				$this->db->select();
+				$this->db->join('param_tipo_alerta T', 'T.id_tipo_alerta = A.fk_id_tipo_alerta', 'INNER');
+				$this->db->join('param_roles R', 'R.id_rol = A.fk_id_rol', 'INNER');
+				$this->db->join('sesiones S', 'S.id_sesion = A.fk_id_sesion', 'INNER');
+				$this->db->join('param_grupo_instrumentos G', 'G.id_grupo_instrumentos = S.fk_id_grupo_instrumentos', 'INNER');
+				$this->db->join('pruebas P', 'P.id_prueba = G.fk_id_prueba', 'INNER');
+				if (array_key_exists("idGrupo", $arrDatos)) {
+					$this->db->where('S.fk_id_grupo_instrumentos', $arrDatos["idGrupo"]);
+				}
+				$this->db->order_by('A.fecha_inicio, P.nombre_prueba, G.nombre_grupo_instrumentos, S.sesion_prueba', 'asc');
+				$query = $this->db->get('alertas A');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Lista grupo_instrumentos
+		 * @since 16/5/2017
+		 */
+		public function get_grupo_instrumentos($arrDatos) 
+		{
+				$year = date('Y');
+				$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));
+			
+				$this->db->select();
+				$this->db->join('pruebas P', 'P.id_prueba = G.fk_id_prueba', 'INNER');
+				if (array_key_exists("idGrupo", $arrDatos)) {
+					$this->db->where('G.id_grupo_instrumentos', $arrDatos["idGrupo"]);
+				}
+				$this->db->where('G.fecha >=', $firstDay); //se filtran por registros mayores al primer dia del año
+				
+				$this->db->order_by('P.nombre_prueba', 'asc');
+				$query = $this->db->get('param_grupo_instrumentos G');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}		
+		
+
+		
+		/**
+		 * Lista de sesiones que no se han asignado a un sitio
+		 * @since  22/5/2017
+		 */
+		public function lista_sesiones_for_sitio($arrData)
+		{
+				$year = date('Y');
+				$firstDay = date('Y-m-d', mktime(0,0,0, 1, 1, $year));
+		
+				$sql = "SELECT S.*, P.nombre_prueba, G.nombre_grupo_instrumentos";
+				$sql.= " FROM sesiones S";
+				$sql.= " INNER JOIN param_grupo_instrumentos G ON G.id_grupo_instrumentos = S.fk_id_grupo_instrumentos";
+				$sql.= " INNER JOIN pruebas P ON P.id_prueba = G.fk_id_prueba";
+				$sql.= " WHERE S.id_sesion NOT IN ( SELECT fk_id_sesion FROM sitio_sesion S WHERE fk_id_sitio = " . $arrData["idSitio"] . ")";
+				$sql.= " AND G.fecha >= '$firstDay'";
+				$sql.= " ORDER BY P.nombre_prueba, G.nombre_grupo_instrumentos, S.sesion_prueba ASC";
+				
+				$query = $this->db->query($sql);
+				
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Add/Edit SESIONES para SITIO
+		 * @since 18/5/2017
+		 */
+		public function saveSitiosSesion() 
+		{
+				$idSitio = $this->input->post('hddIdSitio');
+				$idSitioSesion = $this->input->post('hddId');
+								
+				$data = array(
+					'fk_id_sitio' => $idSitio,
+					'fk_id_sesion' => $this->input->post('sesion'),
+					'numero_citados' => $this->input->post('citados')
+				);
+				
+				//revisar si es para adicionar o editar
+				if ($idSitioSesion == '') {
+					$data['fecha_creacion'] = date("Y-m-d");
+					$query = $this->db->insert('sitio_sesion', $data);
+					$idSitioSesion = $this->db->insert_id();				
+				} else {
+					$this->db->where('id_sitio_sesion', $idSitioSesion);
+					$query = $this->db->update('sitio_sesion', $data);
+				}
+				if ($query) {
+					return $idSitioSesion;
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Eliminar registros de la tabla registros y log_registro
+		 * @since  23/5/2017
+		 * @review  23/2/2018
+		 */
+		public function eliminarRegistros()
+		{
+				$sql = "TRUNCATE TABLE log_registro";
+				$query = $this->db->query($sql);
+			
+				$sql = "TRUNCATE TABLE registro";
+				$query = $this->db->query($sql);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Eliminar registros de la tabla alertas
+		 * @since  23/5/2017
+		 */
+		public function eliminarAlertas()
+		{
+				$sql = "TRUNCATE TABLE alertas";
+				$query = $this->db->query($sql);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Eliminar registros de la NOVEDADES Y LOS LOGS
+		 * @since  14/8/2017
+		 * @review  23/2/2018
+		 */
+		public function eliminarNovedades()
+		{
+				$sql = "TRUNCATE TABLE log_anulaciones";
+				$query = $this->db->query($sql);
+				
+				$sql = "TRUNCATE TABLE log_novedades_cambio_cuadernillo";
+				$query = $this->db->query($sql);
+				
+				$sql = "TRUNCATE TABLE log_novedades_holgura";
+				$query = $this->db->query($sql);
+				
+				$sql = "TRUNCATE TABLE log_novedades_otra";
+				$query = $this->db->query($sql);
+				
+				$sql = "DELETE FROM anulaciones";
+				$query = $this->db->query($sql);
+				
+				$sql = "ALTER TABLE anulaciones AUTO_INCREMENT=1";
+				$query = $this->db->query($sql);
+				
+				$sql = "DELETE FROM novedades_cambio_cuadernillo";
+				$query = $this->db->query($sql);
+				
+				$sql = "ALTER TABLE novedades_cambio_cuadernillo AUTO_INCREMENT=1";
+				$query = $this->db->query($sql);
+				
+				$sql = "DELETE FROM novedades_holgura";
+				$query = $this->db->query($sql);
+				
+				$sql = "ALTER TABLE novedades_holgura AUTO_INCREMENT=1";
+				$query = $this->db->query($sql);
+				
+				$sql = "DELETE FROM novedades_otra";
+				$query = $this->db->query($sql);
+				
+				$sql = "ALTER TABLE novedades_otra AUTO_INCREMENT=1";
+				$query = $this->db->query($sql);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Eliminar registros de la tabla SESIONES
+		 * @since  15/8/2017
+		 * @review  23/2/2018
+		 */
+		public function eliminarExaminandos()
+		{
+				$sql = "DELETE FROM examinandos";
+				$query = $this->db->query($sql);
+				
+				$sql = "ALTER TABLE examinandos AUTO_INCREMENT=1";
+				$query = $this->db->query($sql);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Eliminar registros de la tabla SITIOS
+		 * @since  15/8/2017
+		 * @review  23/2/2018
+		 */
+		public function eliminarSitios()
+		{
+				$sql = "DELETE FROM sitios";
+				$query = $this->db->query($sql);
+
+				$sql = "ALTER TABLE sitios AUTO_INCREMENT=1";
+				$query = $this->db->query($sql);				
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Eliminar usuarios menos los administradores - Y COLOCAR EN DIVIPOLA COORDINADORES Y OPERADORES EN CERO
+		 * @since  19/8/2017
+		 * @review  23/2/2018
+		 */
+		public function eliminarUsuarios()
+		{	
+				$sql = "DELETE FROM usuario WHERE fk_id_rol != 1";
+				$query = $this->db->query($sql);
+
+				$sql = "ALTER TABLE usuario AUTO_INCREMENT=100";
+				$query = $this->db->query($sql);				
+
+				$sql = "UPDATE param_divipola SET fk_id_coordinador_mcpio = 0, fk_id_operador_mcpio = 0";
+				$query = $this->db->query($sql);
+				
+				$sql = "UPDATE param_regiones SET fk_id_coordinador_region = 0, fk_id_operador_region = 0";
+				$query = $this->db->query($sql);				
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Eliminar registros de la tabla HOLGURAS
+		 * @since  19/8/2017
+		 */
+		public function eliminarHolguras()
+		{	
+				$sql = "DELETE FROM snp_holguras";
+				$query = $this->db->query($sql);
+				
+				$sql = "ALTER TABLE snp_holguras AUTO_INCREMENT=1";
+				$query = $this->db->query($sql);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Eliminar registros de la tabla SESIONES
+		 * @since  23/5/2017
+		 * @review  23/2/2018
+		 */
+		public function eliminarSesiones()
+		{
+				$sql = "DELETE FROM sesiones";
+				$query = $this->db->query($sql);
+				
+				$sql = "ALTER TABLE sesiones AUTO_INCREMENT=1";
+				$query = $this->db->query($sql);				
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Eliminar registros de la tabla sitio_SESION
+		 * @since  23/5/2017
+		 * @review  23/2/2018
+		 */
+		public function eliminarSitioSesion()
+		{
+				$sql = "DELETE FROM sitio_sesion";
+				$query = $this->db->query($sql);
+
+				$sql = "ALTER TABLE sitio_sesion AUTO_INCREMENT=1";
+				$query = $this->db->query($sql);				
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Eliminar registros de la tabla grupo instrumentos
+		 * @since  23/5/2017
+		 * @review  23/2/2018
+		 */
+		public function eliminarGrupoInstrumentos()
+		{
+				$sql = "DELETE FROM param_grupo_instrumentos";
+				$query = $this->db->query($sql);
+				
+				$sql = "ALTER TABLE param_grupo_instrumentos AUTO_INCREMENT=1";
+				$query = $this->db->query($sql);				
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Cargar informacion 
+		 * @since 14/8/2017
+		 */
+		public function cargar_informacion_sitio($lista) 
+		{			
+				$lista['fecha_creacion'] = date("Y-m-d");
+				$query = $this->db->insert('sitios', $lista);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Cargar informacion usuarios
+		 * @since 19/8/2017
+		 */
+		public function cargar_informacion_usuarios($lista) 
+		{
+				$lista['estado'] = 1;
+				$lista['fecha_creacion'] = date("Y-m-d");
+				$query = $this->db->insert('usuario', $lista);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Cargar informacion examinandos
+		 * @since 19/8/2017
+		 */
+		public function cargar_informacion_examinandos($lista) 
+		{		
+				$query = $this->db->insert('examinandos', $lista);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Cargar informacion holguras
+		 * @since 19/8/2017
+		 */
+		public function cargar_informacion_holguras($lista) 
+		{			
+				$query = $this->db->insert('snp_holguras', $lista);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Cargar informacion 
+		 * @since 25/8/2017
+		 */
+		public function cargar_informacion_sitio_sesion($lista) 
+		{			
+				$lista['fecha_creacion'] = date("Y-m-d");
+				$query = $this->db->insert('sitio_sesion', $lista);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Editar datos del correo
+		 * @since 6/4/2018
+		 */
+		public function saveParamEmail() 
+		{
+				$data = array('valor' => $this->input->post('asunto'));
+				$this->db->where('llave', 'asunto');
+				$query = $this->db->update('param_email', $data);
+				
+				$data = array('valor' => $this->input->post('mensaje'));
+				$this->db->where('llave', 'mensaje');
+				$query = $this->db->update('param_email', $data);
+				
+				$data = array('valor' => $this->input->post('email_bloqueado'));
+				$this->db->where('llave', 'email_bloqueado');
+				$query = $this->db->update('param_email', $data);
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
 		
 	    
 	}

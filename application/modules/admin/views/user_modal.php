@@ -38,6 +38,7 @@
 						<option value=''>Select...</option>
 						<option value=1 <?php if($information[0]["tipo_documento"] == 1) { echo "selected"; }  ?>>Cédula de Ciudadanía</option>
 						<option value=2 <?php if($information[0]["tipo_documento"] == 2) { echo "selected"; }  ?>>Cédula de Extranjería</option>
+						<option value=3 <?php if($information[0]["tipo_documento"] == 3) { echo "selected"; }  ?>>Otros</option>
 					</select>
 				</div>
 			</div>
@@ -109,20 +110,6 @@
 				</div>
 			</div>
 <?php } ?>
-		</div>
-		
-		<div class="row">		
-			<div class="col-sm-6">
-				<div class="form-group text-left">
-					<label class="control-label" for="jefe">Supervisor o Coordinador : *</label>
-					<select name="jefe" id="jefe" class="form-control" >
-						<option value=''>Select...</option>
-						<?php for ($i = 0; $i < count($listaSupervisores); $i++) { ?>
-							<option value="<?php echo $listaSupervisores[$i]["id_usuario"]; ?>" <?php if($information[0]["fk_id_jefe"] == $listaSupervisores[$i]["id_usuario"]) { echo "selected"; }  ?>><?php echo $listaSupervisores[$i]["nombres_usuario"] . " " . $listaSupervisores[$i]["apellidos_usuario"]; ?></option>	
-						<?php } ?>
-					</select>
-				</div>
-			</div>
 		</div>
 		
 

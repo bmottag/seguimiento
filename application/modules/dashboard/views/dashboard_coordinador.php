@@ -25,10 +25,12 @@
 						DASHBOARD
 <!--
 <input type="button" onclick="sonido.play()" value="play">
- Audio que se reproduce cuando se activa una alerta -->						
+ Audio que se reproduce cuando se activa una alerta 
 <audio id="sonido">
 	<source src="<?php echo base_url(); ?>images/notificacion.mp3"></source>
 </audio>
+
+-->
 					</h4>
 				</div>
 			</div>
@@ -103,10 +105,18 @@ if ($msjNovedades) {
 			
 		<div class="col-lg-12">
 			<div class="panel panel-primary">
-			
+<?php
+	//Buscar la alertas para esta sesion y el coordinador de sesion
+	$userID = $this->session->userdata("id");
+	$arrParam = array(
+		"idSesion" => $lista_1["id_sesion"],
+		"idCoordinador" => $userID
+	);
+	$conteoSitiosSesion = $this->specific_model->countSitiosBySesion($arrParam);
+?>		
 				<div class="panel-heading">
 					<i class="fa fa-arrow-right fa-fw"></i><strong>SESIÓN: </strong><?php echo $lista_1["nombre_prueba"] . " / " . $lista_1["nombre_grupo_instrumentos"] . " / " . $lista_1["fecha"] . " / " . $lista_1["sesion_prueba"]; ?>
-					<br><i class="fa fa-arrow-right fa-fw"></i><strong>Total sitios: </strong><?php echo $conteoSitios; ?>
+					<br><i class="fa fa-arrow-right fa-fw"></i><strong>Total sitios: </strong><?php echo $conteoSitiosSesion; ?>
 				</div>
 				
 				<!-- /.panel-heading -->
@@ -427,15 +437,15 @@ if($infoAlerta["fk_id_tipo_alerta"] == 3)//CONSOLIDACION
 						</a>	
 						
 						<p>
-							<strong>Número total
+							<strong>Número total de citados
 							<span class="pull-right"><?php echo number_format($conteoCitadosSesion['citados']); ?></span></strong>
 						</p>							
 							<div class="progress">
-								<div class="progress-bar progress-bar-danger" role="progressbar" style="width:50%">
-								Entregado <?php echo number_format($presentes) . " (" . $porcentajePresentes . "%)"; ?>
-								</div>
 								<div class="progress-bar progress-bar-success" role="progressbar" style="width:50%">
-								Disponible <?php echo number_format($conteoCitadosSesion['ausentes']) . " (" . $porcentajeAusentes . "%)"; ?> 
+								Presentes <?php echo number_format($presentes) . " (" . $porcentajePresentes . "%)"; ?>
+								</div>
+								<div class="progress-bar progress-bar-danger" role="progressbar" style="width:50%">
+								Ausentes <?php echo number_format($conteoCitadosSesion['ausentes']) . " (" . $porcentajeAusentes . "%)"; ?> 
 								</div>
 							</div> 
 							

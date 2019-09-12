@@ -9,7 +9,7 @@
     <meta name="author" content="bmottag">
 	<meta name="baseurl" content="<?php echo base_url()?>" />
 
-    <title>Encuesta</title>
+    <title>Elecciones 2019</title>
 	<link rel="icon" type="image/png" href="<?php echo base_url("images/favicon.png"); ?>" />
 	
     <!-- Bootstrap Core CSS -->
