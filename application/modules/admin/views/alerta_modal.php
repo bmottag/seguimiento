@@ -56,21 +56,6 @@
 			</div>
 		</div>
 		
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group text-left">
-					<label for="type" class="control-label">Tipo de Mensaje : *</label>
-					<select name="tipoMensaje" id="tipoMensaje" class="form-control" required>
-						<option value=''>Select...</option>
-						<option value=1 <?php if($information[0]["tipo_mensaje"] == 1) { echo "selected"; }  ?>>Notificar por APP</option>
-						<option value=3 <?php if($information[0]["tipo_mensaje"] == 3) { echo "selected"; }  ?>>Notificar por EMAIL</option>
-						<option value=2 <?php if($information[0]["tipo_mensaje"] == 2) { echo "selected"; }  ?>>Notificar por EMAIL y APP</option>
-					</select>
-				</div>
-			</div>
-
-		</div>		
-
 		<?php 
 			if($information){
 				$time = explode(":",$information[0]["hora_alerta"]);
@@ -182,33 +167,7 @@
 				</div>
 			</div>
 
-			<div class="col-sm-6">
-				<div class="form-group text-left">
-					<label for="type" class="control-label">Rol : *</label>
-					<select name="rol" id="rol" class="form-control" >
-						<option value=''>Select...</option>
-						<?php for ($i = 0; $i < count($roles); $i++) { ?>
-							<option value="<?php echo $roles[$i]["id_rol"]; ?>" <?php if($information[0]["fk_id_rol"] == $roles[$i]["id_rol"]) { echo "selected"; }  ?>><?php echo $roles[$i]["nombre_rol"]; ?></option>	
-						<?php } ?>
-					</select>
-				</div>
-			</div>
 		</div>
-
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group text-left">
-					<label for="type" class="control-label">Prueba / Grupo de Instrumentos / Fecha / Sesión : *</label>
-					<select name="sesion" id="sesion" class="form-control" >
-						<option value=''>Select...</option>
-						<?php for ($i = 0; $i < count($infoPruebas); $i++) { ?>
-							<option value="<?php echo $infoPruebas[$i]["id_sesion"]; ?>" <?php if($information[0]["fk_id_sesion"] == $infoPruebas[$i]["id_sesion"]) { echo "selected"; }  ?>><?php echo $infoPruebas[$i]["nombre_prueba"] . " / " . $infoPruebas[$i]["nombre_grupo_instrumentos"] . " / " . $infoPruebas[$i]["fecha"] . " / " . $infoPruebas[$i]["sesion_prueba"]; ?></option>	
-						<?php } ?>
-					</select>
-				</div>
-			</div>
-		</div>
-
 
 		<div class="form-group">
 			<div class="row" align="center">

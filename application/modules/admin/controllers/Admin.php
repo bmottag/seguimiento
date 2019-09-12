@@ -310,88 +310,7 @@ class Admin extends MX_Controller {
 
 			echo json_encode($data);
     }
-	
-	/**
-	 * INICIO PRUEBAS
-	 */	
-	
 		
-	/**
-	 * Lista de PRUEBAS
-     * @since 10/5/2017
-	 */
-	public function pruebas()
-	{
-			$this->load->model("general_model");
-			$year = date('Y');
-			$arrParam = array(
-				"table" => "pruebas",
-				"order" => "nombre_prueba",
-				"column" => "anio_prueba",
-				"id" => $year
-			);
-			$data['info'] = $this->general_model->get_basic_search($arrParam);//lista pruebas; se filtra por año actual
-			
-			$data["view"] = 'prueba';
-			$this->load->view("layout", $data);
-	}
-	
-    /**
-     * Cargo modal - formulario PRUEBAS
-     * @since 10/5/2017
-     */
-    public function cargarModalPrueba() 
-	{
-			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
-			
-			$data['information'] = FALSE;
-			$data["idPrueba"] = $this->input->post("idPrueba");
-			
-			if ($data["idPrueba"] != 'x') {
-				$this->load->model("general_model");
-				$arrParam = array(
-					"table" => "pruebas",
-					"order" => "id_prueba",
-					"column" => "id_prueba",
-					"id" => $data["idPrueba"]
-				);
-				$data['information'] = $this->general_model->get_basic_search($arrParam);
-			}
-			
-			$this->load->view("prueba_modal", $data);
-    }
-	
-	/**
-	 * Update Pruebas
-     * @since 10/5/2017
-	 */
-	public function save_prueba()
-	{			
-			header('Content-Type: application/json');
-			$data = array();
-			
-			$idPrueba = $this->input->post('hddId');
-			
-			$msj = "Se adicionó la Prueba con exito.";
-			if ($idPrueba != '') {
-				$msj = "Se actualizó la Prueba con exito.";
-			}
-
-			if ($idPrueba = $this->admin_model->savePrueba()) {
-				$data["result"] = true;
-				$data["idRecord"] = $idPrueba;
-				
-				$this->session->set_flashdata('retornoExito', $msj);
-			} else {
-				$data["result"] = "error";
-				$data["idRecord"] = "";
-				
-				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el Administrador.');
-			}
-
-			echo json_encode($data);
-    }
-	
 	/**
 	 * INICIO ALERTAS
 	 */	
@@ -428,19 +347,7 @@ class Admin extends MX_Controller {
 				"id" => "x"
 			);
 			$data['tipoAlerta'] = $this->general_model->get_basic_search($arrParam);//tipo de alerta
-			
-			$arrParam = array(
-				"table" => "param_roles",
-				"order" => "nombre_rol",
-				"column" => "mostrar_lista",
-				"id" => 1
-			);
-			$data['roles'] = $this->general_model->get_basic_search($arrParam);//lista de roles
-			
-			$arrParam = array();
-			$data['infoPruebas'] = $this->general_model->get_sesiones($arrParam);//lista sesiones
-			
-			
+									
 			if ($data["identificador"] != 'x') {
 				$this->load->model("general_model");
 				$arrParam = array(
@@ -466,10 +373,12 @@ class Admin extends MX_Controller {
 			
 			$idAlerta = $this->input->post('hddId');
 			
-			//buscar la fecha de la sesion para guardarla en la alerta
-			$this->load->model("general_model");
-			$arrParam = array("idSesion" => $this->input->post('sesion'));
-			$data['information'] = $this->general_model->get_sesiones($arrParam);//info sesiones
+			//buscar la fecha de LAS ELECCIONES EN PARAM_GENERALES para guardarla en la alerta
+//			$this->load->model("general_model");
+//			$arrParam = array("idSesion" => $this->input->post('sesion'));
+//			$data['information'] = $this->general_model->get_sesiones($arrParam);//info sesiones
+
+$data['information'][0]['fecha'] = "2019-10-20";
 			
 			$msj = "Se adicionó la Alerta con exito.";
 			if ($idAlerta != '') {
@@ -500,13 +409,13 @@ class Admin extends MX_Controller {
 	 * Lista de SITIOS
      * @since 11/5/2017
 	 */
-	public function sitios()
+	public function puestos()
 	{
 			$this->load->model("general_model");
 			$arrParam = array();
-			$data['info'] = $this->general_model->get_sitios($arrParam);
+			$data['info'] = $this->general_model->get_puesto($arrParam);
 
-			$data["view"] = 'sitio';
+			$data["view"] = 'puesto';
 			$this->load->view("layout", $data);
 	}
 	
@@ -514,7 +423,7 @@ class Admin extends MX_Controller {
      * Cargo modal - formulario SITIOS
      * @since 11/5/2017
      */
-    public function cargarModalSitio() 
+    public function cargarModalPuesto() 
 	{
 			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
 			
@@ -523,37 +432,15 @@ class Admin extends MX_Controller {
 			$data["enlace_regreso"] = $this->input->post("enlace_regreso");
 
 			$this->load->model("general_model");
-			$arrParam = array(
-				"table" => "param_organizaciones",
-				"order" => "id_organizacion",
-				"id" => "x"
-			);
-			$data['organizaciones'] = $this->general_model->get_basic_search($arrParam);//listado organizaciones
-			
-			$arrParam = array(
-				"table" => "param_regiones",
-				"order" => "nombre_region",
-				"id" => "x"
-			);
-			$data['regiones'] = $this->general_model->get_basic_search($arrParam);//listado regiones
-			
-			$arrParam = array(
-				"table" => "param_zonas",
-				"order" => "nombre_zona",
-				"id" => "x"
-			);
-			$data['zonas'] = $this->general_model->get_basic_search($arrParam);//listado zonas
-			
-			$data['departamentos'] = $this->general_model->get_dpto_divipola();//listado de departamentos
 			
 			if ($data["identificador"] != 'x') {
 				$arrParam = array(
 					"idSitio" => $data["identificador"]
 				);
-				$data['information'] = $this->general_model->get_sitios($arrParam);//info sitio
+				$data['information'] = $this->general_model->get_puesto($arrParam);//info sitio
 			}
 			
-			$this->load->view("sitio_modal", $data);
+			$this->load->view("puesto_modal", $data);
     }
 	
 	/**

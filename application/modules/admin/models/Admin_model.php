@@ -31,10 +31,6 @@
 				if (array_key_exists("idRol", $arrDatos)) {
 					$this->db->where('fk_id_rol', $arrDatos["idRol"]);
 				}
-				if (array_key_exists("codigo_dane", $arrDatos)) {
-					$where = "fk_codigo_dane is not NULL";
-					$this->db->where($where);
-				}
 				
 				$this->db->order_by('nombres_usuario', 'asc');
 				$query = $this->db->get('usuario U');
@@ -55,12 +51,9 @@
 				$idUser = $this->input->post('hddId');
 				
 				$data = array(
-					'tipo_documento' => $this->input->post('tipoDocumento'),
 					'numero_documento' => $this->input->post('documento'),
 					'nombres_usuario' => $this->input->post('firstName'),
 					'apellidos_usuario' => $this->input->post('lastName'),
-					'direccion_usuario' => $this->input->post('address'),
-					'telefono_fijo' => $this->input->post('telefono'),
 					'celular' => $this->input->post('movilNumber'),
 					'email' => $this->input->post('email'),
 					'log_user' => $this->input->post('documento'),
@@ -457,10 +450,10 @@
 		 * Add/Edit ALERTA
 		 * @since 14/5/2017
 		 */
-		public function saveAlerta($fechaGrupoInstrumentos) 
+		public function saveAlerta($fechaElecciones) 
 		{
 				$idAlerta = $this->input->post('hddId');
-				$fechaAlerta = $fechaGrupoInstrumentos;
+				$fechaAlerta = $fechaElecciones;
 				$duracion = $this->input->post('duracion');
 				
 				$hour = $this->input->post('hour');
@@ -481,12 +474,9 @@
 					'mensaje_alerta' => $this->input->post('mensaje'),
 					'hora_alerta' => $time,
 					'tiempo_duracion_alerta' => $duracion,
-					'fk_id_rol' => $this->input->post('rol'),
-					'fk_id_sesion' => $this->input->post('sesion'),
 					'fecha_inicio' => $fechaInicio,
 					'fecha_fin' => $fechaFin,
-					'estado_alerta' => $this->input->post('estado'),
-					'tipo_mensaje' => $this->input->post('tipoMensaje')
+					'estado_alerta' => $this->input->post('estado')
 				);
 				
 				//revisar si es para adicionar o editar
@@ -513,14 +503,8 @@
 		{
 				$this->db->select();
 				$this->db->join('param_tipo_alerta T', 'T.id_tipo_alerta = A.fk_id_tipo_alerta', 'INNER');
-				$this->db->join('param_roles R', 'R.id_rol = A.fk_id_rol', 'INNER');
-				$this->db->join('sesiones S', 'S.id_sesion = A.fk_id_sesion', 'INNER');
-				$this->db->join('param_grupo_instrumentos G', 'G.id_grupo_instrumentos = S.fk_id_grupo_instrumentos', 'INNER');
-				$this->db->join('pruebas P', 'P.id_prueba = G.fk_id_prueba', 'INNER');
-				if (array_key_exists("idGrupo", $arrDatos)) {
-					$this->db->where('S.fk_id_grupo_instrumentos', $arrDatos["idGrupo"]);
-				}
-				$this->db->order_by('A.fecha_inicio, P.nombre_prueba, G.nombre_grupo_instrumentos, S.sesion_prueba', 'asc');
+
+				$this->db->order_by('A.fecha_inicio', 'asc');
 				$query = $this->db->get('alertas A');
 
 				if ($query->num_rows() > 0) {

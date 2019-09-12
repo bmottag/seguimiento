@@ -1,46 +1,16 @@
-<script>
-$(function(){ 
-	$(".btn-success").click(function () {	
-			var oID = $(this).attr("id");
-            $.ajax ({
-                type: 'POST',
-				url: base_url + 'admin/cargarModalOperadorNodo',
-                data: {'identificador': oID},
-                cache: false,
-                success: function (data) {
-                    $('#tablaDatos').html(data);
-                }
-            });
-	});	
-});
-</script>
-
 <div id="page-wrapper">
 	<br>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="list-group-item-heading">
-					<i class="fa fa-gear fa-fw"></i> CONFIGURACIONES - OPERADORES
-					</h4>
-				</div>
-			</div>
-		</div>
-		<!-- /.col-lg-12 -->				
-	</div>
 	
 	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-default">
+			<div class="panel panel-danger">
 				<div class="panel-heading">
-					<i class="fa fa-building-o"></i> LISTA DE OPERADORES
+					<i class="fa fa-bullseye"></i> REGISTRO CONTEO DE VOTOS CANDIDATOS PARA DIPUTADO
 				</div>
 				<div class="panel-body">
-					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Adicionar Operador
-					</button><br>
+									
+					
 <?php
 $retornoExito = $this->session->flashdata('retornoExito');
 if ($retornoExito) {
@@ -66,35 +36,68 @@ if ($retornoError) {
     <?php
 }
 ?> 
+
+					<div class="row">
+						<div class="col-lg-12">
+						
+							<div class="row" align="center">
+								<div style="width:50%;" align="center">
+									<div class="alert alert-danger">
+										<strong>Puesto de votación: </strong>
+										<?php echo $infoPuesto[0]['nombre_puesto_votacion']; ?>
+										<br><strong>Geolocalización: </strong>
+										<?php echo $infoPuesto[0]['geolocalizacion']; ?>
+										<br><strong>Número de mesa: </strong>
+										<?php echo $infoMesa[0]['numero_mesa']; ?>
+									</div>
+								</div>
+							</div>	
+						
+						</div>
+					</div>
+
+
+
 				<?php
 					if($info){
 				?>				
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
-								<th class="text-center">Region</th>
-								<th class="text-center">Operador</th>
-								<th class="text-center">Editar</th>
+								<th class="text-center">Imagen</th>
+								<th class="text-center">Nombre Candidato</th>
+								<th class="text-center">Número de votos</th>
 							</tr>
 						</thead>
 						<tbody>							
 						<?php
 							foreach ($info as $lista):
 									echo "<tr>";
-									echo "<td>" . $lista['nombre_region'] . "</td>";
+									echo "<td class='text-center'>"
 									
-									echo "<td class='text-center'>";
-									echo $lista['nombres_usuario'] . " " . $lista['apellidos_usuario'];
+?>
+	<button type="button" class="btn btn-danger btn-xs"  disabled >
+		 <span class="glyphicon glyphicon-user" aria-hidden="true">
+	</button>
+<?php
+									
 									echo "</td>";
-									echo "<td class='text-center'>";
-									
+									echo "<td class='text-center'>" . $lista['nombre_completo_candidato'] . "</td>";
 						?>
-									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_region']; ?>" >
-										Editar <span class="glyphicon glyphicon-edit" aria-hidden="true">
-									</button>
 									
-						<?php
-									echo "</td>";
+						<td>
+				
+						<input type="hidden" id="hddIdPuesto" name="hddIdPuesto" value="<?php echo $infoPuesto[0]['id_puesto_votacion']; ?>"/>
+						<input type="hidden" id="hddIdMesa" name="hddIdMesa" value="<?php echo $infoMesa[0]['id_mesa']; ?>"/>
+
+						
+						<input type="text" id="rate" name="rate" class="form-control" placeholder="Número de votos" required >
+		
+						</td>
+						
+						<?php		
+									echo "<tr>";
+
 							endforeach;
 						?>
 						</tbody>
@@ -127,8 +130,8 @@ if ($retornoError) {
 $(document).ready(function() {
 	$('#dataTables').DataTable({
 		responsive: true,
-		order: false,
-		"pageLength": 25
+		"ordering": false,
+		"pageLength": 100
 	});
 });
 </script>

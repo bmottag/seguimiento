@@ -11,18 +11,12 @@
 <?php
 		$userRol = $this->session->userdata("rol");
 		
-		if($userRol==4){ //USUARIOS DELEGADOS
-			$enlace = base_url("dashboard/delegados");
-			$titulo = 'Representante';
-		}elseif($userRol==6){ //USUARIOS OPERADOR
+		if($userRol==3){ //USUARIOS OPERADOR
 			$enlace = base_url("dashboard/operador");
 			$titulo = 'Operador';
-		}elseif($userRol==3){ //USUARIOS DELEGADOS
-			$enlace = base_url("dashboard/coordinador");
-			$titulo = 'Coordinador';
-		}elseif($userRol==2){ //USUARIOS DIRECTIVO
-			$enlace = base_url("dashboard/directivo");
-			$titulo = 'Directivo';
+		}elseif($userRol==2){ //USUARIOS AUDITOR
+			$enlace = base_url("dashboard/auditor");
+			$titulo = 'Auditor';
 		}else{
 			$enlace = base_url("dashboard/admin");
 			$titulo = 'Admin';
@@ -108,53 +102,18 @@ if($userRol==1){ //ADMIN
 							<a href="<?php echo base_url("admin/users"); ?>"><i class="fa fa-users fa-fw"></i> Usuarios</a>
 						</li>
 						
-						<li class="divider"></li>
-						
 						<li>
-							<a href="<?php echo base_url("admin/pruebas"); ?>"><i class="fa fa-star fa-fw"></i> Pruebas</a>
-						</li>
-
-						<li>
-							<a href="<?php echo base_url("admin/grupo_instrumentos"); ?>"><i class="fa fa-bullseye fa-fw"></i> Grupo Instrumentos</a>
-						</li>
-													
-						<li class="divider"></li>
-
-						<li>
-							<a href="<?php echo base_url("admin/sitios"); ?>"><i class="fa fa-building-o fa-fw"></i> Sitios</a>
+							<a href="<?php echo base_url("admin/puestos"); ?>"><i class="fa fa-building-o fa-fw"></i> Puestos de votación</a>
 						</li>
 						
-						<li>
-							<a href="<?php echo base_url("admin/coordinador"); ?>"><i class="fa fa-building-o fa-fw"></i> Coordinadores por municipio</a>
-						</li>
-						
-						<li>
-							<a href="<?php echo base_url("admin/coordinador_nodo"); ?>"><i class="fa fa-building-o fa-fw"></i> Coordinadores por nodo</a>
-						</li>
-						
-						<li>
-							<a href="<?php echo base_url("admin/operador"); ?>"><i class="fa fa-building-o fa-fw"></i> Operadores por municipio</a>
-						</li>
-						
-						<li>
-							<a href="<?php echo base_url("admin/operador_nodo"); ?>"><i class="fa fa-building-o fa-fw"></i> Operadores por nodo</a>
-						</li>
 						
 						<li class="divider"></li>
 
-						<li>
-							<a href="<?php echo base_url("admin/tipo_alertas"); ?>"><i class="fa fa-ticket fa-fw"></i> Tipo de Alertas</a>
-						</li>
 						
 						<li>
 							<a href="<?php echo base_url("admin/alertas"); ?>"><i class="fa fa-bell fa-fw"></i> Alertas</a>
 						</li>
 						
-						<li class="divider"></li>
-						
-						<li>
-							<a href="<?php echo base_url("admin/atencion_eliminar"); ?>"><i class="fa fa-ban fa-fw"></i> Eliminar Registros de la BD</a>
-						</li>
 						
 						<li class="divider"></li>
 						

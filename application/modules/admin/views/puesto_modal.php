@@ -3,8 +3,8 @@
 
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	<h4 class="modal-title" id="exampleModalLabel">Sitio
-	<br><small>Adicionar/Editar Sitios</small>
+	<h4 class="modal-title" id="exampleModalLabel">Puesto de Votación
+	<br><small>Adicionar/Editar Puesto de Votación</small>
 	</h4>
 </div>
 
@@ -20,7 +20,7 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label for="type" class="control-label">Nombre Sitio : *</label>
+					<label for="type" class="control-label">Nombre Puesto de Votación : *</label>
 					<input type="text" id="nombreSitio" name="nombreSitio" class="form-control" value="<?php echo $information?$information[0]["nombre_sitio"]:""; ?>" placeholder="Nombre Sitio" required >
 				</div>
 			</div>

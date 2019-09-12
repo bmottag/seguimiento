@@ -31,32 +31,11 @@
 		</div>
 		
 		<div class="row">
-			<div class="col-sm-6">
-				<div class="form-group text-left">
-					<label class="control-label" for="tipoDocumento">Tipo de documento : *</label>
-					<select name="tipoDocumento" id="tipoDocumento" class="form-control" required>
-						<option value=''>Select...</option>
-						<option value=1 <?php if($information[0]["tipo_documento"] == 1) { echo "selected"; }  ?>>Cédula de Ciudadanía</option>
-						<option value=2 <?php if($information[0]["tipo_documento"] == 2) { echo "selected"; }  ?>>Cédula de Extranjería</option>
-						<option value=3 <?php if($information[0]["tipo_documento"] == 3) { echo "selected"; }  ?>>Otros</option>
-					</select>
-				</div>
-			</div>
 		
 			<div class="col-sm-6">
 				<div class="form-group text-left">
 					<label class="control-label" for="documento">Número de documento : *</label>
 					<input type="text" id="documento" name="documento" class="form-control" value="<?php echo $information?$information[0]["numero_documento"]:""; ?>" placeholder="Número de documento" required >
-				</div>
-			</div>
-			
-		</div>
-
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="form-group text-left">
-					<label class="control-label" for="telefono">Teléfono fijo</label>
-					<input type="text" id="telefono" name="telefono" class="form-control" value="<?php echo $information?$information[0]["telefono_fijo"]:""; ?>" placeholder="Teléfono fijo" >
 				</div>
 			</div>
 			
@@ -66,7 +45,9 @@
 					<input type="text" id="movilNumber" name="movilNumber" class="form-control" value="<?php echo $information?$information[0]["celular"]:""; ?>" placeholder="Celular" required >
 				</div>
 			</div>
+			
 		</div>
+
 
 		<div class="row">
 			<div class="col-sm-6">
@@ -90,12 +71,6 @@
 		</div>
 		
 		<div class="row">
-			<div class="col-sm-8">
-				<div class="form-group text-left">
-					<label class="control-label" for="address">Dirección :</label>
-					<input type="text" id="address" name="address" class="form-control" value="<?php echo $information?$information[0]["direccion_usuario"]:""; ?>" placeholder="Dirección" >
-				</div>
-			</div>
 			
 			
 <?php if($information){ ?>

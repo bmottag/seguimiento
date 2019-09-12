@@ -84,11 +84,16 @@
 
 			
 				$this->db->select();
-
+				$this->db->join('param_tipo_alerta T', 'T.id_tipo_alerta = A.fk_id_tipo_alerta', 'INNER');//tipo alerta
+				
 				$this->db->where('A.estado_alerta', 1); //ALERTA ACTIVA
 				$this->db->where('A.fecha_inicio <=', $fecha); //FECHA INICIAL MAYOR A LA ACTUAL
 				$this->db->where('A.fecha_fin >=', $fecha); //FECHA FINAL MAYOR A LA ACTUAL
-																
+								
+				if (array_key_exists("tipoAlerta", $arrDatos)) {
+					$this->db->where('A.fk_id_tipo_alerta', $arrDatos["tipoAlerta"]); //FILTRO POR TIPO ALERTA
+				}
+				
 				$this->db->order_by('A.id_alerta', 'desc');
 				$query = $this->db->get('alertas A');
 

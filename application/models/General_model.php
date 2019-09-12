@@ -89,6 +89,53 @@ class General_model extends CI_Model {
 				}
 		}
 	
+		/**
+		 * Info MESAS
+		 * @since 12/9/2019
+		 */
+		public function get_mesas($arrDatos) 
+		{
+				$this->db->select();
+				
+				if (array_key_exists("idPuesto", $arrDatos)) {
+					$this->db->where('M.fk_puesto_votacion_mesas', $arrDatos["idPuesto"]);
+				}
+				
+				if (array_key_exists("idMesa", $arrDatos)) {
+					$this->db->where('M.id_mesa', $arrDatos["idMesa"]);
+				}
+												
+				$this->db->order_by('M.numero_mesa', 'asc');
+				$query = $this->db->get('mesas M');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Listado Candidatos
+		 * @since 12/9/2019
+		 */
+		public function get_candidatos($arrDatos) 
+		{
+				$this->db->select();
+				
+				if (array_key_exists("cargo", $arrDatos)) {
+					$this->db->where('cargo', $arrDatos["cargo"]);
+				}
+																
+				$this->db->order_by('nombre_completo_candidato', 'asc');
+				$query = $this->db->get('candidatos');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
 	
 	
 	

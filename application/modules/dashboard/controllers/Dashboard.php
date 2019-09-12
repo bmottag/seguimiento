@@ -41,14 +41,14 @@ class Dashboard extends MX_Controller {
 	/**
 	 * Controlador para operadores
 	 */
-	public function operador()
+	public function auditor()
 	{	
 			$this->load->model("general_model");
 			$userRol = $this->session->userdata("rol");
 			$userID = $this->session->userdata("id");
 			
 	/**
-	 * ACA SOLO PUEDE INGRESAR EL USUARIO OPERADOR
+	 * ACA SOLO PUEDE INGRESAR EL USUARIO AUDITOR
 	 */
 			if($userRol!=2){
 				show_error('ERROR!!! - You are in the wrong place.');	
@@ -56,12 +56,18 @@ class Dashboard extends MX_Controller {
 			
 			//Informacion del Puesto de trabajo
 			$arrParam = array('idUsuario' => $userID);
-			$data['infopUESTO'] = $this->general_model->get_info_encargado_puesto($arrParam);
+			$data['infoPuesto'] = $this->general_model->get_info_encargado_puesto($arrParam);
 
 					
 //se buscan las alertas asignadas al operador			
-			$arrParam = array();
+			$arrParam = array("tipoAlerta" => 1);
 			$data['infoAlertaInformativa'] = $this->dashboard_model->get_alerta_operadors_by($arrParam);
+			
+			$arrParam = array("tipoAlerta" => 2);
+			$data['infoAlertaNotificacion'] = $this->dashboard_model->get_alerta_operadors_by($arrParam);
+
+			$arrParam = array("tipoAlerta" => 3);
+			$data['infoAlertaConsolidacion'] = $this->dashboard_model->get_alerta_operadors_by($arrParam);
 			
 
 			

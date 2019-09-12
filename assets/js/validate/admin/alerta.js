@@ -11,10 +11,7 @@ $( document ).ready( function () {
 			hour:			{ required: true },
 			min:			{ required: true },
 			duracion:		{ required: true },
-			rol:			{ required: true },
-			sesion:			{ required: true },
-			estado:			{ required: true },
-			tipoMensaje:	{ required: true }
+			estado:			{ required: true }
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {

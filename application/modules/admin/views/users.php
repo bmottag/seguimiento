@@ -79,10 +79,8 @@ if ($retornoError) {
 								<th class="text-center">Rol</th>
 								<th class="text-center">Estado</th>
 								<th class="text-center">Contraseña</th>								
-								<th class="text-center">Teléfono</th>
 								<th class="text-center">Celular</th>
 								<th class="text-center">Email</th>
-								<th class="text-center">Dirección</th>
 							</tr>
 						</thead>
 						<tbody>							
@@ -130,7 +128,6 @@ if ($retornoError) {
 									
 							<?php
 									echo "</td>";
-									echo "<td class='text-center'>" . $lista['telefono_fijo'] . "</td>";
 $movil = $lista["celular"];
 // Separa en grupos de tres 
 $count = strlen($movil); 
@@ -149,7 +146,6 @@ if($count == 10){
 								
 									echo "<td class='text-center'>" . $resultado . "</td>";
 									echo "<td>" . $lista['email'] . "</td>";
-									echo "<td>" . $lista['direccion_usuario'] . "</td>";
 									echo "</tr>";
 							endforeach;
 						?>

@@ -1,4 +1,7 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/admin/sesiones.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/encuesta/control.js"); ?>"></script>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
 $(function(){ 
@@ -6,77 +9,56 @@ $(function(){
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
-				url: base_url + 'admin/cargarModalSesiones',
-                data: {'idGrupo': oID, 'idSesion': 'x'},
+				url: base_url + 'encuesta/cargarModalControl',
+                data: {'idFormulario': oID, 'idControl': 'x'},
                 cache: false,
                 success: function (data) {
                     $('#tablaDatos').html(data);
                 }
             });
-	});	
+	});
 	
 	$(".btn-info").click(function () {	
 			var oID = $(this).attr("id");
             $.ajax ({
                 type: 'POST',
-				url: base_url + 'admin/cargarModalSesiones',
-                data: {'idGrupo': '', 'idSesion': oID},
+				url: base_url + 'encuesta/cargarModalControl',
+                data: {'idFormulario': '', 'idControl': oID},
                 cache: false,
                 success: function (data) {
                     $('#tablaDatos').html(data);
                 }
             });
-	});	
+	});
+	
 });
 </script>
 
+
 <div id="page-wrapper">
 	<br>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h4 class="list-group-item-heading">
-					<i class="fa fa-gear fa-fw"></i> CONFIGURACIONES - SESIONES
-					</h4>
-				</div>
-			</div>
-		</div>
-		<!-- /.col-lg-12 -->				
-	</div>
 	
 	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-default">
+			<div class="panel panel-success">
 				<div class="panel-heading">
-					<a class="btn btn-success" href=" <?php echo base_url(). 'admin/grupo_instrumentos'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Regresar </a> 
-					<i class="fa fa-gears "></i> LISTA DE SESIONES
+					<a class="btn btn-success" href=" <?php echo base_url().'encuesta/form_home/' . $idFormulario; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Regresar </a> 
+					<i class="fa fa-users"></i> RESULTADO ENCUESTA
 				</div>
 				<div class="panel-body">
+
+	<div class="col-lg-12">
+		<div class="alert alert-danger ">
+			<span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span>
+			Relacione a continuación el resultado de la encuesta.
+		</div>
+	</div>
 				
-					<div class="row">
-						<div class="col-lg-12">
-						
-							<div class="row" align="center">
-								<div style="width:50%;" align="center">
-									<div class="alert alert-success">
-										<strong>GRUPO DE INSTRUMENTOS: </strong>
-										<?php echo $infoGrupo[0]['nombre_grupo_instrumentos']; ?>
-										<br><strong>PRUEBA: </strong>
-										<?php echo $infoGrupo[0]['nombre_prueba']; ?>
-										<br><strong>FECHA: </strong>
-										<?php echo $infoGrupo[0]['fecha']; ?>
-									</div>
-								</div>
-							</div>	
-						
-						</div>
-					</div>
-				
-					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $infoGrupo[0]['id_grupo_instrumentos']; ?>">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Adicionar Sesiones
+					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $idFormulario; ?>">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Adicionar Resultado Encuesta
 					</button><br>
+
 <?php
 $retornoExito = $this->session->flashdata('retornoExito');
 if ($retornoExito) {
@@ -108,34 +90,58 @@ if ($retornoError) {
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
-								<th class="text-center">ID Sesión</th>
-								<th class="text-center">Sesión</th>
-								<th class="text-center">Hora Inicio</th>
-								<th class="text-center">Hora Fin</th>
 								<th class="text-center">Editar</th>
+								<th class="text-center">No. formulario</th>
+								<th class="text-center">Fecha</th>
+								<th class="text-center">Fecha registro</th>
+								<th class="text-center">Resultado encuesta</th>
+								<th class="text-center">Observaciones</th>
 							</tr>
 						</thead>
 						<tbody>							
 						<?php
 							foreach ($info as $lista):
 									echo "<tr>";
-									echo "<td class='text-center' width='20'>" . $lista['id_sesion'] . "</td>";
-									echo "<td>" . $lista['sesion_prueba'] . "</td>";
-									echo "<td class='text-center'>" . $lista['hora_inicio_prueba'] . "</td>";
-									echo "<td class='text-center'>" . $lista['hora_fin_prueba'] . "</td>";
 									echo "<td class='text-center'>";
 						?>
-									<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_sesion']; ?>" >
+									<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_control']; ?>" >
 										Editar <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</button>
 									
-									<br><br>
-
-<button type="button" class="btn btn-danger btn-xs" id="<?php echo $lista['id_sesion']; ?>" >
+<?php 
+$userRol = $this->session->rol;
+if($userRol!=3){ //los encuestadores no pueden borrar manazanas
+?>
+<br><br>
+<button type="button" class="btn btn-danger btn-xs" id="<?php echo $lista['id_control']; ?>" >
 	Eliminar <span class="fa fa-times fa-fw" aria-hidden="true">
-</button>
+</button>								
+<?php } ?>
 						<?php
 									echo "</td>";
+									echo "<td class='text-right'>" . $lista['fk_id_formulario'] . "</td>";
+									echo "<td>" . $lista['fecha'] . "</td>";
+									echo "<td>" . $lista['fecha_registro'] . "</td>";
+									echo "<td>";
+
+									switch ($lista['resultado_encuesta']) {
+										case "EC":
+											echo "Encuesta completa";
+											break;
+										case "EI":
+											echo "Encuesta incompleta";
+											break;
+										case "R":
+											echo "Rechazo";
+											break;
+										case "FU":
+											echo "Fuera de universo";
+											break;
+									}
+									
+									echo "</td>";
+									echo "<td>" . $lista['observaciones'] . "</td>";
+									echo "</tr>";
 							endforeach;
 						?>
 						</tbody>
@@ -168,6 +174,7 @@ if ($retornoError) {
 $(document).ready(function() {
 	$('#dataTables').DataTable({
 		responsive: true,
+		"order": [[ 0, "asc" ]],
 		"pageLength": 25
 	});
 });

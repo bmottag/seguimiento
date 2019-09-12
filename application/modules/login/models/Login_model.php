@@ -59,12 +59,12 @@
 	    				redirect("/employee","location",301);
 	    				break;
 	    		case 1: //ACTIVE USER
-						if($userRol==1){//vista para delegados
+						if($userRol==1){//vista para ADMINISTRADOR
 							redirect("/dashboard/admin","location",301);
-						}elseif($userRol==2){//vista para operadores
-							redirect("/dashboard/operador","location",301);
-						}elseif($userRol==3){//vista para coordinadores
+						}elseif($userRol==2){//vista para AUDITOR
 							redirect("/dashboard/auditor","location",301);
+						}elseif($userRol==3){//vista para OPERADOR
+							redirect("/dashboard/operador","location",301);
 						}else{
 							redirect("/dashboard/admin","location",301);
 						}

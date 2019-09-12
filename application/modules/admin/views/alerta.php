@@ -88,8 +88,6 @@ if ($retornoError) {
 								<th class="text-center">Editar</th>
 								<th class="text-center">Incio / Fin</th>
 								<th class="text-center">Estado</th>
-								<th class="text-center">Rol</th>
-								<th class="text-center">Prueba / Grupo Instrumentos / Sesión</th>
 								
 							</tr>
 						</thead>
@@ -130,13 +128,7 @@ if ($retornoError) {
 									}
 									echo "</td>";
 
-									echo "<td class='text-center'>" . $lista['nombre_rol'] . "</td>";
-
-									echo "<td>";
-									echo "<strong>Prueba:</strong><br>". $lista['nombre_prueba'];
-									echo "<br><strong>Grupo Instrumentos:</strong><br>". $lista['nombre_grupo_instrumentos'];
-									echo "<br><strong>Sesión:</strong><br>". $lista['sesion_prueba'];
-									echo "</td>";
+									echo "</tr>";
 							endforeach;
 						?>
 						</tbody>
