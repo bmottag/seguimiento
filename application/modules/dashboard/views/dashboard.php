@@ -48,12 +48,6 @@ if ($retornoError) {
 }
 ?> 
 
-
-
-
-
-
-
 	<!-- LISTADO DE PUESTOS DE VOTACION -->
 	<div class="row">
 			
@@ -61,12 +55,11 @@ if ($retornoError) {
 			<div class="panel panel-primary">
 			
 				<div class="panel-heading">
-					<i class="fa fa-home fa-fw"></i> Lista puestos de votación
+					<i class="fa fa-home fa-fw"></i> LISTA PUESTOS DE VOTACIÓN
 				</div>
 				
 				<!-- /.panel-heading -->
 				<div class="panel-body">
-					<a class="btn btn-default btn-circle" href="#anclaUp"><i class="fa fa-arrow-up"></i> </a>
 
 <?php
 	if(!$infoPuestos){ 
@@ -89,10 +82,10 @@ if ($retornoError) {
 							foreach ($infoPuestos as $lista):
 								$i++;
 								echo "<tr>";								
-								echo "<td >" . $i . "</td>";
+								echo "<td class='text-center'>" . $i . "</td>";
 								echo "<td >" . strtoupper($lista['nombre_puesto_votacion']) . "</td>";
 								echo "<td >" . strtoupper($lista['geolocalizacion']) . "</td>";
-								echo "<td >";
+								echo "<td class='text-center'>";
 echo "<a href='" . base_url('report/mostrarSesiones/' . $lista['id_puesto_votacion'] . '/admin' ) . "'>" . $lista['numero_mesas'] . "</a>";
 								echo "</td>";
 								echo "</tr>";
@@ -109,8 +102,6 @@ echo "<a href='" . base_url('report/mostrarSesiones/' . $lista['id_puesto_votaci
 
 	</div>
 	<!-- LISTADO DE PUESTO DE VOTACION -->
-
-
 
 
 </div>
