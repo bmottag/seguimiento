@@ -219,6 +219,39 @@
 				}
 		}
 		
+		/**
+		 * Add/Edit CANDIDATOS
+		 * @since 14/9/2019
+		 */
+		public function saveCandidato() 
+		{
+				$idCandidato = $this->input->post('hddId');
+				
+				$data = array(
+					'nombre_completo_candidato' => $this->input->post('name'),
+					'sigla' => $this->input->post('sigla'),
+					'cargo' => $this->input->post('cargo')
+				);
+				
+				//revisar si es para adicionar o editar
+				if ($idCandidato == '') {
+					$query = $this->db->insert('candidatos', $data);
+					$idCandidato = $this->db->insert_id();				
+				} else {
+					$this->db->where('id_candidato', $idCandidato);
+					$query = $this->db->update('candidatos', $data);
+				}
+				if ($query) {
+					return $idCandidato;
+				} else {
+					return false;
+				}
+		}
+		
+		
+		
+		
+		
 	    /**
 	     * Actualiar delegado del SITIO
 		 * param Id municipio int no se usa es para el modelo de asignar coordinador

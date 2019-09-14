@@ -102,13 +102,19 @@ if($userRol==1){ //ADMIN
 							<a href="<?php echo base_url("admin/users"); ?>"><i class="fa fa-users fa-fw"></i> Usuarios</a>
 						</li>
 						
+						<li class="divider"></li>
+						
 						<li>
 							<a href="<?php echo base_url("admin/puestos"); ?>"><i class="fa fa-building-o fa-fw"></i> Puestos de votación</a>
 						</li>
 						
-						
-						<li class="divider"></li>
+						<li>
+							<a href="<?php echo base_url("admin/candidato/1"); ?>"><i class="fa fa-users fa-fw"></i> Candidatos para presidente</a>
+						</li>
 
+						<li>
+							<a href="<?php echo base_url("admin/candidato/2"); ?>"><i class="fa fa-users fa-fw"></i> Candidatos para diputado</a>
+						</li>
 						
 						<li>
 							<a href="<?php echo base_url("admin/alertas"); ?>"><i class="fa fa-bell fa-fw"></i> Alertas</a>

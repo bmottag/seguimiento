@@ -549,6 +549,104 @@ $data['information'][0]['fecha'] = "2019-10-20";
 
 			echo json_encode($data);
     }
+	
+	/**
+	 * Lista Candidatos
+     * @since 14/9/2019
+	 * @param cargo int: 1:Presidente; 2:Diputado
+     * @author BMOTTAG
+	 */
+	public function candidato($cargo)
+	{
+			$userRol = $this->session->rol;
+			if ($userRol != 1 ) { 
+				show_error('ERROR!!! - You are in the wrong place.');	
+			}
+
+			$data['cargo'] = $cargo;
+			$data['cargoCandidato'] = $cargo==1?"Presidente":"Diputado";//Para colocar en el titulo de la vista
+
+			$this->load->model("general_model");
+			$arrParam = array("cargo" => $cargo);
+			$data['info'] = $this->general_model->get_candidatos($arrParam);
+			
+			$data["view"] = 'candidatos';
+			$this->load->view("layout", $data);
+	}
+	
+    /**
+     * Cargo modal - formulario Candidato
+     * @since 14/9/2019
+     */
+    public function cargarModalCandidato() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+			
+			$data['information'] = FALSE;
+			
+			
+			$idCandidato = $this->input->post("idCandidato");
+			//como se coloca un ID con el cargo entonces toca decodificarlo
+			$porciones = explode("-", $idCandidato);			
+			$data["cargo"] = $porciones[0];
+			$data["idCandidato"] = $porciones[1];	
+
+			$this->load->model("general_model");
+			
+			if ($data["idCandidato"] != 'x') 
+			{
+				$arrParam = array("idCandidato" => $data["idCandidato"]);
+				$data['information'] = $this->general_model->get_candidatos($arrParam);
+			}
+						
+			$this->load->view("candidatos_modal", $data);
+    }
+	
+	/**
+	 * Update CANDIDATO
+     * @since 14/9/2019
+     * @author BMOTTAG
+	 */
+	public function save_candidato()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$idCandidato = $this->input->post('hddId');
+			$data["cargo"] = $this->input->post('cargo');
+
+			$msj = "Se adicionó un nuevo Candidato.";
+			if ($idCandidato != '') {
+				$msj = "Se actualizó el Candidato con éxito.";
+			}			
+
+			if ($idUsuario = $this->admin_model->saveCandidato()) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
+				$data["result"] = "error";					
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el administrador.');
+			}
+
+			echo json_encode($data);
+    }
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	 * INICIO ASIGNAR USUARIO delegado al sitio

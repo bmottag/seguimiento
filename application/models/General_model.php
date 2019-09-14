@@ -126,6 +126,10 @@ class General_model extends CI_Model {
 				if (array_key_exists("cargo", $arrDatos)) {
 					$this->db->where('cargo', $arrDatos["cargo"]);
 				}
+				
+				if (array_key_exists("idCandidato", $arrDatos)) {
+					$this->db->where('id_candidato', $arrDatos["idCandidato"]);
+				}
 																
 				$this->db->order_by('nombre_completo_candidato', 'asc');
 				$query = $this->db->get('candidatos');
