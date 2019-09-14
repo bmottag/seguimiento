@@ -108,6 +108,7 @@ if ($retornoError) {
 							<tr>
 								<th class="text-center">Número mesa</th>
 								<th class="text-center">Número inscritos</th>
+								<th class="text-center">Tipo voto</th>
 								<th class="text-center">Editar</th>
 							</tr>
 						</thead>
@@ -117,6 +118,24 @@ if ($retornoError) {
 									echo "<tr>";
 									echo "<td>" . $lista['numero_mesa'] . "</td>";
 									echo "<td class='text-center'>" . $lista['numero_inscritos'] . "</td>";
+									
+									switch ($lista['tipo_voto']) {
+											case 1:
+													$valor = 'Solo Presidente';
+													$clase = "text-success";
+													break;
+											case 2:
+													$valor = 'Presidente y Diputado';
+													$clase = "text-warning";
+													break;
+											case 3:
+													$valor = 'Presidente, Diputado y Especiales';
+													$clase = "text-danger";
+													break;
+									}
+									echo "<td class='text-center'>";
+									echo '<p class="' . $clase . '"><strong>' . $valor . '</strong></p>';
+									echo "</td>";
 									echo "<td class='text-center'>";
 						?>
 									<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_mesa']; ?>" >

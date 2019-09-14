@@ -538,7 +538,7 @@ $data['information'][0]['fecha'] = "2019-10-20";
 			if ($idMesa = $this->admin_model->saveMesas()) {
 				$data["result"] = true;
 				$data["idRecord"] = $idPuesto;
-				
+
 				$this->session->set_flashdata('retornoExito', $msj);
 			} else {
 				$data["result"] = "error";

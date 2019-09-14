@@ -201,7 +201,8 @@
 				$data = array(
 					'fk_puesto_votacion_mesas' => $idPuesto,
 					'numero_mesa' => $this->input->post('mesa'),
-					'numero_inscritos' => $this->input->post('inscritos')
+					'numero_inscritos' => $this->input->post('inscritos'),
+					'tipo_voto' => $this->input->post('tipo_voto')
 				);
 				
 				//revisar si es para adicionar o editar

@@ -31,6 +31,22 @@
 			</div>
 		</div>
 		
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="perfil">Tipo de voto</label>
+					<select name="tipo_voto" id="tipo_voto" class="form-control" required>
+						<option value="">Select...</option>
+						<option value=1 <?php if($information[0]["tipo_voto"] == 1) { echo "selected"; }  ?>>Solo Presidente</option>
+						<option value=2 <?php if($information[0]["tipo_voto"] == 2) { echo "selected"; }  ?>>Presidente y Diputado Uninominales</option>
+						<option value=3 <?php if($information[0]["tipo_voto"] == 3) { echo "selected"; }  ?>>Presidente, Diputado Uninominales y Especiales</option>
+					</select>
+				</div>
+			</div>
+			
+
+		</div>
+		
 		<div class="form-group">
 			<div class="row" align="center">
 				<div style="width:50%;" align="center">
