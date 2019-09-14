@@ -475,128 +475,21 @@ $data['information'][0]['fecha'] = "2019-10-20";
 
 			echo json_encode($data);
     }
-	
-	/**
-	 * Lista de municipios por departamentos
-     * @since 12/5/2017
-	 */
-    public function mcpioList()
-	{
-			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
-
-			$arrParam['idDepto'] = $this->input->post('identificador');
-			$this->load->model("general_model");
-			$lista = $this->general_model->get_municipios_by($arrParam);
-		
-			echo "<option value=''>Select...</option>";
-			if ($lista) {
-				foreach ($lista as $fila) {
-					echo "<option value='" . $fila["idMcpio"] . "' >" . $fila["municipio"] . "</option>";
-				}
-			}
-    }
-
-	/**
-	 * INICIO GRUPO INSTRUMENTOS
-	 */	
-	
 		
 	/**
-	 * Lista de GRUPO INSTRUMENTOS
+	 * Lista de MESAS PARA UN PUESTO DE VOTACION
      * @since 12/5/2017
 	 */
-	public function grupo_instrumentos()
-	{
-			$arrParam = array();
-			$data['info'] = $this->admin_model->get_grupo_instrumentos($arrParam);
-			
-			$data["view"] = 'grupo_instrumentos';
-			$this->load->view("layout", $data);
-	}
-	
-    /**
-     * Cargo modal - formulario tipo de alerta
-     * @since 12/5/2017
-     */
-    public function cargarModalGrupoInstrumentos() 
-	{
-			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
-			
-			$data['information'] = FALSE;
-			$data["identificador"] = $this->input->post("identificador");	
-			
-			$this->load->model("general_model");
-			$arrParam = array(
-				"table" => "pruebas",
-				"order" => "id_prueba",
-				"id" => "x"
-			);
-			$data['pruebas'] = $this->general_model->get_basic_search($arrParam);//listado pruebas
-			
-			if ($data["identificador"] != 'x') {
-				$this->load->model("general_model");
-				$arrParam = array(
-					"table" => "param_grupo_instrumentos",
-					"order" => "id_grupo_instrumentos",
-					"column" => "id_grupo_instrumentos",
-					"id" => $data["identificador"]
-				);
-				$data['information'] = $this->general_model->get_basic_search($arrParam);
-			}
-			
-			$this->load->view("grupo_instrumentos_modal", $data);
-    }
-	
-	/**
-	 * Update GRUPO INSTRUMENTOS
-     * @since 12/5/2017
-	 */
-	public function save_grupo_instrumentos()
-	{			
-			header('Content-Type: application/json');
-			$data = array();
-			
-			$identificador = $this->input->post('hddId');
-			
-			$msj = "Se adicionó el Grupo de Instrumentos con exito.";
-			if ($identificador != '') {
-				$msj = "Se actualizó el Grupo de Instrumentos con exito.";
-			}
-
-			if ($identificador = $this->admin_model->saveGrupoInstrumentos()) {
-				$data["result"] = true;
-				$data["idRecord"] = $identificador;
-				
-				$this->session->set_flashdata('retornoExito', $msj);
-			} else {
-				$data["result"] = "error";
-				$data["idRecord"] = "";
-				
-				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el Administrador.');
-			}
-
-			echo json_encode($data);
-    }
-	
-	/**
-	 * INICIO ASIGNAR SESISONES Y PRUEBA AL GRUPO INSTRUMENTO
-	 */	
-	
-		
-	/**
-	 * Lista de SESIONES POR GRUPO
-     * @since 12/5/2017
-	 */
-	public function sesiones($idGrupo)
+	public function mesas($idPuesto)
 	{
 			$this->load->model("general_model");
-			$arrParam = array("idGrupo" => $idGrupo);
-			$data['info'] = $this->general_model->get_sesiones($arrParam);
+			$arrParam = array("idPuesto" => $idPuesto);
+			$data['info'] = $this->general_model->get_mesas($arrParam);
 			
-			$arrParam = array("idGrupo" => $idGrupo);
-			$data['infoGrupo'] = $this->admin_model->get_grupo_instrumentos($arrParam);
+			$arrParam = array("idPuesto" => $idPuesto);
+			$data['infoPuesto'] = $this->general_model->get_puesto($arrParam);
 
-			$data["view"] = 'sesiones';
+			$data["view"] = 'mesas';
 			$this->load->view("layout", $data);
 	}
 	
@@ -604,73 +497,54 @@ $data['information'][0]['fecha'] = "2019-10-20";
      * Cargo modal - formulario SESIONES
      * @since 12/5/2017
      */
-    public function cargarModalSesiones() 
+    public function cargarModalMesas() 
 	{
 			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
 			
 			$data['information'] = FALSE;
-			$data["idGrupo"] = $this->input->post("idGrupo");
-			$data["idSesion"] = $this->input->post("idSesion");
+			$data["idPuesto"] = $this->input->post("idPuesto");
+			$data["idMesa"] = $this->input->post("idMesa");
 			
-			if ($data["idSesion"] != 'x') {
+			if ($data["idMesa"] != 'x') {
 				$this->load->model("general_model");
 				$arrParam = array(
-					"idSesion" => $data["idSesion"]
+					"idMesa" => $data["idMesa"]
 				);
-				$data['information'] = $this->general_model->get_sesiones($arrParam);//info sesiones
+				$data['information'] = $this->general_model->get_mesas($arrParam);//info sesiones
 				
-				$data["idGrupo"] = $data['information'][0]['fk_id_grupo_instrumentos'];
+				$data["idPuesto"] = $data['information'][0]['fk_puesto_votacion_mesas'];
 			}
 			
-			$this->load->view("sesiones_modal", $data);
+			$this->load->view("mesas_modal", $data);
     }
 	
 	/**
 	 * Update SESIONES
      * @since 12/5/2017
 	 */
-	public function save_sesiones()
+	public function save_mesas()
 	{			
 			header('Content-Type: application/json');
 			$data = array();
 			
-			$idGrupo = $this->input->post('hddIdGrupo');
-			$idSesion = $this->input->post('hddId');
+			$idPuesto = $this->input->post('hddIdPuesto');
+			$idMesa = $this->input->post('hddId');
 			
-			$msj = "Se adicionó la Sesión con exito.";
-			if ($idSesion != '') {
-				$msj = "Se actualizó la Sesión con exito.";
+			$msj = "Se adicionó la Mesa con éxito.";
+			if ($idMesa != '') {
+				$msj = "Se actualizó la Mesa con éxito.";
 			}
 			
-			//verificar que la hora inicial es menor a la hora final
-			$hourIn = $this->input->post('hourIni');
-			$hourOut = $this->input->post('hourFin');
-			$minIni = $this->input->post('minIni');
-			$minFin = $this->input->post('minFin');
-			
-			$verificar = true;
-			if($hourIn > $hourOut){
+			if ($idMesa = $this->admin_model->saveMesas()) {
+				$data["result"] = true;
+				$data["idRecord"] = $idPuesto;
+				
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
 				$data["result"] = "error";
-				$data["mensaje"] = "Error!!!. La hora final debe ser mayor a la hora inicial.";
-				$verificar = false;
-			}elseif($hourIn == $hourOut && $minIni >= $minFin){
-				$data["result"] = "error";
-				$data["mensaje"] = "Error!!!. La hora final debe ser mayor a la hora inicial.";
-				$verificar = false;			
-			}
-
-			if($verificar){
-				if ($idSesion = $this->admin_model->saveSesiones()) {
-					$data["result"] = true;
-					$data["idRecord"] = $idGrupo;
-					
-					$this->session->set_flashdata('retornoExito', $msj);
-				} else {
-					$data["result"] = "error";
-					$data["idRecord"] = "";
-					
-					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el Administrador.');
-				}
+				$data["idRecord"] = "";
+				
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el Administrador.');
 			}
 
 			echo json_encode($data);

@@ -188,73 +188,32 @@
 					return false;
 				}
 		}
-						
-		/**
-		 * Add/Edit GRUPO INSTRUMENTOS
-		 * @since 12/5/2017
-		 */
-		public function saveGrupoInstrumentos() 
-		{
-				$identificador = $this->input->post('hddId');
-				
-				$data = array(
-					'nombre_grupo_instrumentos' => $this->input->post('nombreGrupoInstrumentos'),
-					'fk_id_prueba' => $this->input->post('prueba'),
-					'fecha' => $this->input->post('fecha')
-				);
-				
-				//revisar si es para adicionar o editar
-				if ($identificador == '') {
-					$data['fecha_creacion'] = date("Y-m-d");
-					$query = $this->db->insert('param_grupo_instrumentos', $data);
-					$identificador = $this->db->insert_id();				
-				} else {
-					$this->db->where('id_grupo_instrumentos', $identificador);
-					$query = $this->db->update('param_grupo_instrumentos', $data);
-				}
-				if ($query) {
-					return $identificador;
-				} else {
-					return false;
-				}
-		}
-		
+								
 		/**
 		 * Add/Edit SESIONES
 		 * @since 11/5/2017
 		 */
-		public function saveSesiones() 
+		public function saveMesas() 
 		{
-				$idGrupo = $this->input->post('hddIdGrupo');
-				$idSesion = $this->input->post('hddId');
-				
-				$hourIn = $this->input->post('hourIni');
-				$hourOut = $this->input->post('hourFin');
-				
-				$hourIn = $hourIn<10?"0".$hourIn:$hourIn;
-				$hourOut = $hourOut<10?"0".$hourOut:$hourOut;
-				
-				$timeIn = $hourIn . ":" . $this->input->post('minIni');
-				$timeOut = $hourOut . ":" . $this->input->post('minFin');
+				$idPuesto = $this->input->post('hddIdPuesto');
+				$idMesa = $this->input->post('hddId');
 				
 				$data = array(
-					'fk_id_grupo_instrumentos' => $idGrupo,
-					'sesion_prueba' => $this->input->post('sesion'),
-					'hora_inicio_prueba' => $timeIn ,
-					'hora_fin_prueba' => $timeOut
+					'fk_puesto_votacion_mesas' => $idPuesto,
+					'numero_mesa' => $this->input->post('mesa'),
+					'numero_inscritos' => $this->input->post('inscritos')
 				);
 				
 				//revisar si es para adicionar o editar
-				if ($idSesion == '') {
-					$data['fecha_creacion'] = date("Y-m-d");
-					$query = $this->db->insert('sesiones', $data);
-					$idSesion = $this->db->insert_id();				
+				if ($idMesa == '') {
+					$query = $this->db->insert('mesas', $data);
+					$idMesa = $this->db->insert_id();				
 				} else {
-					$this->db->where('id_sesion', $idSesion);
-					$query = $this->db->update('sesiones', $data);
+					$this->db->where('id_mesa', $idMesa);
+					$query = $this->db->update('mesas', $data);
 				}
 				if ($query) {
-					return $idSesion;
+					return $idMesa;
 				} else {
 					return false;
 				}
