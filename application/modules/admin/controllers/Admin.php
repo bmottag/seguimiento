@@ -435,9 +435,9 @@ $data['information'][0]['fecha'] = "2019-10-20";
 			
 			if ($data["identificador"] != 'x') {
 				$arrParam = array(
-					"idSitio" => $data["identificador"]
+					"idPuesto" => $data["identificador"]
 				);
-				$data['information'] = $this->general_model->get_puesto($arrParam);//info sitio
+				$data['information'] = $this->general_model->get_puesto($arrParam);//info PUESTO DE VOTACION
 			}
 			
 			$this->load->view("puesto_modal", $data);
@@ -447,39 +447,30 @@ $data['information'][0]['fecha'] = "2019-10-20";
 	 * Update Sitios
      * @since 11/5/2017
 	 */
-	public function save_sitio()
+	public function save_puesto()
 	{			
 			header('Content-Type: application/json');
 			$data = array();
 
-			$idSitio = $this->input->post('hddId');
+			$idPuesto = $this->input->post('hddId');
 			$data["enlace_regreso"] = $this->input->post('enlace_regreso');
 	
-			$msj = "Se adicionó el Sitio con éxito.";
-			$result_codigo_dane = false;
-			if ($idSitio != '') {
-				$msj = "Se actualizó el Sitio con éxito.";
-			}else {
-				//Verificar si el codigo dane ya existe en la base de datos
-				$this->load->model("general_model");
-				$result_codigo_dane = $this->general_model->verifyCodigoDane();
+			$msj = "Se adicionó el Puesto de Votación con éxito.";
+
+			if ($idPuesto != '') {
+				$msj = "Se actualizó el  Puesto de Votación con éxito.";
 			}
 
-			if ($result_codigo_dane) {
-				$data["result"] = "error";
-				$data["mensaje"] = "Error!!!. El código DANE ya existe en la base de datos.";
+			if ($idPuesto = $this->admin_model->savePuesto()) {
+				$data["result"] = true;
+				$data["idRecord"] = $idPuesto;
+				
+				$this->session->set_flashdata('retornoExito', $msj);
 			} else {
-					if ($idSitio = $this->admin_model->saveSitio()) {
-						$data["result"] = true;
-						$data["idRecord"] = $idSitio;
-						
-						$this->session->set_flashdata('retornoExito', $msj);
-					} else {
-						$data["result"] = "error";
-						$data["idRecord"] = "";
-						
-						$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el Administrador.');
-					}
+				$data["result"] = "error";
+				$data["idRecord"] = "";
+				
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el Administrador.');
 			}
 
 			echo json_encode($data);

@@ -94,7 +94,7 @@ if ($retornoError) {
 									
 									echo "<td>" . $lista['nombre_puesto_votacion'] . "</td>";
 									echo "<td>" . $lista['geolocalizacion'] . "</td>";
-									echo "<td>" . $lista['numero_mesas'] . "</td>";
+									echo "<td class='text-center'>" . $lista['numero_mesas'] . "</td>";
 									
 									echo "<td class='text-center'>";
 						?>

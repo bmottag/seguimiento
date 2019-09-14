@@ -161,81 +161,29 @@
 		}
 	
 		/**
-		 * Add/Edit PRUEBA
-		 * @since 10/5/2017
-		 */
-		public function savePrueba() 
-		{
-				$idPrueba = $this->input->post('hddId');
-				
-				$data = array(
-					'nombre_prueba' => $this->input->post('nombrePrueba'),
-					'descripcion_prueba' => $this->input->post('descripcion'),
-					'anio_prueba' => $this->input->post('anio'),
-					'semestre_prueba' => $this->input->post('semestre'),
-					'sigla' => $this->input->post('sigla')
-				);
-				
-				//revisar si es para adicionar o editar
-				if ($idPrueba == '') {
-					$data['fecha_creacion'] = date("Y-m-d");
-					$query = $this->db->insert('pruebas', $data);
-					$idPrueba = $this->db->insert_id();				
-				} else {
-					$this->db->where('id_prueba', $idPrueba);
-					$query = $this->db->update('pruebas', $data);
-				}
-				if ($query) {
-					return $idPrueba;
-				} else {
-					return false;
-				}
-		}
-		
-		/**
 		 * Add/Edit SITIO
 		 * @since 11/5/2017
 		 */
-		public function saveSitio() 
+		public function savePuesto() 
 		{
-				$idSitio = $this->input->post('hddId');
+				$idPuesto = $this->input->post('hddId');
 				
 				$data = array(
-					'nombre_sitio' => $this->input->post('nombreSitio'),
-					'direccion_sitio' => $this->input->post('direccion'),
-					'codigo_postal_sitio' => $this->input->post('codigoPostal'),
-					'barrio_sitio' => $this->input->post('barrioSitio'),
-					'telefono_sitio' => $this->input->post('telefono'),
-					'fax_sitio' => $this->input->post('fax'),
-					'celular_sitio' => $this->input->post('celular'),
-					'email_sitio' => $this->input->post('email'),
-					'fk_id_region' => $this->input->post('region'),
-					'fk_dpto_divipola' => $this->input->post('depto'),
-					'fk_mpio_divipola' => $this->input->post('mcpio'),
-					'estado_sitio' => $this->input->post('estado'),
-					'codigo_dane' => $this->input->post('codigoDane')
+					'nombre_puesto_votacion' => $this->input->post('nombrePuesto'),
+					'geolocalizacion' => $this->input->post('geolocalizacion'),
+					'numero_mesas' => $this->input->post('numeroMesas')
 				);
 				
-				$zona = $this->input->post('zona');
-				$organizacion = $this->input->post('organizacion');
-				if($zona != ""){
-					$data['fk_id_zona'] = $zona;
-				}
-				if($organizacion != ""){
-					$data['fk_id_organizacion'] = $organizacion;
-				}
-				
 				//revisar si es para adicionar o editar
-				if ($idSitio == '') {
-					$data['fecha_creacion'] = date("Y-m-d");
-					$query = $this->db->insert('sitios', $data);
-					$idSitio = $this->db->insert_id();				
+				if ($idPuesto == '') {
+					$query = $this->db->insert('puesto_votacion', $data);
+					$idPuesto = $this->db->insert_id();				
 				} else {
-					$this->db->where('id_sitio', $idSitio);
-					$query = $this->db->update('sitios', $data);
+					$this->db->where('id_puesto_votacion', $idPuesto);
+					$query = $this->db->update('puesto_votacion', $data);
 				}
 				if ($query) {
-					return $idSitio;
+					return $idPuesto;
 				} else {
 					return false;
 				}
