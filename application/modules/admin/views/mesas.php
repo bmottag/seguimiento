@@ -107,7 +107,7 @@ if ($retornoError) {
 						<thead>
 							<tr>
 								<th class="text-center">Número mesa</th>
-								<th class="text-center">Número inscritos</th>
+								<th class="text-center">Número personas habilitadas</th>
 								<th class="text-center">Tipo voto</th>
 								<th class="text-center">Editar</th>
 							</tr>
@@ -117,7 +117,7 @@ if ($retornoError) {
 							foreach ($info as $lista):
 									echo "<tr>";
 									echo "<td>" . $lista['numero_mesa'] . "</td>";
-									echo "<td class='text-center'>" . $lista['numero_inscritos'] . "</td>";
+									echo "<td class='text-center'>" . $lista['personas_habilitadas'] . "</td>";
 									
 									switch ($lista['tipo_voto']) {
 											case 1:

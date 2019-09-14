@@ -25,8 +25,8 @@
 			
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label for="type" class="control-label">Número inscritos : *</label>
-					<input type="text" id="inscritos" name="inscritos" class="form-control" value="<?php echo $information?$information[0]["numero_inscritos"]:""; ?>" placeholder="Número de inscritos" required >
+					p<label for="type" class="control-label">Número personas habilitadas : *</label>
+					<input type="text" id="habilitadas" name="habilitadas" class="form-control" value="<?php echo $information?$information[0]["personas_habilitadas"]:""; ?>" placeholder="Número personas habilitadas" required >
 				</div>
 			</div>
 		</div>

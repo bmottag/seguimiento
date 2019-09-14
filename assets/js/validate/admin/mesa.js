@@ -3,7 +3,7 @@ $( document ).ready( function () {
 	$( "#form" ).validate( {
 		rules: {
 			mesa:				{ required: true, maxlength:30 },
-			inscritos:			{ required: true, maxlength:30 },
+			habilitadas:			{ required: true, maxlength:30 },
 			tipo_voto:			{ required: true }
 		},
 		errorElement: "em",
