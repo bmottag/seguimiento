@@ -2,9 +2,11 @@ $( document ).ready( function () {
 
 	$("#firstName").bloquearNumeros().convertirMayuscula().maxlength(50);
 	$("#lastName").bloquearNumeros().convertirMayuscula().maxlength(50);
-	$("#address").convertirMayuscula();	
 	$("#documento").bloquearTexto().maxlength(12);
+	$("#telefono").bloquearTexto().maxlength(15);
 	$("#movilNumber").bloquearTexto().maxlength(15);
+	$("#nombreContacto").bloquearNumeros().convertirMayuscula().maxlength(100);
+	$("#telefonoContacto").bloquearTexto().maxlength(15);
 	
 	$( "#form" ).validate( {
 		rules: {
@@ -12,11 +14,12 @@ $( document ).ready( function () {
 			lastName: 			{ required: true, minlength: 3, maxlength:50 },
 			tipoDocumento: 		{ required: true },
 			documento: 			{ required: true, number: true, minlength: 4, maxlength:12 },
-			address: 			{ minlength: 4, maxlength:200},
 			telefono:	 		{ minlength: 4, maxlength:15  },
 			movilNumber: 		{ required: true, minlength: 4, maxlength:15 },
 			email: 				{ required: true, email: true },
-			rol:	 			{ required: true }
+			rol:	 			{ required: true },
+			nombreContacto: 	{ required: true, minlength: 3, maxlength:100 },
+			telefonoContacto: 	{ required: true, minlength: 4, maxlength:15 }
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {

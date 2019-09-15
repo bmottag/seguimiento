@@ -3,7 +3,6 @@
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	<h4 class="modal-title" id="exampleModalLabel">Formulario de Usuario
-	<br><small>Adicionar/Editar Usuario</small>
 	</h4>
 </div>
 
@@ -31,6 +30,16 @@
 		</div>
 		
 		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="tipoDocumento">Tipo de documento : *</label>
+					<select name="tipoDocumento" id="tipoDocumento" class="form-control" required>
+						<option value=''>Select...</option>
+						<option value=1 <?php if($information[0]["tipo_documento"] == 1) { echo "selected"; }  ?>>Cédula de Ciudadanía</option>
+						<option value=2 <?php if($information[0]["tipo_documento"] == 2) { echo "selected"; }  ?>>Cédula de Extranjería</option>
+					</select>
+				</div>
+			</div>
 		
 			<div class="col-sm-6">
 				<div class="form-group text-left">
@@ -39,21 +48,29 @@
 				</div>
 			</div>
 			
-			<div class="col-sm-6">
-				<div class="form-group text-left">
-					<label class="control-label" for="movilNumber">Celular : *</label>
-					<input type="text" id="movilNumber" name="movilNumber" class="form-control" value="<?php echo $information?$information[0]["celular"]:""; ?>" placeholder="Celular" required >
-				</div>
-			</div>
-			
 		</div>
-
 
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label class="control-label" for="email">Email : *</label>
-					<input type="text" class="form-control" id="email" name="email" value="<?php echo $information?$information[0]["email"]:""; ?>" placeholder="Email" />
+					<label class="control-label" for="telefono">Teléfono fijo : </label>
+					<input type="text" id="telefono" name="telefono" class="form-control" value="<?php echo $information?$information[0]["telefono_fijo"]:""; ?>" placeholder="Teléfono fijo" >
+				</div>
+			</div>
+			
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="movilNumber">Teléfono celular : *</label>
+					<input type="text" id="movilNumber" name="movilNumber" class="form-control" value="<?php echo $information?$information[0]["celular"]:""; ?>" placeholder="Celular" required >
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="email">Correo electrónico : *</label>
+					<input type="text" class="form-control" id="email" name="email" value="<?php echo $information?$information[0]["email"]:""; ?>" placeholder="Correo electrónico" />
 				</div>
 			</div>
 			
@@ -71,10 +88,45 @@
 		</div>
 		
 		<div class="row">
-			
-			
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="nombreContacto">Nombre contacto : *</label>
+					<input type="text" id="nombreContacto" name="nombreContacto" class="form-control" value="<?php echo $information?$information[0]["nombre_contacto"]:""; ?>" placeholder="Nombre contacto" required >
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="lastName">Télefono contacto : *</label>
+					<input type="text" id="telefonoContacto" name="telefonoContacto" class="form-control" value="<?php echo $information?$information[0]["telefono_contacto"]:""; ?>" placeholder="Télefono contacto" required >
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="address">Sistema operativo celular :</label>
+					<input type="text" id="sistemaOperativo" name="sistemaOperativo" class="form-control" value="<?php echo $information?$information[0]["sistema_operativo"]:""; ?>" placeholder="Sistema operativo celular" >
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="tipoUsuario">Tipo usuario : </label>
+					<select name="tipoUsuario" id="tipoUsuario" class="form-control">
+						<option value=''>Select...</option>
+						<option value=1 <?php if($information[0]["tipo_usuario"] == 1) { echo "selected"; }  ?>>Principal</option>
+						<option value=2 <?php if($information[0]["tipo_usuario"] == 2) { echo "selected"; }  ?>>Suplente</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		
+		
 <?php if($information){ ?>
-			<div class="col-sm-4">
+		<div class="row">
+			<div class="col-sm-6">
 				<div class="form-group text-left">
 					<label class="control-label" for="estado">Estado : *</label>
 					<select name="estado" id="estado" class="form-control" required>
@@ -84,8 +136,8 @@
 					</select>
 				</div>
 			</div>
-<?php } ?>
 		</div>
+<?php } ?>
 		
 
 		

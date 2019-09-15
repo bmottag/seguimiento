@@ -52,17 +52,22 @@
 				
 				$data = array(
 					'numero_documento' => $this->input->post('documento'),
+					'tipo_documento' => $this->input->post('tipoDocumento'),
 					'nombres_usuario' => $this->input->post('firstName'),
 					'apellidos_usuario' => $this->input->post('lastName'),
+					'telefono_fijo' => $this->input->post('telefono'),
 					'celular' => $this->input->post('movilNumber'),
 					'email' => $this->input->post('email'),
+					'sistema_operativo' => $this->input->post('sistemaOperativo'),
+					'nombre_contacto' => $this->input->post('nombreContacto'),
+					'telefono_contacto' => $this->input->post('telefonoContacto'),
+					'tipo_usuario' => $this->input->post('tipoUsuario'),
 					'log_user' => $this->input->post('documento'),
 					'fk_id_rol' => $this->input->post('rol')
 				);	
 
 				//revisar si es para adicionar o editar
 				if ($idUser == '') {
-					$data['fecha_creacion'] = date("Y-m-d");
 					$data['estado'] = 1;//si es para adicionar se coloca estado inicial como usuario ACTIVO
 					$data['password'] = md5($clave);
 					$data['clave'] = $clave;
