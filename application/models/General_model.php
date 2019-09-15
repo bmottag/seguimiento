@@ -133,7 +133,7 @@ class General_model extends CI_Model {
 					$this->db->where('id_candidato', $arrDatos["idCandidato"]);
 				}
 																
-				$this->db->order_by('nombre_completo_candidato', 'asc');
+				$this->db->order_by('numero_orden_partido, numero_orden_candidato', 'asc');
 				$query = $this->db->get('candidatos C');
 
 				if ($query->num_rows() > 0) {

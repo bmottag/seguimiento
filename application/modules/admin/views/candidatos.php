@@ -132,7 +132,7 @@ if ($retornoError) {
 $(document).ready(function() {
 	$('#dataTables').DataTable({
 		responsive: true,
-		"order": [[ 0, "asc" ]],
+		"order": [[ 4, 'asc' ], [ 3, 'asc' ]],
 		"pageLength": 25
 	});
 });
