@@ -255,6 +255,37 @@
 				}
 		}
 		
+		/**
+		 * Add/Edit PARTIDOS
+		 * @since 15/9/2019
+		 */
+		public function savePartido() 
+		{
+				$idPartido = $this->input->post('hddId');
+				
+				$data = array(
+					'nombre_partido' => $this->input->post('nombrePartido'),
+					'sigla' => $this->input->post('sigla'),
+					'numero_orden_partido' => $this->input->post('numeroOrden')
+				);
+				
+				//revisar si es para adicionar o editar
+				if ($idPartido == '') {
+					$query = $this->db->insert('partidos', $data);
+				} else {
+					$this->db->where('id_partido', $idPartido);
+					$query = $this->db->update('partidos', $data);
+				}
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+		
+		
+		
+		
 		
 		
 		

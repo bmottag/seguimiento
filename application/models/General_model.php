@@ -177,7 +177,7 @@ class General_model extends CI_Model {
 					$this->db->where('id_partido', $arrDatos["idPartido"]);
 				}
 				
-				$this->db->order_by('nombre_partido', 'asc');
+				$this->db->order_by('numero_orden_partido', 'asc');
 				$query = $this->db->get('partidos');
 
 				if ($query->num_rows() > 0) {

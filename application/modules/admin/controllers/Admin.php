@@ -458,7 +458,7 @@ $data['information'][0]['fecha'] = "2019-10-20";
 			$msj = "Se adicionó el Puesto de Votación con éxito.";
 
 			if ($idPuesto != '') {
-				$msj = "Se actualizó el  Puesto de Votación con éxito.";
+				$msj = "Se actualizó el Puesto de Votación con éxito.";
 			}
 
 			if ($idPuesto = $this->admin_model->savePuesto()) {
@@ -623,6 +623,70 @@ $data['information'][0]['fecha'] = "2019-10-20";
 			} else {
 				$data["result"] = "error";					
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el administrador.');
+			}
+
+			echo json_encode($data);
+    }
+	
+	/**
+	 * Lista de partidos
+     * @since 15/9/2019
+	 */
+	public function partidos()
+	{
+			$this->load->model("general_model");
+			$arrParam = array();
+			$data['info'] = $this->general_model->get_partido($arrParam);
+
+			$data["view"] = 'partido';
+			$this->load->view("layout", $data);
+	}
+	
+    /**
+     * Cargo modal - formulario PARTIDOS
+     * @since 15/9/2019
+     */
+    public function cargarModalPartido() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+			
+			$data['information'] = FALSE;
+			$data["identificador"] = $this->input->post("identificador");
+
+			$this->load->model("general_model");
+			
+			if ($data["identificador"] != 'x') {
+				$arrParam = array("idPartido" => $data["identificador"]);
+				$data['information'] = $this->general_model->get_partido($arrParam);//info PARTIDOS
+			}
+			
+			$this->load->view("partido_modal", $data);
+    }
+	
+	/**
+	 * Update PARTIDOS
+     * @since 15/9/2019
+	 */
+	public function save_partido()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+
+			$idPartido = $this->input->post('hddId');
+	
+			$msj = "Se adicionó el Partido con éxito.";
+			if ($idPartido != '') {
+				$msj = "Se actualizó el Partido con éxito.";
+			}
+
+			if ($idPartido = $this->admin_model->savePartido()) {
+				$data["result"] = true;
+				
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
+				$data["result"] = "error";
+				
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el Administrador.');
 			}
 
 			echo json_encode($data);
