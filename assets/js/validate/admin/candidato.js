@@ -1,12 +1,14 @@
 $( document ).ready( function () {
 
 	$("#name").bloquearNumeros().convertirMayuscula().maxlength(50);
-	$("#sigla").convertirMayuscula().maxlength(50);
+	$("#numeroOrden").bloquearTexto().maxlength(2);
 	
 	$( "#form" ).validate( {
 		rules: {
 			name: 			{ required: true, minlength: 3, maxlength:130 },
-			sigla: 			{ required: true, minlength: 3, maxlength:10 }
+			numeroOrden: 	{ required: true, maxlength:2 },
+			corporacion: 	{ required: true },
+			partido: 		{ required: true }
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {
@@ -58,7 +60,7 @@ $( document ).ready( function () {
 							$("#div_load").css("display", "none");
 							$('#btnSubmit').removeAttr('disabled');
 
-							var url = base_url + "admin/candidato/" + data.cargo;
+							var url = base_url + "admin/candidato/" + data.idRecord;
 							$(location).attr("href", url);
 						}
 						else

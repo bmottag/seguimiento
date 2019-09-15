@@ -122,9 +122,11 @@ class General_model extends CI_Model {
 		public function get_candidatos($arrDatos) 
 		{
 				$this->db->select();
+				$this->db->join('corporacion U', 'U.id_corporacion = C.fk_id_corporacion', 'INNER');
+				$this->db->join('partidos P', 'P.id_partido = C.fk_id_partido', 'INNER');
 				
-				if (array_key_exists("cargo", $arrDatos)) {
-					$this->db->where('cargo', $arrDatos["cargo"]);
+				if (array_key_exists("idCorporacion", $arrDatos)) {
+					$this->db->where('fk_id_corporacion', $arrDatos["idCorporacion"]);
 				}
 				
 				if (array_key_exists("idCandidato", $arrDatos)) {
@@ -132,7 +134,7 @@ class General_model extends CI_Model {
 				}
 																
 				$this->db->order_by('nombre_completo_candidato', 'asc');
-				$query = $this->db->get('candidatos');
+				$query = $this->db->get('candidatos C');
 
 				if ($query->num_rows() > 0) {
 					return $query->result_array();
@@ -141,8 +143,49 @@ class General_model extends CI_Model {
 				}
 		}
 	
-	
-	
+		/**
+		 * Listado corporaciones
+		 * @since 15/9/2019
+		 */
+		public function get_corporacion($arrDatos) 
+		{
+				$this->db->select();
+				
+				if (array_key_exists("idCorporacion", $arrDatos)) {
+					$this->db->where('id_corporacion', $arrDatos["idCorporacion"]);
+				}
+				
+				$this->db->order_by('corporacion', 'asc');
+				$query = $this->db->get('corporacion');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}	
+
+		/**
+		 * Listado PARTIDOS
+		 * @since 15/9/2019
+		 */
+		public function get_partido($arrDatos) 
+		{
+				$this->db->select();
+				
+				if (array_key_exists("idPartido", $arrDatos)) {
+					$this->db->where('id_partido', $arrDatos["idPartido"]);
+				}
+				
+				$this->db->order_by('nombre_partido', 'asc');
+				$query = $this->db->get('partidos');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}		
 	
 	
 

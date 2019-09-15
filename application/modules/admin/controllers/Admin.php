@@ -553,23 +553,22 @@ $data['information'][0]['fecha'] = "2019-10-20";
 	/**
 	 * Lista Candidatos
      * @since 14/9/2019
-	 * @param cargo int: 1:Presidente; 2:Diputado
+	 * @param idCorporacion int: 1:Presidente; 3:DIPUTADO CIRCUNSCRIPCIÓN UNINOMINAL
      * @author BMOTTAG
 	 */
-	public function candidato($cargo)
+	public function candidato($idCorporacion)
 	{
 			$userRol = $this->session->rol;
 			if ($userRol != 1 ) { 
 				show_error('ERROR!!! - You are in the wrong place.');	
 			}
 
-			$data['cargo'] = $cargo;
-			$data['cargoCandidato'] = $cargo==1?"Presidente":"Diputado";//Para colocar en el titulo de la vista
-
 			$this->load->model("general_model");
-			$arrParam = array("cargo" => $cargo);
+			$arrParam = array("idCorporacion" => $idCorporacion);
 			$data['info'] = $this->general_model->get_candidatos($arrParam);
 			
+			$data['infoCorporacion'] = $this->general_model->get_corporacion($arrParam);
+
 			$data["view"] = 'candidatos';
 			$this->load->view("layout", $data);
 	}
@@ -583,19 +582,17 @@ $data['information'][0]['fecha'] = "2019-10-20";
 			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
 			
 			$data['information'] = FALSE;
-			
-			
+						
 			$idCandidato = $this->input->post("idCandidato");
-			//como se coloca un ID con el cargo entonces toca decodificarlo
-			$porciones = explode("-", $idCandidato);			
-			$data["cargo"] = $porciones[0];
-			$data["idCandidato"] = $porciones[1];	
-
-			$this->load->model("general_model");
 			
-			if ($data["idCandidato"] != 'x') 
+			$this->load->model("general_model");
+			$arrParam = array();
+			$data['infoPartidos'] = $this->general_model->get_partido($arrParam);
+			$data['infoCorporaciones'] = $this->general_model->get_corporacion($arrParam);
+			
+			if ($idCandidato != 'x') 
 			{
-				$arrParam = array("idCandidato" => $data["idCandidato"]);
+				$arrParam = array("idCandidato" => $idCandidato);
 				$data['information'] = $this->general_model->get_candidatos($arrParam);
 			}
 						
@@ -613,7 +610,7 @@ $data['information'][0]['fecha'] = "2019-10-20";
 			$data = array();
 			
 			$idCandidato = $this->input->post('hddId');
-			$data["cargo"] = $this->input->post('cargo');
+			$data["idRecord"] = $this->input->post('corporacion');
 
 			$msj = "Se adicionó un nuevo Candidato.";
 			if ($idCandidato != '') {

@@ -113,7 +113,7 @@ if($userRol==1){ //ADMIN
 						</li>
 
 						<li>
-							<a href="<?php echo base_url("admin/candidato/2"); ?>"><i class="fa fa-users fa-fw"></i> Candidatos para diputado</a>
+							<a href="<?php echo base_url("admin/candidato/3"); ?>"><i class="fa fa-users fa-fw"></i> Candidatos para diputado</a>
 						</li>
 						
 						<li>

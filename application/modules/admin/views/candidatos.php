@@ -36,7 +36,7 @@ $(function(){
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<i class="fa fa-users"></i> LISTA DE CANDIDATOS PARA <?php echo $cargoCandidato; ?>
+					<i class="fa fa-users"></i> LISTA DE CANDIDATOS <?php echo $infoCorporacion[0]['corporacion']; ?>
 				</div>
 				<div class="panel-body">
 					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
@@ -74,7 +74,10 @@ if ($retornoError) {
 						<thead>
 							<tr>
 								<th class="text-center">Nombre completo</th>
+								<th class="text-center">Partido</th>
 								<th class="text-center">Sigla</th>
+								<th class="text-center">Número orden candidato</th>
+								<th class="text-center">Número orden partido</th>
 								<th class="text-center">Editar</th>
 							</tr>
 						</thead>
@@ -83,11 +86,14 @@ if ($retornoError) {
 							foreach ($info as $lista):
 									echo "<tr>";
 									echo "<td>" . $lista['nombre_completo_candidato'] . "</td>";
+									echo "<td>" . $lista['nombre_partido'] . "</td>";
 									echo "<td class='text-center'>" . $lista['sigla'] . "</td>";
+									echo "<td class='text-center'>" . $lista['numero_orden_candidato'] . "</td>";
+									echo "<td class='text-center'>" . $lista['numero_orden_partido'] . "</td>";
 									
 									echo "<td class='text-center'>";
 						?>
-									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $cargo . '-' . $lista['id_candidato']; ?>" >
+									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_candidato']; ?>" >
 										Editar <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</button>
 						<?php

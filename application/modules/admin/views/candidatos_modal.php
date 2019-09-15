@@ -13,7 +13,6 @@
 
 	<form name="form" id="form" role="form" method="post" >
 		<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_candidato"]:""; ?>"/>
-		<input type="hidden" id="cargo" name="cargo" value=<?php echo $cargo; ?> />
 		
 		<div class="row">
 			<div class="col-sm-6">
@@ -25,10 +24,37 @@
 
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label class="control-label" for="lastName">Sigla : *</label>
-					<input type="text" id="sigla" name="sigla" class="form-control" value="<?php echo $information?$information[0]["sigla"]:""; ?>" placeholder="Sigla" required >
+					<label class="control-label" for="lastName">Número orden candidato : *</label>
+					<input type="text" id="numeroOrden" name="numeroOrden" class="form-control" value="<?php echo $information?$information[0]["numero_orden_candidato"]:""; ?>" placeholder="Número orden candidato" required >
 				</div>
 			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="partido">Partido : *</label>
+					<select name="partido" id="partido" class="form-control" >
+						<option value=''>Select...</option>
+						<?php for ($i = 0; $i < count($infoPartidos); $i++) { ?>
+							<option value="<?php echo $infoPartidos[$i]["id_partido"]; ?>" <?php if($information[0]["fk_id_partido"] == $infoPartidos[$i]["id_partido"]) { echo "selected"; }  ?>><?php echo $infoPartidos[$i]["nombre_partido"]; ?></option>	
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="corporacion">Corporación : *</label>
+					<select name="corporacion" id="corporacion" class="form-control" >
+						<option value=''>Select...</option>
+						<?php for ($i = 0; $i < count($infoCorporaciones); $i++) { ?>
+							<option value="<?php echo $infoCorporaciones[$i]["id_corporacion"]; ?>" <?php if($information[0]["fk_id_corporacion"] == $infoCorporaciones[$i]["id_corporacion"]) { echo "selected"; }  ?>><?php echo $infoCorporaciones[$i]["corporacion"]; ?></option>	
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+
 		</div>
 				
 		<div class="form-group">

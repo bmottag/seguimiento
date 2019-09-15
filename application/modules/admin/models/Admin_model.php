@@ -235,8 +235,9 @@
 				
 				$data = array(
 					'nombre_completo_candidato' => $this->input->post('name'),
-					'sigla' => $this->input->post('sigla'),
-					'cargo' => $this->input->post('cargo')
+					'fk_id_partido' => $this->input->post('partido'),
+					'fk_id_corporacion' => $this->input->post('corporacion'),
+					'numero_orden_candidato' => $this->input->post('numeroOrden')
 				);
 				
 				//revisar si es para adicionar o editar
