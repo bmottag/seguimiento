@@ -711,6 +711,79 @@ $data['information'][0]['fecha'] = "2019-10-20";
 				}
 			}
     }
+	
+	/**
+	 * Lista de PARAMETROS DEL SISTEMA
+     * @since 16/9/2019
+	 */
+	public function parametros()
+	{			
+			$this->load->model("general_model");
+			$arrParam = array(
+				"table" => "param_general",
+				"order" => "id_param_general",
+				"id" => "x"
+			);
+			$data['info'] = $this->general_model->get_basic_search($arrParam);
+			
+			$data["view"] = 'parametros';
+			$this->load->view("layout", $data);
+	}
+	
+    /**
+     * Cargo modal - PARAMETROS DEL SISTEMA
+     * @since 16/9/2019
+     */
+    public function cargarModalParametros() 
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+			
+			$data['information'] = FALSE;
+			$data["identificador"] = $this->input->post("identificador");	
+			
+			if ($data["identificador"] != 'x') {
+				$this->load->model("general_model");
+				$arrParam = array(
+					"table" => "param_general",
+					"order" => "id_param_general",
+					"column" => "id_param_general",
+					"id" => $data["identificador"]
+				);
+				$data['information'] = $this->general_model->get_basic_search($arrParam);
+			}
+			
+			$this->load->view("parametros_modal", $data);
+    }
+	
+	/**
+	 * Update PARAMETROS DEL SISTEMA
+     * @since 16/9/2019
+	 */
+	public function save_parametros()
+	{			
+			header('Content-Type: application/json');
+			$data = array();
+			
+			$identificador = $this->input->post('hddId');
+			
+			$msj = "Se adicionó.";
+			if ($identificador != '') {
+				$msj = "Se actualizarón los parametros del sistema.";
+			}
+
+			if ($identificador = $this->admin_model->saveParametros()) {
+				$data["result"] = true;
+				
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
+				$data["result"] = "error";
+				
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el Administrador.');
+			}
+
+			echo json_encode($data);
+    }
+
 
 	
 	

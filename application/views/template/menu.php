@@ -105,6 +105,10 @@ if($userRol==1){ //ADMIN
 						<li class="divider"></li>
 						
 						<li>
+							<a href="<?php echo base_url("admin/parametros"); ?>"><i class="fa fa-gear fa-fw"></i> Parametros</a>
+						</li>
+						
+						<li>
 							<a href="<?php echo base_url("admin/puestos"); ?>"><i class="fa fa-building-o fa-fw"></i> Puestos de votación</a>
 						</li>
 						

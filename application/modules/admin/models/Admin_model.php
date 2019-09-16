@@ -283,6 +283,43 @@
 				}
 		}
 		
+		/**
+		 * Add PARAMETROS DEL SISTEMA
+		 * @since 16/9/2019
+		 */
+		public function saveParametros() 
+		{
+				$identificador = $this->input->post('hddId');
+				
+				$hour = $this->input->post('hour');
+				$min = $this->input->post('min');
+				$hourFin = $this->input->post('hourFin');
+				$minFin = $this->input->post('minFin');
+				
+				$timeInicial = $hour . ":" . $min;
+				$timeFinal = $hourFin . ":" . $minFin;
+				
+				$data = array(
+					'fecha_elecciones' => $this->input->post('fecha'),
+					'hora_inicio' => $timeInicial,
+					'hora_fin' => $timeFinal
+				);
+				
+				//revisar si es para adicionar o editar
+				if ($identificador == '') {
+					$query = $this->db->insert('param_general', $data);
+					$identificador = $this->db->insert_id();				
+				} else {
+					$this->db->where('id_param_general', $identificador);
+					$query = $this->db->update('param_general', $data);
+				}
+				if ($query) {
+					return $identificador;
+				} else {
+					return false;
+				}
+		}
+		
 		
 		
 		
