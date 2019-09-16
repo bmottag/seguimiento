@@ -49,6 +49,7 @@ class General_model extends CI_Model {
 		public function get_puesto($arrDatos) 
 		{
 				$this->db->select();
+				$this->db->join('param_divipola D', 'D.codigo_municipio = P.fk_id_municipio', 'LEFT');
 				
 				if (array_key_exists("idPuesto", $arrDatos)) {
 					$this->db->where('P.id_puesto_votacion', $arrDatos["idPuesto"]);
@@ -185,7 +186,64 @@ class General_model extends CI_Model {
 				} else {
 					return false;
 				}
-		}		
+		}	
+		
+		/**
+		 * Lista de departamentos
+		 * @since 12/5/2017
+		 */
+		public function get_dpto_divipola() 
+		{
+				$this->db->select('DISTINCT(dpto_divipola), dpto_divipola_nombre');
+
+				$this->db->order_by('dpto_divipola_nombre', 'asc');
+				$query = $this->db->get('param_divipola D');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Municipios por departamento
+		 * @since 12/5/2016
+		 */
+		public function get_municipios_by($arrDatos)
+		{
+				$userRol = $this->session->userdata("rol");
+				$userID = $this->session->userdata("id");
+			
+				$municipios = array();
+				$this->db->select();
+				if (array_key_exists("idDepto", $arrDatos)) {
+					$this->db->where('codigo_departamento', $arrDatos["idDepto"]);
+				}
+				
+				if ($userRol==3) {
+					$this->db->where('fk_id_coordinador_mcpio', $userID);
+				}
+				if ($userRol==6) {
+					$this->db->where('fk_id_operador_mcpio', $userID);
+				}
+				
+				$this->db->order_by('nombre_municipio', 'asc');
+				$query = $this->db->get('param_divipola');
+					
+				if ($query->num_rows() > 0) {
+					$i = 0;
+					foreach ($query->result() as $row) {
+						$municipios[$i]["idMcpio"] = $row->codigo_municipio;
+						$municipios[$i]["municipio"] = $row->nombre_municipio;
+						$i++;
+					}
+				}
+				$this->db->close();
+				return $municipios;
+		}
+		
+
 	
 	
 

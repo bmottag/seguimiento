@@ -81,9 +81,12 @@ if ($retornoError) {
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
-								<th class="text-center">Puesto de votación</th>
-								<th class="text-center">Geolocalización</th>
-								<th class="text-center">Número de mesas </th>
+								<th class="text-center">Número</th>
+								<th class="text-center">Nombre</th>
+								<th class="text-center">Departamento</th>
+								<th class="text-center">Municipio</th>
+								<th class="text-center">Localidad</th>
+								<th class="text-center">Número total mesas </th>
 								<th class="text-center">Enlaces</th>
 							</tr>
 						</thead>
@@ -91,10 +94,16 @@ if ($retornoError) {
 						<?php
 							foreach ($info as $lista):
 									echo "<tr>";
-									
+									echo "<td class='text-center'>" . $lista['numero_puesto_votacion'] . "</td>";
 									echo "<td>" . $lista['nombre_puesto_votacion'] . "</td>";
-									echo "<td>" . $lista['geolocalizacion'] . "</td>";
-									echo "<td class='text-center'>" . $lista['numero_mesas'] . "</td>";
+									echo "<td>" . $lista['nombre_departamento'] . "</td>";
+									echo "<td>" . $lista['nombre_municipio'] . "</td>";
+									echo "<td>";
+									echo "<strong>ID: </strong>" . $lista['id_localidad'];
+									echo "<br>" . $lista['nombre_localidad'];
+									echo "</td>";
+									
+									echo "<td class='text-center'>" . $lista['total_mesas'] . "</td>";
 									
 									echo "<td class='text-center'>";
 						?>
@@ -104,7 +113,7 @@ if ($retornoError) {
 									<br><br>
 									
 <a href="<?php echo base_url("admin/mesas/" . $lista['id_puesto_votacion']); ?>" class="btn btn-primary btn-xs">
-Ver  <span class="badge"><?php echo $lista['numero_mesas']; ?></span>
+Ver  <span class="badge"><?php echo $lista['total_mesas']; ?></span>
 </a>
 						<?php
 									echo "</td>";

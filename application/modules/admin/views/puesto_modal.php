@@ -1,4 +1,5 @@
 <script type="text/javascript" src="<?php echo base_url("assets/js/validate/admin/puesto_votacion.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/admin/ajaxMcpio.js"); ?>"></script>
 
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -17,33 +18,79 @@
 		<input type="hidden" id="enlace_regreso" name="enlace_regreso" value="<?php echo $enlace_regreso; ?>"/>
 		
 		<div class="row">
-			<div class="col-sm-12">
+			<div class="col-sm-6">
 				<div class="form-group text-left">
 					<label for="type" class="control-label">Nombre Puesto de Votación : *</label>
 					<input type="text" id="nombrePuesto" name="nombrePuesto" class="form-control" value="<?php echo $information?$information[0]["nombre_puesto_votacion"]:""; ?>" placeholder="Nombre Puesto de Votación" required >
 				</div>
 			</div>
 			
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label for="type" class="control-label">Número total de mesas : *</label>
+					<input type="text" id="numeroMesas" name="numeroMesas" class="form-control" value="<?php echo $information?$information[0]["total_mesas"]:""; ?>" placeholder="Número total de mesas" required >
+				</div>
+			</div>
 		</div>
+		
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label for="type" class="control-label">Departamento : *</label>
+					<select name="depto" id="depto" class="form-control" >
+						<option value=''>Select...</option>
+						<?php for ($i = 0; $i < count($departamentos); $i++) { ?>
+							<option value="<?php echo $departamentos[$i]["codigo_departamento"]; ?>" <?php if($information[0]["fk_id_departamento"] == $departamentos[$i]["dpto_divipola"]) { echo "selected"; }  ?>><?php echo $departamentos[$i]["nombre_departamento"]; ?></option>	
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label for="type" class="control-label">Municipio : *</label>
 
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group text-left">
-					<label for="type" class="control-label">Geolocalización : *</label>
-					<input type="text" id="geolocalizacion" name="geolocalizacion" class="form-control" value="<?php echo $information?$information[0]["geolocalizacion"]:""; ?>" placeholder="Geolocalizacion" required >
-				</div>
-			</div>
-			
-		</div>
+					<select name="mcpio" id="mcpio" class="form-control" required>					
+						<?php if($information){ ?>
+						<option value=''>Select...</option>
+							<option value="<?php echo $information[0]["codigo_municipio"]; ?>" selected><?php echo $information[0]["nombre_municipio"]; ?></option>
+						<?php } ?>
+					</select>
 				
+				</div>
+			</div>
+		</div>
+		
 		<div class="row">
-			<div class="col-sm-12">
+			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label for="type" class="control-label">Número de mesas : *</label>
-					<input type="text" id="numeroMesas" name="numeroMesas" class="form-control" value="<?php echo $information?$information[0]["numero_mesas"]:""; ?>" placeholder="Número de mesas" required >
+					<label for="type" class="control-label">ID Localidad : *</label>
+					<input type="text" id="idLocalidad" name="idLocalidad" class="form-control" value="<?php echo $information?$information[0]["id_localidad"]:""; ?>" placeholder="ID Localidad" required >
 				</div>
 			</div>
 			
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label for="type" class="control-label">Localidad : *</label>
+					<input type="text" id="localidad" name="localidad" class="form-control" value="<?php echo $information?$information[0]["nombre_localidad"]:""; ?>" placeholder="Localidad" required >
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label for="type" class="control-label">Latitud : </label>
+					<input type="text" id="latitud" name="latitud" class="form-control" value="<?php echo $information?$information[0]["latitud"]:""; ?>" placeholder="Latitud" required >
+				</div>
+			</div>
+			
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label for="type" class="control-label">Longitud : </label>
+					<input type="text" id="longitud" name="longitud" class="form-control" value="<?php echo $information?$information[0]["longitud"]:""; ?>" placeholder="Longitud" required >
+				</div>
+			</div>
 		</div>
 
 		<div class="form-group">

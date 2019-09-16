@@ -429,9 +429,9 @@ $data['information'][0]['fecha'] = "2019-10-20";
 			
 			$data['information'] = FALSE;
 			$data["identificador"] = $this->input->post("identificador");
-			$data["enlace_regreso"] = $this->input->post("enlace_regreso");
 
 			$this->load->model("general_model");
+			$data['departamentos'] = $this->general_model->get_dpto_divipola();//listado de departamentos
 			
 			if ($data["identificador"] != 'x') {
 				$arrParam = array(
@@ -690,6 +690,26 @@ $data['information'][0]['fecha'] = "2019-10-20";
 			}
 
 			echo json_encode($data);
+    }
+	
+	/**
+	 * Lista de municipios por departamentos
+     * @since 12/5/2017
+	 */
+    public function mcpioList()
+	{
+			header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+
+			$arrParam['idDepto'] = $this->input->post('identificador');
+			$this->load->model("general_model");
+			$lista = $this->general_model->get_municipios_by($arrParam);
+		
+			echo "<option value=''>Select...</option>";
+			if ($lista) {
+				foreach ($lista as $fila) {
+					echo "<option value='" . $fila["idMcpio"] . "' >" . $fila["municipio"] . "</option>";
+				}
+			}
     }
 
 	
