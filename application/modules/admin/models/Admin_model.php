@@ -454,7 +454,8 @@
 					'tiempo_duracion_alerta' => $duracion,
 					'fecha_inicio' => $fechaInicio,
 					'fecha_fin' => $fechaFin,
-					'estado_alerta' => $this->input->post('estado')
+					'estado_alerta' => $this->input->post('estado'),
+					'flujo_alerta' => $this->input->post('flujo')
 				);
 				
 				//revisar si es para adicionar o editar

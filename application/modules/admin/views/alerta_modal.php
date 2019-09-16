@@ -166,6 +166,18 @@
 					</select>
 				</div>
 			</div>
+			
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="estado">Flujo: *</label>
+					<select name="flujo" id="flujo" class="form-control" required>
+						<option value=''>Select...</option>
+						<option value=1 <?php if($information[0]["flujo_alerta"] == 1) { echo "selected"; }  ?>>1. Reporte de asistencia</option>
+						<option value=2 <?php if($information[0]["flujo_alerta"] == 2) { echo "selected"; }  ?>>2. Reporte de ingero al puesto de votación</option>
+						<option value=3 <?php if($information[0]["flujo_alerta"] == 3) { echo "selected"; }  ?>>3. Reporte cierre de primera mesa</option>
+					</select>
+				</div>
+			</div>
 
 		</div>
 

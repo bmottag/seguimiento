@@ -98,7 +98,21 @@ if ($retornoError) {
 									echo "<td>";
 									echo "<strong>Descripción: </strong><br>". $lista['descripcion_alerta'];
 									echo "<br><strong>Mensaje: </strong><br>". $lista['mensaje_alerta'];
-									echo "<p class='" . $lista['clase'] . "'><strong>Tipo Alerta: </strong>". $lista['nombre_tipo_alerta'] . "</p>";
+									echo "<br><strong>Flujo alerta: </strong>";
+
+									switch ($lista['flujo_alerta']) {
+											case 1:
+													echo "1. Reporte de asistencia";
+													break;
+											case 2:
+													echo "2. Reporte de ingero al puesto de votación";
+													break;
+											case 3:
+													echo "3. Reporte cierre de primera mesa";
+													break;
+									}
+									echo "<p class='" . $lista['clase'] . "'><strong>Tipo alerta: </strong>". $lista['nombre_tipo_alerta'] . "</p>";
+
 									echo "</td>";
 									echo "<td class='text-center'>";
 						?>

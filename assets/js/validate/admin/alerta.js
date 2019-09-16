@@ -11,7 +11,8 @@ $( document ).ready( function () {
 			hour:			{ required: true },
 			min:			{ required: true },
 			duracion:		{ required: true },
-			estado:			{ required: true }
+			estado:			{ required: true },
+			flujo:			{ required: true }
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {
