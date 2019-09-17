@@ -85,9 +85,9 @@ if ($retornoError) {
 						<?php
 							foreach ($info as $lista):
 									echo "<tr>";
-									echo "<td>" . $lista['fecha_elecciones'] . "</td>";
-									echo "<td>" . $lista['hora_inicio'] . "</td>";
-									echo "<td>" . $lista['hora_fin'] . "</td>";
+									echo "<td class='text-center'>" . $lista['fecha_elecciones'] . "</td>";
+									echo "<td class='text-center'>" . $lista['hora_inicio'] . "</td>";
+									echo "<td class='text-center'>" . $lista['hora_fin'] . "</td>";
 									echo "<td class='text-center'>";
 						?>
 									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_param_general']; ?>" >
