@@ -374,18 +374,22 @@ class Admin extends MX_Controller {
 			$idAlerta = $this->input->post('hddId');
 			
 			//buscar la fecha de LAS ELECCIONES EN PARAM_GENERALES para guardarla en la alerta
-//			$this->load->model("general_model");
-//			$arrParam = array("idSesion" => $this->input->post('sesion'));
-//			$data['information'] = $this->general_model->get_sesiones($arrParam);//info sesiones
+			$this->load->model("general_model");
+			$arrParam = array(
+				"table" => "param_general",
+				"order" => "id_param_general",
+				"id" => "x"
+			);
+			$data['information'] = $this->general_model->get_basic_search($arrParam);
 
-$data['information'][0]['fecha'] = "2019-10-20";
+			$fechaElecciones = $data['information'][0]['fecha_elecciones'];
 			
 			$msj = "Se adicionó la Alerta con exito.";
 			if ($idAlerta != '') {
 				$msj = "Se actualizó la Alerta con exito.";
 			}
 
-			if ($idAlerta = $this->admin_model->saveAlerta($data['information'][0]['fecha'])) {
+			if ($idAlerta = $this->admin_model->saveAlerta($fechaElecciones)) {
 				$data["result"] = true;
 				$data["idRecord"] = $idAlerta;
 				
