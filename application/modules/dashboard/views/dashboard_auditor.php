@@ -72,8 +72,6 @@ if ($retornoError) {
 										<?php echo $infoPuesto[0]['nombre_municipio']; ?>
 										<br><strong>No. total de mesas: </strong>
 										<?php echo $infoPuesto[0]['total_mesas']; ?>
-										<br><br>
-<a class="btn btn-success" href=" <?php echo base_url().'registro/'; ?> "><span class="glyphicon glyphicon glyphicon-home" aria-hidden="true"></span> Escrutinio por mesa </a> 
 									</div>
 								</div>
 							</div>	
@@ -317,6 +315,109 @@ $( document ).ready( function () {
 } ?>
 <!--FIN ALERTA -->
 	</div>
+	
+	
+	<!-- LISTADO MESAS PARA EL AUDITOR -->
+	<div class="row">
+			
+		<div class="col-lg-12">
+			<div class="panel panel-danger">
+			
+				<div class="panel-heading">
+					<i class="fa fa-home fa-fw"></i> LISTA MESAS DE VOTACIÓN
+				</div>
+				
+				<!-- /.panel-heading -->
+				<div class="panel-body">
+
+<?php
+	if(!$infoMesas){ 
+		echo "<a href='#' class='btn btn-danger btn-block'>No tiene mesas de votación asignadas.</a>";
+	}else{
+?>						
+					
+					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+						<thead>
+							<tr>
+								<th class="text-center">Número mesa</th>
+								<th class="text-center">Número personas habilitadas</th>
+								<th class="text-center">Escrutinio presidente</th>
+								<th class="text-center">Escrutinio diputado</th>
+								<th class="text-center">Estado mesa</th>
+							</tr>
+						</thead>
+						<tbody>							
+						<?php
+							$i=0;
+							foreach ($infoMesas as $lista):
+								$i++;
+								echo "<tr>";								
+								echo "<td class='text-center'>" . $lista['numero_mesa'] . "</td>";
+								echo "<td class='text-center'>" . $lista['personas_habilitadas'] . "</td>";
+								
+///VERIFICAR SI YA SE REALIZARON LOS VOTOS 
+if($lista['estado_mesa'] == 2){
+	$boton = "disabled";
+	$botonPresidente = "disabled";
+	$botonDiputado = "disabled";
+}else{
+	$boton = "";
+	if($lista['estado_presidente'] == 2){
+		$botonPresidente = "";
+	}
+		
+	if($lista['estado_diputado'] == 2){
+		$botonDiputado = "";
+	}
+}
+								echo "<td class='text-center'>";
+
+
+?>
+<a href="<?php echo base_url("registro/presidente/" . $lista['id_mesa']); ?>" class="btn btn-info btn-xs" <?php echo $boton; ?>>
+Votos PRESIDENTE  
+</a>	
+						<?php
+								echo "</td>";
+								echo "<td class='text-center'>";
+						?>
+
+<a href="<?php echo base_url("registro/diputado/" . $lista['id_mesa']); ?>" class="btn btn-danger btn-xs" <?php echo $boton; ?>>
+Votos DIPUTADOS  
+</a>	
+
+						<?php
+								echo "</td>";
+								
+									echo "<td class='text-center'>";
+									switch ($lista['estado_mesa']) {
+											case 1:
+													$valor = 'Abierta';
+													$clase = "text-danger";
+													break;
+											case 2:
+													$valor = 'Cerrada';
+													$clase = "text-success";
+													break;
+									}
+									echo '<p class="' . $clase . '"><strong>' . $valor . '</strong></p>';
+									echo "</td>";
+									
+								echo "</tr>";
+							endforeach;
+						?>
+						</tbody>
+					</table>
+				
+<?php	} ?>					
+				</div>
+				<!-- /.panel-body -->
+			</div>
+		</div>
+
+	</div>
+	<!-- LISTADO MESAS PARA EL AUDITOR -->
+
 
 		
 

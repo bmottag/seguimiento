@@ -8,30 +8,7 @@ class Registro extends MX_Controller {
         $this->load->model("registro_model");
 		$this->load->library("validarsesion");
     }
-	
-	/**
-	 * Lista de MESAS POR PUESTO DE VOTACION
-     * @since 12/9/2019
-	 */
-	public function index()
-	{
-			$this->load->model("general_model");
-			$userID = $this->session->userdata("id");
-			
-			//Informacion del Puesto de trabajo
-			$arrParam = array('idUsuario' => $userID);
-			$data['infoPuesto'] = $this->general_model->get_info_encargado_puesto($arrParam);
-			
-
-			
-			//Informacion de las mesas para el Puesto de votacion
-			$arrParam = array('idPuesto' => $data['infoPuesto'][0]['id_puesto_votacion']);
-			$data['info'] = $this->general_model->get_mesas($arrParam);
-									
-			$data["view"] = 'mesa';
-			$this->load->view("layout", $data);
-	}
-	
+		
 	/**
 	 * Lista de PRESIDENTES
      * @since 12/9/2019

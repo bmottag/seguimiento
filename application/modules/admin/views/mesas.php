@@ -64,7 +64,7 @@ $(function(){
 										<strong>PUESTO DE VOTACIÓN: </strong>
 										<?php echo $infoPuesto[0]['nombre_puesto_votacion']; ?>
 										<br><strong>NÚMERO DE MESAS: </strong>
-										<?php echo $infoPuesto[0]['numero_mesas']; ?>
+										<?php echo $infoPuesto[0]['total_mesas']; ?>
 									</div>
 								</div>
 							</div>	

@@ -60,6 +60,10 @@ class Dashboard extends MX_Controller {
 			
 			$arrParam = array('idPuesto' => $data['infoEncargado'][0]['fk_id_puesto_votacion']);
 			$data['infoPuesto'] = $this->general_model->get_puesto($arrParam);
+			
+			//Informacion de las mesas para el Puesto de votacion
+			$arrParam = array('idPuesto' => $data['infoPuesto'][0]['id_puesto_votacion']);
+			$data['infoMesas'] = $this->general_model->get_mesas($arrParam);
 
 					
 //se buscan las alertas asignadas al operador			
