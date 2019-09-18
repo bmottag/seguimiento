@@ -73,7 +73,7 @@ if ($retornoError) {
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
-								<th class="text-center">Nombre completo</th>
+								<th class="text-center">Nombre candidato</th>
 								<th class="text-center">Partido</th>
 								<th class="text-center">Sigla</th>
 								<th class="text-center">Número orden candidato</th>

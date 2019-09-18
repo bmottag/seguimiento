@@ -20,17 +20,19 @@ class Registro extends MX_Controller {
 			
 			//Informacion del Puesto de trabajo
 			$arrParam = array('idUsuario' => $userID);
-			$data['infoPuesto'] = $this->general_model->get_info_encargado_puesto($arrParam);
+			$data['infoEncargado'] = $this->general_model->get_info_encargado_puesto($arrParam);
+			
+			$arrParam = array('idPuesto' => $data['infoEncargado'][0]['fk_id_puesto_votacion']);
+			$data['infoPuesto'] = $this->general_model->get_puesto($arrParam);
 			
 			//Informacion de las mesas para el Puesto de votacion
 			$arrParam = array('idMesa' => $idMesa);
 			$data['infoMesa'] = $this->general_model->get_mesas($arrParam);
 			
 			//Listado de CANDIDATOS PRESIDENTE
-			$arrParam = array('cargo' => 1);//buscar solo candidatos para presidente
+			$arrParam = array('idCorporacion' => 1);//buscar solo candidatos para presidente
 			$data['info'] = $this->general_model->get_candidatos($arrParam);
 			
-									
 			$data["view"] = 'presidente';
 			$this->load->view("layout", $data);
 	}

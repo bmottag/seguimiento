@@ -43,10 +43,17 @@ if ($retornoError) {
 							<div class="row" align="center">
 								<div style="width:50%;" align="center">
 									<div class="alert alert-info">
-										<strong>Puesto de votación: </strong>
+										<strong>No. puesto de votación: </strong>
+										<?php echo $infoPuesto[0]['numero_puesto_votacion']; ?>
+										<br><strong>Puesto de votación: </strong>
 										<?php echo $infoPuesto[0]['nombre_puesto_votacion']; ?>
-										<br><strong>Geolocalización: </strong>
-										<?php echo $infoPuesto[0]['geolocalizacion']; ?>
+										<br><strong>Departamento: </strong>
+										<?php echo $infoPuesto[0]['nombre_departamento']; ?>
+										<br><strong>Municipio: </strong>
+										<?php echo $infoPuesto[0]['nombre_municipio']; ?>
+										<br><strong>No. total de mesas: </strong>
+										<?php echo $infoPuesto[0]['total_mesas']; ?>
+										<br>
 										<br><strong>Número de mesa: </strong>
 										<?php echo $infoMesa[0]['numero_mesa']; ?>
 									</div>
@@ -64,8 +71,11 @@ if ($retornoError) {
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
-								<th class="text-center">Imagen</th>
-								<th class="text-center">Nombre Candidato</th>
+								<th class="text-center">Nombre candidato</th>
+								<th class="text-center">Partido</th>
+								<th class="text-center">Sigla</th>
+								<th class="text-center">Número orden candidato</th>
+								<th class="text-center">Número orden partido</th>
 								<th class="text-center">Número de votos</th>
 							</tr>
 						</thead>
@@ -73,16 +83,12 @@ if ($retornoError) {
 						<?php
 							foreach ($info as $lista):
 									echo "<tr>";
-									echo "<td class='text-center'>"
-									
-?>
-	<button type="button" class="btn btn-info btn-xs"  disabled >
-		 <span class="glyphicon glyphicon-user" aria-hidden="true">
-	</button>
-<?php
-									
-									echo "</td>";
-									echo "<td class='text-center'>" . $lista['nombre_completo_candidato'] . "</td>";
+									echo "<td>" . $lista['nombre_completo_candidato'] . "</td>";
+									echo "<td>" . $lista['nombre_partido'] . "</td>";
+									echo "<td class='text-center'>" . $lista['sigla'] . "</td>";
+									echo "<td class='text-center'>" . $lista['numero_orden_candidato'] . "</td>";
+									echo "<td class='text-center'>" . $lista['numero_orden_partido'] . "</td>";
+
 						?>
 									
 						<td>
