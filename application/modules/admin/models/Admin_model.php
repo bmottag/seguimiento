@@ -174,9 +174,17 @@
 				$idPuesto = $this->input->post('hddId');
 				
 				$data = array(
+					'fk_id_departamento' => $this->input->post('depto'),
+					'fk_id_municipio' => $this->input->post('mcpio'),
+					'id_localidad' => $this->input->post('idLocalidad'),
+					'nombre_localidad' => $this->input->post('localidad'),
+					'numero_puesto_votacion' => $this->input->post('numeroPuesto'),
 					'nombre_puesto_votacion' => $this->input->post('nombrePuesto'),
-					'geolocalizacion' => $this->input->post('geolocalizacion'),
-					'numero_mesas' => $this->input->post('numeroMesas')
+					'circunscripcion' => $this->input->post('circunscripcion'),
+					'total_mesas' => $this->input->post('numeroMesas'),
+					'latitud' => $this->input->post('latitud'),
+					'longitud' => $this->input->post('longitud')
+					
 				);
 				
 				//revisar si es para adicionar o editar

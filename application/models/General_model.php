@@ -191,9 +191,9 @@ class General_model extends CI_Model {
 		 */
 		public function get_dpto_divipola() 
 		{
-				$this->db->select('DISTINCT(dpto_divipola), dpto_divipola_nombre');
+				$this->db->select('DISTINCT(codigo_departamento), nombre_departamento');
 
-				$this->db->order_by('dpto_divipola_nombre', 'asc');
+				$this->db->order_by('nombre_departamento', 'asc');
 				$query = $this->db->get('param_divipola D');
 
 				if ($query->num_rows() > 0) {

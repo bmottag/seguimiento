@@ -1,13 +1,22 @@
 $( document ).ready( function () {
 	
+	$("#numeroPuesto").bloquearTexto().maxlength(12);
 	$("#nombrePuesto").convertirMayuscula();
+	$("#idLocalidad").bloquearTexto().maxlength(12);
+	$("#localidad").convertirMayuscula();
 	$("#numeroMesas").bloquearTexto().maxlength(12);
+	$("#circunscripcion").convertirMayuscula();
 	
 	$( "#form" ).validate( {
 		rules: {
+			numeroPuesto:		{ required: true, minlength: 3, maxlength:12 },
 			nombrePuesto:		{ required: true, minlength: 3, maxlength:120 },
-			geolocalizacion:	{ required: true, minlength: 3, maxlength:50 },
-			numeroMesas:		{ required: true, number: true, minlength: 1, maxlength:10 }
+			depto:				{ required: true },
+			mcpio:				{ required: true },
+			idLocalidad:		{ required: true, minlength: 3, maxlength:12 },
+			localidad:			{ required: true, minlength: 3, maxlength:120 },
+			numeroMesas:		{ required: true, number: true, minlength: 1, maxlength:10 },
+			circunscripcion:	{ required: true, minlength: 3, maxlength:50 }
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {
@@ -17,10 +26,10 @@ $( document ).ready( function () {
 
 		},
 		highlight: function ( element, errorClass, validClass ) {
-			$( element ).parents( ".col-sm-12" ).addClass( "has-error" ).removeClass( "has-success" );
+			$( element ).parents( ".col-sm-6" ).addClass( "has-error" ).removeClass( "has-success" );
 		},
 		unhighlight: function (element, errorClass, validClass) {
-			$( element ).parents( ".col-sm-12" ).addClass( "has-success" ).removeClass( "has-error" );
+			$( element ).parents( ".col-sm-6" ).addClass( "has-success" ).removeClass( "has-error" );
 		},
 		submitHandler: function (form) {
 			return true;

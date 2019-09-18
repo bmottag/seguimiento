@@ -14,21 +14,19 @@
 
 	<form name="form" id="form" role="form" method="post" >
 		<input type="hidden" id="hddId" name="hddId" value="<?php echo $information?$information[0]["id_puesto_votacion"]:""; ?>"/>	
-		<!-- Se usa para saber desde donde se esta editando -->
-		<input type="hidden" id="enlace_regreso" name="enlace_regreso" value="<?php echo $enlace_regreso; ?>"/>
 		
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label for="type" class="control-label">Nombre Puesto de Votación : *</label>
-					<input type="text" id="nombrePuesto" name="nombrePuesto" class="form-control" value="<?php echo $information?$information[0]["nombre_puesto_votacion"]:""; ?>" placeholder="Nombre Puesto de Votación" required >
+					<label for="type" class="control-label">Número puesto de votación : *</label>
+					<input type="text" id="numeroPuesto" name="numeroPuesto" class="form-control" value="<?php echo $information?$information[0]["numero_puesto_votacion"]:""; ?>" placeholder="Número puesto de votación" required >
 				</div>
 			</div>
 			
 			<div class="col-sm-6">
 				<div class="form-group text-left">
-					<label for="type" class="control-label">Número total de mesas : *</label>
-					<input type="text" id="numeroMesas" name="numeroMesas" class="form-control" value="<?php echo $information?$information[0]["total_mesas"]:""; ?>" placeholder="Número total de mesas" required >
+					<label for="type" class="control-label">Nombre puesto de votación : *</label>
+					<input type="text" id="nombrePuesto" name="nombrePuesto" class="form-control" value="<?php echo $information?$information[0]["nombre_puesto_votacion"]:""; ?>" placeholder="Nombre puesto de votación" required >
 				</div>
 			</div>
 		</div>
@@ -40,7 +38,7 @@
 					<select name="depto" id="depto" class="form-control" >
 						<option value=''>Select...</option>
 						<?php for ($i = 0; $i < count($departamentos); $i++) { ?>
-							<option value="<?php echo $departamentos[$i]["codigo_departamento"]; ?>" <?php if($information[0]["fk_id_departamento"] == $departamentos[$i]["dpto_divipola"]) { echo "selected"; }  ?>><?php echo $departamentos[$i]["nombre_departamento"]; ?></option>	
+							<option value="<?php echo $departamentos[$i]["codigo_departamento"]; ?>" <?php if($information[0]["fk_id_departamento"] == $departamentos[$i]["codigo_departamento"]) { echo "selected"; }  ?>><?php echo $departamentos[$i]["nombre_departamento"]; ?></option>	
 						<?php } ?>
 					</select>
 				</div>
@@ -77,18 +75,34 @@
 			</div>
 		</div>
 		
+		<div class="row">			
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label for="type" class="control-label">Número total de mesas : *</label>
+					<input type="text" id="numeroMesas" name="numeroMesas" class="form-control" value="<?php echo $information?$information[0]["total_mesas"]:""; ?>" placeholder="Número total de mesas" required >
+				</div>
+			</div>
+			
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label for="type" class="control-label">Circunscripción : *</label>
+					<input type="text" id="circunscripcion" name="circunscripcion" class="form-control" value="<?php echo $information?$information[0]["circunscripcion"]:""; ?>" placeholder="Circunscripción" required >
+				</div>
+			</div>
+		</div>
+		
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group text-left">
 					<label for="type" class="control-label">Latitud : </label>
-					<input type="text" id="latitud" name="latitud" class="form-control" value="<?php echo $information?$information[0]["latitud"]:""; ?>" placeholder="Latitud" required >
+					<input type="text" id="latitud" name="latitud" class="form-control" value="<?php echo $information?$information[0]["latitud"]:""; ?>" placeholder="Latitud" >
 				</div>
 			</div>
 			
 			<div class="col-sm-6">
 				<div class="form-group text-left">
 					<label for="type" class="control-label">Longitud : </label>
-					<input type="text" id="longitud" name="longitud" class="form-control" value="<?php echo $information?$information[0]["longitud"]:""; ?>" placeholder="Longitud" required >
+					<input type="text" id="longitud" name="longitud" class="form-control" value="<?php echo $information?$information[0]["longitud"]:""; ?>" placeholder="Longitud" >
 				</div>
 			</div>
 		</div>
