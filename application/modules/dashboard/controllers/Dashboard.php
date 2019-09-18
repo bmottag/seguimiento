@@ -54,9 +54,12 @@ class Dashboard extends MX_Controller {
 				show_error('ERROR!!! - You are in the wrong place.');	
 			}
 			
-			//Informacion del Puesto de trabajo
+			//Busco el ID del sitio
 			$arrParam = array('idUsuario' => $userID);
-			$data['infoPuesto'] = $this->general_model->get_info_encargado_puesto($arrParam);
+			$data['infoEncargado'] = $this->general_model->get_info_encargado_puesto($arrParam);
+			
+			$arrParam = array('idPuesto' => $data['infoEncargado'][0]['fk_id_puesto_votacion']);
+			$data['infoPuesto'] = $this->general_model->get_puesto($arrParam);
 
 					
 //se buscan las alertas asignadas al operador			
@@ -69,10 +72,7 @@ class Dashboard extends MX_Controller {
 			$arrParam = array("tipoAlerta" => 3);
 			$data['infoAlertaConsolidacion'] = $this->dashboard_model->get_alerta_operadors_by($arrParam);
 			
-
-			
-
-			$data["view"] = "dashboard_operador";
+			$data["view"] = "dashboard_auditor";
 			$this->load->view("layout", $data);
 	}
 	
@@ -152,8 +152,8 @@ class Dashboard extends MX_Controller {
 
 			$userRol = $this->session->userdata("rol");
 	
-			if($userRol==4){
-				redirect("/dashboard/delegados","location",301);
+			if($userRol==2){
+				redirect("/dashboard/auditor","location",301);
 			}else{
 				redirect("/dashboard/coordinadores","location",301);	
 			}

@@ -62,14 +62,16 @@ if ($retornoError) {
 							<div class="row" align="center">
 								<div style="width:50%;" align="center">
 									<div class="alert alert-success">
-										<strong>Puesto de votación: </strong>
+										<strong>No. puesto de votación: </strong>
+										<?php echo $infoPuesto[0]['numero_puesto_votacion']; ?>
+										<br><strong>Puesto de votación: </strong>
 										<?php echo $infoPuesto[0]['nombre_puesto_votacion']; ?>
-										<br><strong>Geolocalización: </strong>
-										<?php echo $infoPuesto[0]['geolocalizacion']; ?>
-										<br><strong>Número de mesas: </strong>
-										<?php echo $infoPuesto[0]['numero_mesas']; ?>
-										 - <strong>ID: </strong>
-										<?php echo $infoPuesto[0]['id_puesto_votacion']; ?>
+										<br><strong>Departamento: </strong>
+										<?php echo $infoPuesto[0]['nombre_departamento']; ?>
+										<br><strong>Municipio: </strong>
+										<?php echo $infoPuesto[0]['nombre_municipio']; ?>
+										<br><strong>No. total de mesas: </strong>
+										<?php echo $infoPuesto[0]['total_mesas']; ?>
 										<br><br>
 <a class="btn btn-success" href=" <?php echo base_url().'registro/'; ?> "><span class="glyphicon glyphicon glyphicon-home" aria-hidden="true"></span> Escrutinio por mesa </a> 
 									</div>
@@ -186,6 +188,7 @@ if ($retornoError) {
 					<br>
 					<form  name="form" id="<?php echo "form_" . $lista["id_alerta"]; ?>" class="form-horizontal" method="post" action="<?php echo base_url("dashboard/registro_notificacion"); ?>" >
 						<input type="hidden" id="hddId" name="hddId" value="<?php echo $lista["id_alerta"]; ?>"/>
+						<input type="hidden" id="hddIdPrueba" name="hddIdPrueba" value="<?php echo $infoPuesto[0]['id_puesto_votacion']; ?>"/>
 						
 						<div class="form-group">							
 							<div class="col-sm-12">
