@@ -76,11 +76,12 @@ if ($retornoError) {
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
-								<th class="text-center">Nombre candidato</th>
+								<th class="text-center">Número orden partido</th>
 								<th class="text-center">Partido</th>
 								<th class="text-center">Sigla</th>
 								<th class="text-center">Número orden candidato</th>
-								<th class="text-center">Número orden partido</th>
+								<th class="text-center">Nombre candidato</th>
+
 								<th class="text-center">Número de votos
 <button type="submit" class="btn btn-primary btn-xs" id="btnSubmit2" name="btnSubmit2" >
 	Guardar <span class="glyphicon glyphicon-edit" aria-hidden="true">
@@ -92,11 +93,11 @@ if ($retornoError) {
 						<?php
 							foreach ($info as $lista):
 									echo "<tr>";
-									echo "<td>" . $lista['nombre_completo_candidato'] . "</td>";
+									echo "<td class='text-center'>" . $lista['numero_orden_partido'] . "</td>";
 									echo "<td>" . $lista['nombre_partido'] . "</td>";
 									echo "<td class='text-center'>" . $lista['sigla'] . "</td>";
 									echo "<td class='text-center'>" . $lista['numero_orden_candidato'] . "</td>";
-									echo "<td class='text-center'>" . $lista['numero_orden_partido'] . "</td>";
+									echo "<td>" . $lista['nombre_completo_candidato'] . "</td>";
 
 						?>
 									
