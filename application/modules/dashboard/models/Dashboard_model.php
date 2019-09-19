@@ -139,7 +139,7 @@
 				if (array_key_exists("idAlerta", $arrDatos)) {
 					$this->db->where('fk_id_alerta', $arrDatos["idAlerta"]);
 				}
-				$this->db->where('fk_id_usuario', $this->session->id);
+				$this->db->where('fk_id_usuario_r', $this->session->id);
 				$query = $this->db->get('registro');
 
 				if ($query->num_rows() > 0) {

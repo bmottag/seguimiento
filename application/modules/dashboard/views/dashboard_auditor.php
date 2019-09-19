@@ -15,7 +15,7 @@
 <div id="page-wrapper">
 	<div class="row"><br>
 		<div class="col-md-12">
-			<div class="panel panel-primary">
+			<div class="panel panel-danger">
 				<div class="panel-heading">
 					<h4 class="list-group-item-heading">
 						DASHBOARD
@@ -56,30 +56,71 @@ if ($retornoError) {
 }
 ?> 
 
-					<div class="row">
-						<div class="col-lg-12">
-						
-							<div class="row" align="center">
-								<div style="width:50%;" align="center">
-									<div class="alert alert-success">
-										<strong>No. puesto de votación: </strong>
-										<?php echo $infoPuesto[0]['numero_puesto_votacion']; ?>
-										<br><strong>Puesto de votación: </strong>
-										<?php echo $infoPuesto[0]['nombre_puesto_votacion']; ?>
-										<br><strong>Departamento: </strong>
-										<?php echo $infoPuesto[0]['nombre_departamento']; ?>
-										<br><strong>Municipio: </strong>
-										<?php echo $infoPuesto[0]['nombre_municipio']; ?>
-										<br><strong>No. total de mesas: </strong>
-										<?php echo $infoPuesto[0]['total_mesas']; ?>
-									</div>
+	<!-- /.row -->
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-danger">
+				<div class="panel-heading">
+					<i class="fa fa-building-o "></i> Puesto de votación
+				</div>
+				<div class="panel-body">
+				
+					<div class="col-lg-4">				
+						<div class="row">	
+							<div class="col-lg-12">	
+								<div class="alert alert-danger">
+									<strong>No. puesto de votación: </strong>
+									<?php echo $infoPuesto[0]['numero_puesto_votacion']; ?>
+									<br><strong>Puesto de votación: </strong><br>
+									<?php echo $infoPuesto[0]['nombre_puesto_votacion']; ?>
+									<br><strong>Número de mesas: </strong>
+									<?php echo $infoPuesto[0]['total_mesas']; ?>
 								</div>
-							</div>	
-						
-						</div>
+							</div>
+						</div>	
 					</div>
-
-	
+					
+					<div class="col-lg-4">				
+						<div class="row">	
+							<div class="col-lg-12">	
+								<div class="alert alert-danger">
+									<strong>Departamento: </strong>
+									<?php echo $infoPuesto[0]['nombre_departamento']; ?>
+									
+									<br><strong>Municipio: </strong>
+									<?php echo $infoPuesto[0]['nombre_municipio']; ?>
+									<br><strong>ID Localidad: </strong>
+									<?php echo $infoPuesto[0]['id_localidad']; ?>
+									<br><strong>Localidad: </strong>
+									<?php echo $infoPuesto[0]['nombre_localidad']; ?>
+								</div>
+							</div>
+						</div>	
+					</div>
+					
+					<div class="col-lg-4">				
+						<div class="row">	
+							<div class="col-lg-12">	
+								<div class="alert alert-danger">
+									<strong>Auditor: </strong><br>
+									<?php 
+										echo $this->session->userdata("firstname"); 
+										echo " "; 
+										echo $this->session->userdata("lastname"); 
+									?>
+								</div>
+							</div>
+						</div>	
+					</div>
+				
+				</div>
+				<!-- /.panel-body -->
+			</div>
+			<!-- /.panel -->
+		</div>
+		<!-- /.col-lg-12 -->
+	</div>
+	<!-- /.row -->
 
 	<div class="row">
 <!--INICIO ALERTA INFORMATIVA -->
