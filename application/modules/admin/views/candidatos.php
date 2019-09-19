@@ -76,8 +76,8 @@ if ($retornoError) {
 								<th class="text-center">Nombre candidato</th>
 								<th class="text-center">Partido</th>
 								<th class="text-center">Sigla</th>
-								<th class="text-center">Número orden candidato</th>
-								<th class="text-center">Número orden partido</th>
+								<th class="text-center">No. orden candidato</th>
+								<th class="text-center">No. orden partido</th>
 								<th class="text-center">Editar</th>
 							</tr>
 						</thead>

@@ -17,7 +17,7 @@
 			<div class="col-sm-12">
 				<div class="form-group text-left">
 					<label class="control-label" for="descripcion">Descripción : *</label>
-					<textarea id="descripcion" name="descripcion" class="form-control" rows="1"><?php echo $information?$information[0]["descripcion_alerta"]:""; ?></textarea>
+					<textarea id="descripcion" name="descripcion" class="form-control" rows="2"><?php echo $information?$information[0]["descripcion_alerta"]:""; ?></textarea>
 				</div>
 			</div>
 		</div>
@@ -51,7 +51,7 @@
 			<div class="col-sm-12">
 				<div class="form-group text-left">
 					<label class="control-label" for="mensaje">Mensaje : *</label>
-					<textarea id="mensaje" name="mensaje" class="form-control" rows="1"><?php echo $information?$information[0]["mensaje_alerta"]:""; ?></textarea>
+					<textarea id="mensaje" name="mensaje" class="form-control" rows="2"><?php echo $information?$information[0]["mensaje_alerta"]:""; ?></textarea>
 				</div>
 			</div>
 		</div>
@@ -184,7 +184,9 @@
 		<div class="form-group">
 			<div class="row" align="center">
 				<div style="width:50%;" align="center">
-					<input type="button" id="btnSubmit" name="btnSubmit" value="Guardar" class="btn btn-primary"/>
+					<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary" >
+						Guardar <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
+					</button>
 				</div>
 			</div>
 		</div>
