@@ -50,27 +50,64 @@ $(function(){
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<a class="btn btn-success" href=" <?php echo base_url(). 'admin/grupo_instrumentos'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Regresar </a> 
+					<a class="btn btn-success" href=" <?php echo base_url(). 'admin/puestos'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Regresar </a> 
 					<i class="fa fa-gears "></i> LISTA DE MESAS
 				</div>
 				<div class="panel-body">
 				
-					<div class="row">
-						<div class="col-lg-12">
-						
-							<div class="row" align="center">
-								<div style="width:50%;" align="center">
-									<div class="alert alert-success">
-										<strong>PUESTO DE VOTACIÓN: </strong>
-										<?php echo $infoPuesto[0]['nombre_puesto_votacion']; ?>
-										<br><strong>NÚMERO DE MESAS: </strong>
-										<?php echo $infoPuesto[0]['total_mesas']; ?>
-									</div>
+					<div class="col-lg-4">				
+						<div class="row">	
+							<div class="col-lg-12">	
+								<div class="alert alert-success">
+									<strong>No.PUESTO DE VOTACIÓN: </strong><br>
+									<?php echo $infoPuesto[0]['numero_puesto_votacion']; ?>
+									<br><strong>PUESTO DE VOTACIÓN: </strong><br>
+									<?php echo $infoPuesto[0]['nombre_puesto_votacion']; ?>
+									<br><strong>NÚMERO DE MESAS: </strong>
+									<?php echo $infoPuesto[0]['total_mesas']; ?>
 								</div>
-							</div>	
-						
-						</div>
+							</div>
+						</div>	
 					</div>
+					
+					<div class="col-lg-4">				
+						<div class="row">	
+							<div class="col-lg-12">	
+								<div class="alert alert-success">
+									<strong>Departamento: </strong><br>
+									<?php echo $infoPuesto[0]['nombre_departamento']; ?>
+									
+									<br><strong>Municipio: </strong><br>
+									<?php echo $infoPuesto[0]['nombre_municipio']; ?>
+
+								</div>
+							</div>
+						</div>	
+					</div>
+					
+					<div class="col-lg-4">				
+						<div class="row">	
+							<div class="col-lg-12">	
+								<div class="alert alert-success">
+									<strong>Auditores: </strong><br>
+									<?php 
+										if($infoAuditores){
+											foreach ($infoAuditores as $listaEncargado):	
+												echo $listaEncargado['nombres_usuario'] . " " . $listaEncargado['apellidos_usuario'];
+											endforeach;
+										}else{
+											echo "No hay Auditores. Asignarlo.";
+										}
+									?>
+								</div>
+							</div>
+						</div>	
+					</div>
+				
+				
+				
+				
+				
 				
 					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $infoPuesto[0]['id_puesto_votacion']; ?>">
 							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Adicionar Mesa
@@ -116,7 +153,7 @@ if ($retornoError) {
 						<?php
 							foreach ($info as $lista):
 									echo "<tr>";
-									echo "<td>" . $lista['numero_mesa'] . "</td>";
+									echo "<td class='text-center'>" . $lista['numero_mesa'] . "</td>";
 									echo "<td class='text-center'>" . $lista['personas_habilitadas'] . "</td>";
 									
 									switch ($lista['tipo_voto']) {

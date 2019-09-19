@@ -73,9 +73,14 @@ class General_model extends CI_Model {
 		public function get_info_encargado_puesto($arrDatos) 
 		{
 				$this->db->select();
+				$this->db->join('usuario U', 'U.id_usuario = E.fk_id_usuario', 'LEFT');
 				
 				if (array_key_exists("idUsuario", $arrDatos)) {
 					$this->db->where('E.fk_id_usuario', $arrDatos["idUsuario"]);
+				}
+				
+				if (array_key_exists("idPuesto", $arrDatos)) {
+					$this->db->where('E.fk_id_puesto_votacion', $arrDatos["idPuesto"]);
 				}
 								
 				$query = $this->db->get('encargado_puesto_votacion E');
