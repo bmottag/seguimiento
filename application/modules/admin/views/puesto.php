@@ -87,6 +87,7 @@ if ($retornoError) {
 								<th class="text-center">Municipio</th>
 								<th class="text-center">Localidad</th>
 								<th class="text-center">Número total mesas </th>
+								<th class="text-center">Circunscripción </th>
 								<th class="text-center">Enlaces</th>
 							</tr>
 						</thead>
@@ -104,6 +105,7 @@ if ($retornoError) {
 									echo "</td>";
 									
 									echo "<td class='text-center'>" . $lista['total_mesas'] . "</td>";
+									echo "<td>" . $lista['circunscripcion'] . "</td>";
 									
 									echo "<td class='text-center'>";
 						?>
