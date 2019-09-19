@@ -59,11 +59,11 @@ $(function(){
 						<div class="row">	
 							<div class="col-lg-12">	
 								<div class="alert alert-success">
-									<strong>No.PUESTO DE VOTACIÓN: </strong><br>
+									<strong>No. puesto de votación: </strong>
 									<?php echo $infoPuesto[0]['numero_puesto_votacion']; ?>
-									<br><strong>PUESTO DE VOTACIÓN: </strong><br>
+									<br><strong>Puesto de votación: </strong><br>
 									<?php echo $infoPuesto[0]['nombre_puesto_votacion']; ?>
-									<br><strong>NÚMERO DE MESAS: </strong>
+									<br><strong>Número de mesas: </strong>
 									<?php echo $infoPuesto[0]['total_mesas']; ?>
 								</div>
 							</div>
@@ -74,12 +74,15 @@ $(function(){
 						<div class="row">	
 							<div class="col-lg-12">	
 								<div class="alert alert-success">
-									<strong>Departamento: </strong><br>
+									<strong>Departamento: </strong>
 									<?php echo $infoPuesto[0]['nombre_departamento']; ?>
 									
-									<br><strong>Municipio: </strong><br>
+									<br><strong>Municipio: </strong>
 									<?php echo $infoPuesto[0]['nombre_municipio']; ?>
-
+									<br><strong>ID Localidad: </strong>
+									<?php echo $infoPuesto[0]['id_localidad']; ?>
+									<br><strong>Localidad: </strong>
+									<?php echo $infoPuesto[0]['nombre_localidad']; ?>
 								</div>
 							</div>
 						</div>	
