@@ -38,6 +38,26 @@ class Registro extends MX_Controller {
 	}
 	
 	/**
+	 * Guardar los votos de los candidatos
+     * @since 18/9/2019
+     * @author BMOTTAG
+	 */
+	public function guardar_votos()
+	{	
+			$idMesa = $this->input->post("hddIdMesa");
+	
+			if ($this->registro_model->saveVotos()) {
+				$data["result"] = true;
+				$this->session->set_flashdata('retornoExito', "You have update the state!!");
+			} else {
+				$data["result"] = "error";
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+			}
+
+			redirect(base_url('registro/presidente/' . $idMesa), 'refresh');
+	}
+	
+	/**
 	 * Lista de DIPUTADOS
      * @since 12/9/2019
 	 */

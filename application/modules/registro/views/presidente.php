@@ -67,7 +67,12 @@ if ($retornoError) {
 
 				<?php
 					if($info){
-				?>				
+				?>			
+
+<form  name="votos_presidente" id="votos_presidente" method="post" action="<?php echo base_url("registro/guardar_votos"); ?>">
+		<input type="hidden" id="hddIdPuesto" name="hddIdPuesto" value="<?php echo $infoPuesto[0]['id_puesto_votacion']; ?>"/>
+		<input type="hidden" id="hddIdMesa" name="hddIdMesa" value="<?php echo $infoMesa[0]['id_mesa']; ?>"/>
+				
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
@@ -76,7 +81,11 @@ if ($retornoError) {
 								<th class="text-center">Sigla</th>
 								<th class="text-center">Número orden candidato</th>
 								<th class="text-center">Número orden partido</th>
-								<th class="text-center">Número de votos</th>
+								<th class="text-center">Número de votos
+<button type="submit" class="btn btn-primary btn-xs" id="btnSubmit2" name="btnSubmit2" >
+	Guardar <span class="glyphicon glyphicon-edit" aria-hidden="true">
+</button>
+								</th>
 							</tr>
 						</thead>
 						<tbody>							
@@ -93,11 +102,10 @@ if ($retornoError) {
 									
 						<td>
 				
-						<input type="hidden" id="hddIdPuesto" name="hddIdPuesto" value="<?php echo $infoPuesto[0]['id_puesto_votacion']; ?>"/>
-						<input type="hidden" id="hddIdMesa" name="hddIdMesa" value="<?php echo $infoMesa[0]['id_mesa']; ?>"/>
+						<input type="hidden" id="hddIdCandidato" name="hddIdCandidato[]" value="<?php echo $lista['id_candidato']; ?>"/>
 
 						
-						<input type="text" id="rate" name="rate" class="form-control" placeholder="Número de votos" required >
+						<input type="text" id="numeroVotos" name="numeroVotos[]" class="form-control" placeholder="Número de votos" required >
 		
 						</td>
 						
@@ -108,6 +116,8 @@ if ($retornoError) {
 						?>
 						</tbody>
 					</table>
+					
+</form>
 				<?php } ?>
 				</div>
 				<!-- /.panel-body -->

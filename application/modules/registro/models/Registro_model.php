@@ -17,6 +17,38 @@
 		}
 		
 		/**
+		 * Guardar votos
+		 * @since 18/9/2019
+		 */
+		public function saveVotos() 
+		{
+			$idPuesto = $this->input->post("hddIdPuesto");
+			$idMesa = $this->input->post("hddIdMesa");
+			$idUser = $this->session->userdata("id");
+			$numeroVotos = $this->input->post("numeroVotos");
+			
+			if ($candidatos = $this->input->post('hddIdCandidato')) {
+				$tot = count($candidatos);
+				for ($i = 0; $i < $tot; $i++) {
+					$data = array(
+						'fk_id_puesto_votos_rv' => $idPuesto,
+						'fk_id_mesa_rv' => $idMesa,
+						'fk_id_candidato_rv' => $candidatos[$i],
+						'fk_id_usuario_rv' => $idUser,
+						'numero_votos' => $numeroVotos[$i],
+						'fecha_registro_votos' => date("Y-m-d G:i:s")
+					);	
+					$query = $this->db->insert('registro_votos', $data);
+				}
+			}
+			if ($query) {
+				return true;
+			} else{
+				return false;
+			}
+		}
+		
+		/**
 		 * Lista de establecimientos
 		 * @since 18/9/2017
 		 */
