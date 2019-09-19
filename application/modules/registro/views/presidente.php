@@ -38,28 +38,54 @@ if ($retornoError) {
 ?> 
 
 					<div class="row">
-						<div class="col-lg-12">
-						
-							<div class="row" align="center">
-								<div style="width:50%;" align="center">
+						<div class="col-lg-4">				
+							<div class="row">	
+								<div class="col-lg-12">	
 									<div class="alert alert-info">
 										<strong>No. puesto de votación: </strong>
 										<?php echo $infoPuesto[0]['numero_puesto_votacion']; ?>
-										<br><strong>Puesto de votación: </strong>
+										<br><strong>Puesto de votación: </strong><br>
 										<?php echo $infoPuesto[0]['nombre_puesto_votacion']; ?>
-										<br><strong>Departamento: </strong>
+										<br><strong>Número de mesas: </strong>
+										<?php echo $infoPuesto[0]['total_mesas']; ?>
+									</div>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="col-lg-4">				
+							<div class="row">	
+								<div class="col-lg-12">	
+									<div class="alert alert-info">
+										<strong>Departamento: </strong>
 										<?php echo $infoPuesto[0]['nombre_departamento']; ?>
+										
 										<br><strong>Municipio: </strong>
 										<?php echo $infoPuesto[0]['nombre_municipio']; ?>
-										<br><strong>No. total de mesas: </strong>
-										<?php echo $infoPuesto[0]['total_mesas']; ?>
-										<br>
-										<br><strong>Número de mesa: </strong>
+										<br><strong>ID Localidad: </strong>
+										<?php echo $infoPuesto[0]['id_localidad']; ?>
+										<br><strong>Localidad: </strong>
+										<?php echo $infoPuesto[0]['nombre_localidad']; ?>
+									</div>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="col-lg-4">				
+							<div class="row">	
+								<div class="col-lg-12">	
+									<div class="alert alert-info">
+										<strong>Auditor: </strong><br>
+										<?php 
+											echo $this->session->userdata("firstname"); 
+											echo " "; 
+											echo $this->session->userdata("lastname"); 
+										?>
+										<br><strong>No. mesa: </strong>
 										<?php echo $infoMesa[0]['numero_mesa']; ?>
 									</div>
 								</div>
 							</div>	
-						
 						</div>
 					</div>
 
