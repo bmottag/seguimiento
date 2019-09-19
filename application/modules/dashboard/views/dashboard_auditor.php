@@ -61,7 +61,7 @@ if ($retornoError) {
 		<div class="col-lg-12">
 			<div class="panel panel-danger">
 				<div class="panel-heading">
-					<i class="fa fa-building-o "></i> Puesto de votación
+					<i class="fa fa-building"></i> Puesto de votación
 				</div>
 				<div class="panel-body">
 				

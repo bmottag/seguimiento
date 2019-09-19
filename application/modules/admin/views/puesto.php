@@ -36,7 +36,7 @@ $(function(){
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<i class="fa fa-building-o"></i> LISTA PUESTOS DE VOTACIÓN
+					<i class="fa fa-building"></i> LISTA PUESTOS DE VOTACIÓN
 				</div>
 				<div class="panel-body">
 			

@@ -109,7 +109,7 @@ if($userRol==1){ //ADMIN
 						</li>
 						
 						<li>
-							<a href="<?php echo base_url("admin/puestos"); ?>"><i class="fa fa-building-o fa-fw"></i> Puestos de votación</a>
+							<a href="<?php echo base_url("admin/puestos"); ?>"><i class="fa fa-building fa-fw"></i> Puestos de votación</a>
 						</li>
 						
 						<li>
