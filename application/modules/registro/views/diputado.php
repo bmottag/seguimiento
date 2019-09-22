@@ -210,7 +210,7 @@ if ($retornoError) {
 														if($infoMesa[0]["foto_acta_diputado"]){ 
 												?>
 														<br><br>
-				<a href="<?php echo base_url().'registro/cerrar_mesa_corporacion/' . $infoMesa[0]['id_mesa'] . '/diputado'; ?>" class="btn btn-danger" > Cerrar escrutinio para presidente <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></a> 
+				<a href="<?php echo base_url().'registro/cerrar_mesa_corporacion/' . $infoMesa[0]['id_mesa'] . '/diputado'; ?>" class="btn btn-danger" > Cerrar escrutinio para diputado <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></a> 
 															
 												<?php
 														

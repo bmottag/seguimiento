@@ -192,12 +192,6 @@ class Registro extends MX_Controller {
 			$data['linkBack'] = "dashboard/auditor";
 			
 			$this->load->model("general_model");			
-			//Informacion de la mesa
-			$arrParam = array('idMesa' => $idMesa);
-			$infoMesa = $this->general_model->get_mesas($arrParam);
-			
-			$arrParam = array('idPuesto' => $infoMesa[0]['fk_puesto_votacion_mesas']);
-			$infoPuesto = $this->general_model->get_puesto($arrParam);
 			
 			$arrParam = array(
 				"table" => "mesas",
@@ -208,7 +202,28 @@ class Registro extends MX_Controller {
 			);
 			
 			$data['titulo'] = "<i class='fa fa-times-circle'></i> Cerrar escrutinio para " . $corporacion;
-			if ($this->general_model->updateRecord($arrParam)) {				
+			if ($this->general_model->updateRecord($arrParam)) 
+			{
+				//Informacion de la mesa
+				$arrParam = array('idMesa' => $idMesa);
+				$infoMesa = $this->general_model->get_mesas($arrParam);
+				
+				$arrParam = array('idPuesto' => $infoMesa[0]['fk_puesto_votacion_mesas']);
+				$infoPuesto = $this->general_model->get_puesto($arrParam);
+				
+				//si el estado de presidente y estado de diputados esta cerrado entonces cierro la mesa
+				if($infoMesa[0]['estado_presidente'] == 3 && $infoMesa[0]['estado_diputado'] == 3)
+				{
+						$arrParam = array(
+							"table" => "mesas",
+							"primaryKey" => "id_mesa",
+							"id" => $idMesa,
+							"column" => "estado_mesa",
+							"value" => 2
+						);
+						$this->general_model->updateRecord($arrParam);
+				}
+			
 				$data['clase'] = "alert-success";
 				$data['msj'] = "Se cerró el escrutinio para " . $corporacion . ".";	
 				$data['msj'] .= "<br><br><strong>No. puesto de votación: </strong>" . $infoPuesto[0]['numero_puesto_votacion'];
