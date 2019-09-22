@@ -245,6 +245,31 @@ class General_model extends CI_Model {
 				return $municipios;
 		}
 		
+		/**
+		 * Numero de votos por mesa y por candidato
+		 * @since 21/9/2019
+		 */
+		public function get_votos_by_candidato($arrDatos) 
+		{
+				$this->db->select();
+				
+				if (array_key_exists("idMesa", $arrDatos)) {
+					$this->db->where('fk_id_mesa_rv', $arrDatos["idMesa"]);
+				}
+				
+				if (array_key_exists("idCandidato", $arrDatos)) {
+					$this->db->where('fk_id_candidato_rv', $arrDatos["idCandidato"]);
+				}
+																
+				$query = $this->db->get('registro_votos R');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+		
 
 	
 	

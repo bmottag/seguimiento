@@ -110,11 +110,25 @@ if ($retornoError) {
 	Guardar <span class="glyphicon glyphicon-edit" aria-hidden="true">
 </button>
 								</th>
+								
+								<th class="text-center">Confirmar número de votos</th>
 							</tr>
 						</thead>
 						<tbody>							
 						<?php
+							//cargo modelos
+							$ci = &get_instance();
+							$ci->load->model("general_model");
+						
 							foreach ($info as $lista):
+							
+									//Buscar votos para esta MESA y el CANDIDATO
+									$arrParam = array(
+										"idMesa" => $infoMesa[0]['id_mesa'],
+										"idCandidato" => $lista['id_candidato']
+									);
+									$votosCandidato = $this->general_model->get_votos_by_candidato($arrParam);
+																
 									echo "<tr>";
 									echo "<td class='text-center'>" . $lista['sigla'] . "</td>";
 									echo "<td>" . $lista['nombre_completo_candidato'] . "</td>";
@@ -124,10 +138,14 @@ if ($retornoError) {
 						<td>
 				
 						<input type="hidden" id="hddIdCandidato" name="hddIdCandidato[]" value="<?php echo $lista['id_candidato']; ?>"/>
-
+						<input type="hidden" id="hddIdRegistroVoto" name="hddIdRegistroVoto[]" value="<?php echo $votosCandidato?$votosCandidato[0]["id_registro_votos"]:""; ?>"/>
 						
-						<input type="text" id="numeroVotos" name="numeroVotos[]" class="form-control" placeholder="Número de votos" required >
+						<input type="text" id="numeroVotos" name="numeroVotos[]" class="form-control" placeholder="Número de votos" value="<?php echo $votosCandidato?$votosCandidato[0]["numero_votos"]:""; ?>" required >
 		
+						</td>
+						
+						<td>
+						<input type="text" id="confirmarNumeroVotos" name="confirmarNumeroVotos[]" class="form-control" placeholder="Confirmar número de votos" value="<?php echo $votosCandidato?$votosCandidato[0]["numero_votos"]:""; ?>" required >
 						</td>
 						
 						<?php		

@@ -43,6 +43,7 @@
 		 */
 		public function saveVotos() 
 		{
+			$idRegistroVoto = $this->input->post("hddIdRegistroVoto");
 			$idPuesto = $this->input->post("hddIdPuesto");
 			$idMesa = $this->input->post("hddIdMesa");
 			$idUser = $this->session->userdata("id");
@@ -59,9 +60,21 @@
 						'numero_votos' => $numeroVotos[$i],
 						'fecha_registro_votos' => date("Y-m-d G:i:s")
 					);	
-					$query = $this->db->insert('registro_votos', $data);
+					
+					//revisar si es para adicionar o editar
+					if ($idRegistroVoto[$i] == '') {
+						$query = $this->db->insert('registro_votos', $data);
+					} else {
+						$this->db->where('id_registro_votos', $idRegistroVoto[$i]);
+						$query = $this->db->update('registro_votos', $data);
+					}
+					
+					//guardar el LOG
+					$query = $this->db->insert('log_registro_votos', $data);
+
 				}
 			}
+			
 			if ($query) {
 				return true;
 			} else{

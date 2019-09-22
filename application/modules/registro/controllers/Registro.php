@@ -45,10 +45,10 @@ class Registro extends MX_Controller {
 	public function guardar_votos()
 	{	
 			$idMesa = $this->input->post("hddIdMesa");
-	
+
 			if ($this->registro_model->saveVotos()) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', "You have update the state!!");
+				$this->session->set_flashdata('retornoExito', "Se guardo la información con éxito. Adicionar la foto del acta de escrutinio.");
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
