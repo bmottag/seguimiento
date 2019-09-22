@@ -40,10 +40,11 @@ class Registro extends MX_Controller {
 	
 	/**
 	 * Guardar los votos de los candidatos
+	 * param $corporacion: presidente o diputado, se usa para indicar a donde redireccionar despues de guardar	 
      * @since 18/9/2019
      * @author BMOTTAG
 	 */
-	public function guardar_votos()
+	public function guardar_votos($corporacion)
 	{	
 			$idMesa = $this->input->post("hddIdMesa");
 
@@ -67,7 +68,7 @@ class Registro extends MX_Controller {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
 
-			redirect(base_url('registro/presidente/' . $idMesa), 'refresh');
+			redirect(base_url('registro/' . $corporacion . '/' . $idMesa), 'refresh');
 	}
 	
 	/**
@@ -91,9 +92,8 @@ class Registro extends MX_Controller {
 			$data['infoMesa'] = $this->general_model->get_mesas($arrParam);
 			
 			//Listado de CANDIDATOS DIPUTADO
-			$arrParam = array('cargo' => 3);//buscar solo candidatos para DIPUTADO
+			$arrParam = array('idCorporacion' => 3);//buscar solo candidatos para DIPUTADO
 			$data['info'] = $this->general_model->get_candidatos($arrParam);
-			
 									
 			$data["view"] = 'diputado';
 			$this->load->view("layout", $data);
@@ -101,13 +101,16 @@ class Registro extends MX_Controller {
 
 	/**
 	 * Acta de escrutinio
+	 * param $corporacion: presidente o diputado, se usa para saber si es para presidente o diputado
      * @since 21/9/2019
      * @author BMOTTAG
 	 */
-	public function acta($idMesa, $error = '')
+	public function foto_acta($idMesa, $corporacion, $error = '')
 	{
 			$this->load->model("general_model");
 			$userID = $this->session->userdata("id");
+			
+			$data['corporacion'] = $corporacion;
 			
 			//Informacion del Puesto de trabajo
 			$arrParam = array('idUsuario' => $userID);
@@ -132,12 +135,14 @@ class Registro extends MX_Controller {
     function do_upload_foto() 
 	{
 			$config['upload_path'] = './images/actas/';
-			$config['overwrite'] = false;
+			$config['overwrite'] = true;
 			$config['allowed_types'] = 'gif|jpg|png';
 			$config['max_size'] = '5000';
 			$config['max_width'] = '3024';
 			$config['max_height'] = '3008';
 			$idMesa = $this->input->post("hddIdMesa");
+			$corporacion = $this->input->post("hddCorporacion");//se usa para saber si la imagen es de presidente o de diputado
+			$config['file_name'] = $idMesa . "_" . $corporacion;
 
 			$this->load->library('upload', $config);
 			//SI LA IMAGEN FALLA AL SUBIR MOSTRAMOS EL ERROR EN LA VISTA 
@@ -151,16 +156,23 @@ class Registro extends MX_Controller {
 				$imagen = $file_info['file_name'];
 				$path = "images/actas/" . $imagen;
 				
-				//insertar datos
-				$arrParam = array("idMesa" => $idMesa, "path" => $path);
-				if($this->registro_model->add_foto($arrParam))
+				//guardo la ruta de la foto en la tabla de MESAS					
+				$this->load->model("general_model");	
+				$arrParam = array(
+					"table" => "mesas",
+					"primaryKey" => "id_mesa",
+					"id" => $idMesa,
+					"column" => "foto_acta_" . $corporacion,
+					"value" => $path
+				);
+				if ($this->general_model->updateRecord($arrParam))
 				{					
 					$this->session->set_flashdata('retornoExito', 'Se guardó la foto del acta escrutinio con éxito.');
 				}else{
 					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 				}
 							
-				redirect('registro/presidente/' . $idMesa);
+				redirect('registro/' . $corporacion . '/' . $idMesa);
 			}
     }
 	

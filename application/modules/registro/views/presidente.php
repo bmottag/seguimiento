@@ -112,7 +112,7 @@ if ($retornoError) {
 							<div class="row">	
 								<div class="col-lg-12">	
 				
-<form  name="votos_presidente" id="votos_presidente" method="post" action="<?php echo base_url("registro/guardar_votos"); ?>">
+<form  name="votos_presidente" id="votos_presidente" method="post" action="<?php echo base_url("registro/guardar_votos/presidente"); ?>">
 		<input type="hidden" id="hddIdPuesto" name="hddIdPuesto" value="<?php echo $infoPuesto[0]['id_puesto_votacion']; ?>"/>
 		<input type="hidden" id="hddIdMesa" name="hddIdMesa" value="<?php echo $infoMesa[0]['id_mesa']; ?>"/>
 				
@@ -194,13 +194,13 @@ if ($retornoError) {
 												?>
 										
 														<?php
-														if($infoMesa[0]["foto_acta"]){ 
+														if($infoMesa[0]["foto_acta_presidente"]){ 
 															$estiloFoto = "btn btn-primary";
 															$textoFoto = "Foto acta escrutinio";
 														?>
 														
-				<a href='<?php echo base_url($infoMesa[0]["foto_acta"]); ?>' target="_blanck">
-					<img src="<?php echo base_url($infoMesa[0]["foto_acta"]); ?>" class="img-rounded" width="120" height="120" />
+				<a href='<?php echo base_url($infoMesa[0]["foto_acta_presidente"]); ?>' target="_blanck">
+					<img src="<?php echo base_url($infoMesa[0]["foto_acta_presidente"]); ?>" class="img-rounded" width="120" height="120" />
 				</a>
 														<?php }else{ 
 																$estiloFoto = "btn btn-danger";
@@ -208,11 +208,11 @@ if ($retornoError) {
 															} 
 														?>
 														<br><br>			
-				<a href="<?php echo base_url().'registro/acta/' . $infoMesa[0]['id_mesa']; ?>" class="<?php echo $estiloFoto; ?>" > <?php echo $textoFoto; ?> <span class="glyphicon glyphicon-picture" aria-hidden="true"></span></a> 
+				<a href="<?php echo base_url().'registro/foto_acta/' . $infoMesa[0]['id_mesa'] . '/presidente'; ?>" class="<?php echo $estiloFoto; ?>" > <?php echo $textoFoto; ?> <span class="glyphicon glyphicon-picture" aria-hidden="true"></span></a> 
 														
 												<?php
 														//si ya estan los votos y esta la foto muestro boton para cerrar votos para presidente
-														if($infoMesa[0]["foto_acta"]){ 
+														if($infoMesa[0]["foto_acta_presidente"]){ 
 												?>
 														<br><br>
 				<a href="<?php echo base_url().'registro/cerrar_mesa_corporacion/' . $infoMesa[0]['id_mesa'] . '/presidente'; ?>" class="btn btn-danger" > Cerrar escrutinio para presidente <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></a> 

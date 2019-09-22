@@ -400,21 +400,30 @@ if($lista['estado_mesa'] == 2){
 	$botonPresidente = "disabled";
 	$botonDiputado = "disabled";
 	$enlacePresidente = "#" ;
-	$mesajePresidente = '<p class="text-danger"><strong>Escrutinio cerrado para presidente</strong></p>';
+	$mensajePresidente = '<p class="text-danger"><strong>Escrutinio cerrado para presidente</strong></p>';
+	
+	$enlaceDiputado = "#" ;
+	$mensajeDiputado = '<p class="text-danger"><strong>Escrutinio cerrado para diputado</strong></p>';
 }else{
 	$boton = "";
 	$botonPresidente = "";
 	$botonDiputado = "";
 	$enlacePresidente = base_url("registro/presidente/" . $lista['id_mesa']); 
-	$mesajePresidente = '';
+	$mensajePresidente = '';
+	
+	$enlaceDiputado = base_url("registro/diputado/" . $lista['id_mesa']); 
+	$mensajeDiputado = '';
+	
 	if($lista['estado_presidente'] == 3){
 		$botonPresidente = "disabled";
 		$enlacePresidente = "#" ;
-		$mesajePresidente = '<p class="text-danger"><strong>Escrutinio cerrado para presidente</strong></p>';
+		$mensajePresidente = '<p class="text-danger"><strong>Escrutinio cerrado para presidente</strong></p>';
 	}
 		
 	if($lista['estado_diputado'] == 3){
 		$botonDiputado = "disabled";
+		$enlaceDiputado = "#" ;
+		$mensajeDiputado = '<p class="text-danger"><strong>Escrutinio cerrado para diputado</strong></p>';
 	}
 }
 								echo "<td class='text-center'>";
@@ -425,16 +434,18 @@ if($lista['estado_mesa'] == 2){
 Votos PRESIDENTE  
 </a>	
 
-<?php echo $mesajePresidente; ?>
+<?php echo $mensajePresidente; ?>
 
 						<?php
 								echo "</td>";
 								echo "<td class='text-center'>";
 						?>
 
-<a href="<?php echo base_url("registro/diputado/" . $lista['id_mesa']); ?>" class="btn btn-danger btn-xs" <?php echo $boton; ?>>
+<a href="<?php echo $enlaceDiputado; ?>" class="btn btn-danger btn-xs" <?php echo $botonDiputado; ?>>
 Votos DIPUTADOS  
 </a>	
+
+<?php echo $mensajeDiputado; ?>
 
 						<?php
 								echo "</td>";

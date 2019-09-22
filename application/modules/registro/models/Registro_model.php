@@ -81,26 +81,6 @@
 				return false;
 			}
 		}
-
-		/**
-		 * Add fotos
-		 * @since 9/2/2018
-		 */
-		public function add_foto($arrDatos) 
-		{					
-				$data = array(
-					'foto_acta' => $arrDatos["path"]
-				);
-
-				$this->db->where('id_mesa', $arrDatos["idMesa"]);
-				$query = $this->db->update('mesas', $data);
-
-				if ($query) {
-					return true;
-				} else {
-					return false;
-				}
-		}
 	
 	    
 	}

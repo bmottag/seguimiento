@@ -6,7 +6,7 @@
 		<div class="col-lg-12">
 			<div class="panel panel-info">
 				<div class="panel-heading">
-					<a class="btn btn-info btn-xs" href=" <?php echo base_url().'registro/presidente/' . $infoMesa[0]['id_mesa']; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Regresar </a> 
+					<a class="btn btn-info btn-xs" href=" <?php echo base_url().'registro/' . $corporacion . '/' . $infoMesa[0]['id_mesa']; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Regresar </a> 
 					<i class="fa fa-photo"></i> <strong>Foto acta escrutinio</strong>
 				</div>
 				<div class="panel-body">
@@ -111,6 +111,7 @@ if ($retornoError) {
 
 		<form  name="form" id="form" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo base_url("registro/do_upload_foto"); ?>">
 		<input type="hidden" id="hddIdMesa" name="hddIdMesa" value="<?php echo $infoMesa[0]['id_mesa']; ?>"/>
+		<input type="hidden" id="hddCorporacion" name="hddCorporacion" value="<?php echo $corporacion; ?>"/>
 		
 		<div class="col-lg-6">					
 				<div class="col-lg-12">				
