@@ -73,8 +73,8 @@ if ($retornoError) {
 									<?php echo $infoPuesto[0]['numero_puesto_votacion']; ?>
 									<br><strong>Puesto de votación: </strong><br>
 									<?php echo $infoPuesto[0]['nombre_puesto_votacion']; ?>
-									<br><strong>Número de mesas: </strong>
-									<?php echo $infoPuesto[0]['total_mesas']; ?>
+									<br><strong>Circunscripción: </strong>
+									<?php echo $infoPuesto[0]['circunscripcion']; ?>
 								</div>
 							</div>
 						</div>	
