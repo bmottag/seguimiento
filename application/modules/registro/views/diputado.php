@@ -38,21 +38,54 @@ if ($retornoError) {
 ?> 
 
 					<div class="row">
-						<div class="col-lg-12">
-						
-							<div class="row" align="center">
-								<div style="width:50%;" align="center">
+						<div class="col-lg-4">				
+							<div class="row">	
+								<div class="col-lg-12">	
 									<div class="alert alert-danger">
-										<strong>Puesto de votación: </strong>
+										<strong>No. puesto de votación: </strong>
+										<?php echo $infoPuesto[0]['numero_puesto_votacion']; ?>
+										<br><strong>Puesto de votación: </strong><br>
 										<?php echo $infoPuesto[0]['nombre_puesto_votacion']; ?>
-										<br><strong>Geolocalización: </strong>
-										<?php echo $infoPuesto[0]['geolocalizacion']; ?>
-										<br><strong>Número de mesa: </strong>
+										<br><strong>Número de mesas: </strong>
+										<?php echo $infoPuesto[0]['total_mesas']; ?>
+									</div>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="col-lg-4">				
+							<div class="row">	
+								<div class="col-lg-12">	
+									<div class="alert alert-danger">
+										<strong>Departamento: </strong>
+										<?php echo $infoPuesto[0]['nombre_departamento']; ?>
+										
+										<br><strong>Municipio: </strong>
+										<?php echo $infoPuesto[0]['nombre_municipio']; ?>
+										<br><strong>ID Localidad: </strong>
+										<?php echo $infoPuesto[0]['id_localidad']; ?>
+										<br><strong>Localidad: </strong>
+										<?php echo $infoPuesto[0]['nombre_localidad']; ?>
+									</div>
+								</div>
+							</div>	
+						</div>
+						
+						<div class="col-lg-4">				
+							<div class="row">	
+								<div class="col-lg-12">	
+									<div class="alert alert-danger">
+										<strong>Auditor: </strong><br>
+										<?php 
+											echo $this->session->userdata("firstname"); 
+											echo " "; 
+											echo $this->session->userdata("lastname"); 
+										?>
+										<br><strong>No. mesa: </strong>
 										<?php echo $infoMesa[0]['numero_mesa']; ?>
 									</div>
 								</div>
 							</div>	
-						
 						</div>
 					</div>
 
@@ -64,8 +97,7 @@ if ($retornoError) {
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
-								<th class="text-center">Imagen</th>
-								<th class="text-center">Nombre Candidato</th>
+								<th class="text-center">Sigla partido</th>
 								<th class="text-center">Número de votos</th>
 							</tr>
 						</thead>
@@ -73,16 +105,8 @@ if ($retornoError) {
 						<?php
 							foreach ($info as $lista):
 									echo "<tr>";
-									echo "<td class='text-center'>"
-									
-?>
-	<button type="button" class="btn btn-danger btn-xs"  disabled >
-		 <span class="glyphicon glyphicon-user" aria-hidden="true">
-	</button>
-<?php
-									
-									echo "</td>";
-									echo "<td class='text-center'>" . $lista['nombre_completo_candidato'] . "</td>";
+
+									echo "<td class='text-center'>" . $lista['sigla'] . "</td>";
 						?>
 									
 						<td>

@@ -6,7 +6,7 @@ class Registro extends MX_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model("registro_model");
-		$this->load->library("validarsesion");
+//		$this->load->library("validarsesion");
     }
 		
 	/**
@@ -68,14 +68,17 @@ class Registro extends MX_Controller {
 			
 			//Informacion del Puesto de trabajo
 			$arrParam = array('idUsuario' => $userID);
-			$data['infoPuesto'] = $this->general_model->get_info_encargado_puesto($arrParam);
+			$data['infoEncargado'] = $this->general_model->get_info_encargado_puesto($arrParam);
+			
+			$arrParam = array('idPuesto' => $data['infoEncargado'][0]['fk_id_puesto_votacion']);
+			$data['infoPuesto'] = $this->general_model->get_puesto($arrParam);
 			
 			//Informacion de las mesas para el Puesto de votacion
 			$arrParam = array('idMesa' => $idMesa);
 			$data['infoMesa'] = $this->general_model->get_mesas($arrParam);
 			
 			//Listado de CANDIDATOS DIPUTADO
-			$arrParam = array('cargo' => 2);//buscar solo candidatos para DIPUTADO
+			$arrParam = array('cargo' => 3);//buscar solo candidatos para DIPUTADO
 			$data['info'] = $this->general_model->get_candidatos($arrParam);
 			
 									
@@ -1240,6 +1243,109 @@ if($banderaTerminar){
 					
 		redirect('encuesta/establecimiento/' . $idManzana);
     }
+	
+	/**
+	 * Envio de mensaje
+     * @since 16/1/2019
+     * @author BMOTTAG
+	 */
+	public function mensaje()
+	{			
+		$this->load->model("general_model");
+		$this->load->library('encrypt');
+		require 'vendor/Twilio/autoload.php';
+
+		
+        $client = new Twilio\Rest\Client($account_sid, $auth_token);
+		
+		$mensaje = "Hola mundo";
+		
+		$to = '';
+	
+		// Use the client to do fun stuff like send text messages!
+		$client->messages->create(
+		// the number you'd like to send the message to
+			$to,
+			array(
+				// A Twilio phone number you purchased at twilio.com/console
+				'from' => '',
+				'body' => $mensaje
+			)
+		);
+		
+		$data['linkBack'] = "programming/index/";
+		$data['titulo'] = "<i class='fa fa-list'></i>PROGRAMMING LIST";
+		
+		$data['clase'] = "alert-info";
+		$data['msj'] = "Se envió el mensaje";
+
+		$data["view"] = 'template/answer';
+		$this->load->view("layout", $data);
+
+
+	}	
+	
+	/**
+	 * Envio de mensaje
+     * @since 16/1/2019
+     * @author BMOTTAG
+	 */
+	public function storeSms()
+	{						
+			$this->registro_model->saveMensaje($_REQUEST ['Body']);
+	}	
+	
+
+
+	/**
+	 * Envio de mensaje
+     * @since 16/1/2019
+     * @author BMOTTAG
+	 */
+	public function respuesta()
+	{			
+		require 'vendor/Twilio/autoload.php';
+		
+        $client = new Twilio\Rest\Client($account_sid, $auth_token);
+				
+		$mensaje = "Gracias por su mensaje";
+		
+		$to = '';
+	
+		// Use the client to do fun stuff like send text messages!
+		$client->messages->create(
+		// the number you'd like to send the message to
+			$to,
+			array(
+				// A Twilio phone number you purchased at twilio.com/console
+				'from' => '',
+				'body' => $mensaje
+			)
+		);
+
+
+
+	}		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	
 	

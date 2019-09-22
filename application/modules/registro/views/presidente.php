@@ -102,10 +102,7 @@ if ($retornoError) {
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
-								<th class="text-center">Número orden partido</th>
-								<th class="text-center">Partido</th>
-								<th class="text-center">Sigla</th>
-								<th class="text-center">Número orden candidato</th>
+								<th class="text-center">Sigla partido</th>
 								<th class="text-center">Nombre candidato</th>
 
 								<th class="text-center">Número de votos
@@ -119,10 +116,7 @@ if ($retornoError) {
 						<?php
 							foreach ($info as $lista):
 									echo "<tr>";
-									echo "<td class='text-center'>" . $lista['numero_orden_partido'] . "</td>";
-									echo "<td>" . $lista['nombre_partido'] . "</td>";
 									echo "<td class='text-center'>" . $lista['sigla'] . "</td>";
-									echo "<td class='text-center'>" . $lista['numero_orden_candidato'] . "</td>";
 									echo "<td>" . $lista['nombre_completo_candidato'] . "</td>";
 
 						?>

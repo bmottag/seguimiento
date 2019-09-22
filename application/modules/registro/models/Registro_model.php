@@ -16,6 +16,27 @@
 				} else{ return false; }
 		}
 		
+		
+		/**
+		 * Add/Edit TIPO ALERTA
+		 * @since 10/5/2017
+		 */
+		public function saveMensaje($answer) 
+		{				
+				$data = array(
+					'mensaje' => $answer
+				);
+
+				$query = $this->db->insert('pruebas', $data);
+				$idTipoAlerta = $this->db->insert_id();				
+
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+		
 		/**
 		 * Guardar votos
 		 * @since 18/9/2019
