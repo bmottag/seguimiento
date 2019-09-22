@@ -4,9 +4,9 @@
 	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-info">
+			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-bullseye"></i> REGISTRO CONTEO DE VOTOS CANDIDATOS PARA PRESIDENTE
+					<i class="fa fa-building"></i> Información puesto de votación
 				</div>
 				<div class="panel-body">
 									
@@ -89,12 +89,29 @@ if ($retornoError) {
 						</div>
 					</div>
 
+				</div>
+			</div>
+		</div>
+	</div>
 
+	<!-- /.row -->
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<i class="fa fa-home"></i> Resgistro conteo de votos de los candidatos para presidente
+				</div>
+				<div class="panel-body">
 
 				<?php
 					if($info){
 				?>			
-
+				
+					<div class="row">
+						<div class="col-lg-8">				
+							<div class="row">	
+								<div class="col-lg-12">	
+				
 <form  name="votos_presidente" id="votos_presidente" method="post" action="<?php echo base_url("registro/guardar_votos"); ?>">
 		<input type="hidden" id="hddIdPuesto" name="hddIdPuesto" value="<?php echo $infoPuesto[0]['id_puesto_votacion']; ?>"/>
 		<input type="hidden" id="hddIdMesa" name="hddIdMesa" value="<?php echo $infoMesa[0]['id_mesa']; ?>"/>
@@ -105,11 +122,7 @@ if ($retornoError) {
 								<th class="text-center">Sigla partido</th>
 								<th class="text-center">Nombre candidato</th>
 
-								<th class="text-center">Número de votos
-<button type="submit" class="btn btn-primary btn-xs" id="btnSubmit2" name="btnSubmit2" >
-	Guardar <span class="glyphicon glyphicon-edit" aria-hidden="true">
-</button>
-								</th>
+								<th class="text-center">Número de votos</th>
 								
 								<th class="text-center">Confirmar número de votos</th>
 							</tr>
@@ -155,8 +168,70 @@ if ($retornoError) {
 						?>
 						</tbody>
 					</table>
-					
+
+
+								</div>
+							</div>
+						</div>
+
+						<div class="col-lg-4">				
+							<div class="row">	
+								<div class="col-lg-12">	
+									<div class="alert alert-info">
+										<div class="row" align="center">
+											<div style="width:70%;" align="center">
+									
+												<button type="submit" class="btn btn-primary" id="btnSubmit2" name="btnSubmit2" >
+													Guardar número de votos <span class="glyphicon glyphicon-edit" aria-hidden="true">
+												</button>
+
 </form>
+										
+												<br><br>		
+
+												<?php 
+													if($infoMesa[0]['estado_presidente'] == 2){
+												?>
+										
+														<?php
+														if($infoMesa[0]["foto_acta"]){ 
+															$estiloFoto = "btn btn-primary";
+															$textoFoto = "Foto acta escrutinio";
+														?>
+														
+				<a href='<?php echo base_url($infoMesa[0]["foto_acta"]); ?>' target="_blanck">
+					<img src="<?php echo base_url($infoMesa[0]["foto_acta"]); ?>" class="img-rounded" width="120" height="120" />
+				</a>
+														<?php }else{ 
+																$estiloFoto = "btn btn-danger";
+																$textoFoto = "Falta foto acta escrutinio";
+															} 
+														?>
+														<br><br>			
+				<a href="<?php echo base_url().'registro/acta/' . $infoMesa[0]['id_mesa']; ?>" class="<?php echo $estiloFoto; ?>" > <?php echo $textoFoto; ?> <span class="glyphicon glyphicon-picture" aria-hidden="true"></span></a> 
+														
+												<?php
+														//si ya estan los votos y esta la foto muestro boton para cerrar votos para presidente
+														if($infoMesa[0]["foto_acta"]){ 
+												?>
+														<br><br>
+				<a href="<?php echo base_url().'registro/cerrar_mesa_corporacion/' . $infoMesa[0]['id_mesa'] . '/presidente'; ?>" class="btn btn-danger" > Cerrar escrutinio para presidente <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></a> 
+															
+												<?php
+														
+														}
+														
+													}
+												 ?>
+									</div>
+
+</div></div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
 				<?php } ?>
 				</div>
 				<!-- /.panel-body -->

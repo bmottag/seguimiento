@@ -61,7 +61,7 @@ if ($retornoError) {
 		<div class="col-lg-12">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-building"></i> Puesto de votación
+					<i class="fa fa-building"></i> Información puesto de votación
 				</div>
 				<div class="panel-body">
 				
@@ -365,7 +365,7 @@ $( document ).ready( function () {
 			<div class="panel panel-primary">
 			
 				<div class="panel-heading">
-					<i class="fa fa-home fa-fw"></i> LISTA MESAS DE VOTACIÓN
+					<i class="fa fa-home fa-fw"></i> Listado de mesas de votación
 				</div>
 				
 				<!-- /.panel-heading -->
@@ -399,23 +399,34 @@ if($lista['estado_mesa'] == 2){
 	$boton = "disabled";
 	$botonPresidente = "disabled";
 	$botonDiputado = "disabled";
+	$enlacePresidente = "#" ;
+	$mesajePresidente = '<p class="text-danger"><strong>Escrutinio cerrado para presidente</strong></p>';
 }else{
 	$boton = "";
-	if($lista['estado_presidente'] == 2){
-		$botonPresidente = "";
+	$botonPresidente = "";
+	$botonDiputado = "";
+	$enlacePresidente = base_url("registro/presidente/" . $lista['id_mesa']); 
+	$mesajePresidente = '';
+	if($lista['estado_presidente'] == 3){
+		$botonPresidente = "disabled";
+		$enlacePresidente = "#" ;
+		$mesajePresidente = '<p class="text-danger"><strong>Escrutinio cerrado para presidente</strong></p>';
 	}
 		
-	if($lista['estado_diputado'] == 2){
-		$botonDiputado = "";
+	if($lista['estado_diputado'] == 3){
+		$botonDiputado = "disabled";
 	}
 }
 								echo "<td class='text-center'>";
 
 
 ?>
-<a href="<?php echo base_url("registro/presidente/" . $lista['id_mesa']); ?>" class="btn btn-info btn-xs" <?php echo $boton; ?>>
+<a href="<?php echo $enlacePresidente; ?>" class="btn btn-info btn-xs" <?php echo $botonPresidente; ?>>
 Votos PRESIDENTE  
 </a>	
+
+<?php echo $mesajePresidente; ?>
+
 						<?php
 								echo "</td>";
 								echo "<td class='text-center'>";
@@ -432,11 +443,11 @@ Votos DIPUTADOS
 									switch ($lista['estado_mesa']) {
 											case 1:
 													$valor = 'Abierta';
-													$clase = "text-danger";
+													$clase = "text-success";
 													break;
 											case 2:
 													$valor = 'Cerrada';
-													$clase = "text-success";
+													$clase = "text-danger";
 													break;
 									}
 									echo '<p class="' . $clase . '"><strong>' . $valor . '</strong></p>';
