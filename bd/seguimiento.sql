@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-09-2019 a las 21:00:31
+-- Tiempo de generación: 22-09-2019 a las 18:45:30
 -- Versión del servidor: 10.1.16-MariaDB
 -- Versión de PHP: 5.6.24
 
@@ -47,7 +47,7 @@ CREATE TABLE `alertas` (
 
 INSERT INTO `alertas` (`id_alerta`, `descripcion_alerta`, `fk_id_tipo_alerta`, `mensaje_alerta`, `fecha_alerta`, `hora_alerta`, `tiempo_duracion_alerta`, `fecha_creacion`, `fecha_inicio`, `fecha_fin`, `estado_alerta`, `flujo_alerta`) VALUES
 (1, 'ALERTA INICIAL - BOTON 1', 2, 'INDIQUE SI VA A ASISTIR COMO APERADOR AL PUESTO DE VOTACIÓN QUE LE ASIGNARON', '2019-09-17', '21:00', '120', '2019-09-12', '2019-09-17 21:00:00', '2019-09-17 23:00:00', 1, 1),
-(2, 'ALERTA PRESENCIAL - BOTON 2', 2, 'INDIQUE SI YA SE ENCUENTRA EN EL PUESTO DE VOTACION', '2019-09-16', '18:00', '120', '2019-09-12', '2019-09-16 18:00:00', '2019-09-16 20:00:00', 1, 2);
+(2, 'ALERTA PRESENCIAL - BOTON 2', 2, 'INDIQUE SI YA SE ENCUENTRA EN EL PUESTO DE VOTACION', '2019-09-19', '12:00', '180', '2019-09-12', '2019-09-19 12:00:00', '2019-09-19 15:00:00', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -163,6 +163,22 @@ INSERT INTO `log_registro` (`id_log_registro`, `fk_id_alerta`, `fk_id_usuario`, 
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `log_registro_votos`
+--
+
+CREATE TABLE `log_registro_votos` (
+  `id_log_registro_votos` int(10) NOT NULL,
+  `fk_id_puesto_votos_rv` int(10) NOT NULL,
+  `fk_id_mesa_rv` int(10) NOT NULL,
+  `fk_id_candidato_rv` int(10) NOT NULL,
+  `fk_id_usuario_rv` int(10) NOT NULL,
+  `numero_votos` int(10) NOT NULL,
+  `fecha_registro_votos` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `mesas`
 --
 
@@ -175,19 +191,21 @@ CREATE TABLE `mesas` (
   `sumatoria_votos` int(1) NOT NULL DEFAULT '0',
   `estado_mesa` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1:Abierta;2:Cerrada',
   `fk_id_usuario_auditor` int(10) NOT NULL,
-  `estado_presidente` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1:Abierto 2. Cerrada',
-  `estado_diputado` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1:Abierto 2. Cerrada'
+  `estado_presidente` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1:Abierto 2.Iniciada 3:Cerrada',
+  `estado_diputado` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1:Abierto 2.Iniciada 3:Cerrada',
+  `foto_acta_presidente` varchar(250) NOT NULL,
+  `foto_acta_diputado` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `mesas`
 --
 
-INSERT INTO `mesas` (`id_mesa`, `fk_puesto_votacion_mesas`, `numero_mesa`, `personas_habilitadas`, `tipo_voto`, `sumatoria_votos`, `estado_mesa`, `fk_id_usuario_auditor`, `estado_presidente`, `estado_diputado`) VALUES
-(1, 1, 10001, 250, 2, 0, 1, 1, 1, 1),
-(2, 1, 10002, 120, 3, 0, 1, 1, 1, 1),
-(3, 1, 10003, 260, 1, 0, 2, 0, 1, 1),
-(4, 1, 1004, 39, 1, 0, 1, 0, 1, 1);
+INSERT INTO `mesas` (`id_mesa`, `fk_puesto_votacion_mesas`, `numero_mesa`, `personas_habilitadas`, `tipo_voto`, `sumatoria_votos`, `estado_mesa`, `fk_id_usuario_auditor`, `estado_presidente`, `estado_diputado`, `foto_acta_presidente`, `foto_acta_diputado`) VALUES
+(1, 1, 10001, 250, 2, 0, 1, 1, 1, 1, '', ''),
+(2, 1, 10002, 120, 3, 0, 1, 1, 1, 1, '', ''),
+(3, 1, 10003, 260, 1, 0, 1, 0, 1, 1, '', ''),
+(4, 1, 1004, 39, 1, 0, 1, 0, 1, 1, '', '');
 
 -- --------------------------------------------------------
 
@@ -567,7 +585,7 @@ CREATE TABLE `param_general` (
 --
 
 INSERT INTO `param_general` (`id_param_general`, `fecha_elecciones`, `hora_inicio`, `hora_fin`) VALUES
-(1, '2019-09-17', '07:30', '15:00');
+(1, '2019-09-19', '07:30', '15:00');
 
 -- --------------------------------------------------------
 
@@ -646,6 +664,29 @@ INSERT INTO `partidos` (`id_partido`, `sigla`, `nombre_partido`, `numero_orden_p
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `pruebas`
+--
+
+CREATE TABLE `pruebas` (
+  `id_prueba` int(10) NOT NULL,
+  `mensaje` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `pruebas`
+--
+
+INSERT INTO `pruebas` (`id_prueba`, `mensaje`) VALUES
+(1, 'pruebaassss'),
+(2, '{"table":"pruebas","order":"nombre_tipo_alerta","id":"x"}'),
+(3, '"que pasa calabaza"'),
+(4, '"que pasa calabaza"'),
+(5, '"que pasa calabaza"'),
+(6, '"estas%20son%20mas%20pruebas"');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `puesto_votacion`
 --
 
@@ -672,7 +713,7 @@ INSERT INTO `puesto_votacion` (`id_puesto_votacion`, `fk_id_departamento`, `fk_i
 (1, 8, 80802, 10, 'Principal', 'nose', 10001, 'Puesto de votación 1', 25, 0, '2343', '79878'),
 (2, 1, 10201, 17, 'Central', 'otro dato', 2001, 'PUESTO DE VOTACIÓN 2', 12, 0, '234234', '23452345'),
 (3, 3, 30501, 45, 'nueva localidad', 'dato circuns', 3001, 'Puesto de votación 3', 36, 0, '3245234', '2345234'),
-(4, 2, 20701, 45, 'nueva', 'circunscripcion', 40001, 'PUESTO DE VOTACIÓN 4', 7, 0, '70808767', '876876');
+(4, 2, 20701, 457, 'nueva', 'circunscripcion', 40001, 'PUESTO DE VOTACIÓN 4', 7, 0, '70808767', '876876');
 
 -- --------------------------------------------------------
 
@@ -683,8 +724,8 @@ INSERT INTO `puesto_votacion` (`id_puesto_votacion`, `fk_id_departamento`, `fk_i
 CREATE TABLE `registro` (
   `id_registro` int(10) NOT NULL,
   `fk_id_alerta` int(10) NOT NULL,
-  `fk_id_usuario` int(10) NOT NULL,
-  `fk_id_puesto_votacion` int(10) NOT NULL,
+  `fk_id_usuario_r` int(10) NOT NULL,
+  `fk_id_puesto_votacion_r` int(10) NOT NULL,
   `acepta` int(1) NOT NULL COMMENT '1: Acepta; 2: NO acepta',
   `observacion` text,
   `fecha_registro` datetime NOT NULL,
@@ -698,8 +739,24 @@ CREATE TABLE `registro` (
 -- Volcado de datos para la tabla `registro`
 --
 
-INSERT INTO `registro` (`id_registro`, `fk_id_alerta`, `fk_id_usuario`, `fk_id_puesto_votacion`, `acepta`, `observacion`, `fecha_registro`, `fk_id_user_coordinador`, `nota`, `fecha_actualizacion`, `fk_id_user_actualiza`) VALUES
+INSERT INTO `registro` (`id_registro`, `fk_id_alerta`, `fk_id_usuario_r`, `fk_id_puesto_votacion_r`, `acepta`, `observacion`, `fecha_registro`, `fk_id_user_coordinador`, `nota`, `fecha_actualizacion`, `fk_id_user_actualiza`) VALUES
 (1, 1, 1, 1, 1, 'Todo bajo control', '2019-09-17 21:59:01', NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `registro_votos`
+--
+
+CREATE TABLE `registro_votos` (
+  `id_registro_votos` int(10) NOT NULL,
+  `fk_id_puesto_votos_rv` int(10) NOT NULL,
+  `fk_id_mesa_rv` int(10) NOT NULL,
+  `fk_id_candidato_rv` int(10) NOT NULL,
+  `fk_id_usuario_rv` int(10) NOT NULL,
+  `numero_votos` int(10) NOT NULL,
+  `fecha_registro_votos` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -733,8 +790,8 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_usuario`, `numero_documento`, `tipo_documento`, `nombres_usuario`, `apellidos_usuario`, `telefono_fijo`, `celular`, `email`, `edad`, `sistema_operativo`, `nombre_contacto`, `telefono_contacto`, `tipo_usuario`, `log_user`, `password`, `clave`, `fk_id_rol`, `estado`) VALUES
-(1, 12645615, '1', 'ADMIN', 'APP', '3347766asdfa', '403408992123', 'sinemail@sinemail.com', NULL, '', 'Pepito', '345234', 2, 12645615, 'ce5dbff68c1cb46e1dbf45eb6736ddc2', '12645615', 2, 1),
-(2, 79757228, '1', 'JORGE ELIECER', 'LOZANO OSPINA', '', '300 275 44 7', 'jelozanoo@gmail.com', NULL, NULL, '', '', NULL, 79757228, '7b544b82d84f041224ca43f597bfc6c9', '79757228', 1, 1);
+(1, 12645615, '1', 'AUDITOR', 'APP', '3347766asdfa', '403408992123', 'sinemail@sinemail.com', NULL, '', 'Pepito', '345234', 2, 12645615, 'ce5dbff68c1cb46e1dbf45eb6736ddc2', '12645615', 2, 1),
+(2, 79757228, '1', 'ADMINISTRADOR', 'APP', '', '300 275 44 7', 'jelozanoo@gmail.com', NULL, NULL, '', '', NULL, 79757228, '7b544b82d84f041224ca43f597bfc6c9', '79757228', 1, 1);
 
 --
 -- Índices para tablas volcadas
@@ -782,6 +839,16 @@ ALTER TABLE `log_registro`
   ADD KEY `fk_id_user_actualiza` (`fk_id_user_actualiza`);
 
 --
+-- Indices de la tabla `log_registro_votos`
+--
+ALTER TABLE `log_registro_votos`
+  ADD PRIMARY KEY (`id_log_registro_votos`),
+  ADD KEY `fk_id_puesto_votos_rv` (`fk_id_puesto_votos_rv`),
+  ADD KEY `fk_id_mesa_rv` (`fk_id_mesa_rv`),
+  ADD KEY `fk_id_candidato_rv` (`fk_id_candidato_rv`),
+  ADD KEY `fk_id_usuario_rv` (`fk_id_usuario_rv`);
+
+--
 -- Indices de la tabla `mesas`
 --
 ALTER TABLE `mesas`
@@ -822,6 +889,12 @@ ALTER TABLE `partidos`
   ADD PRIMARY KEY (`id_partido`);
 
 --
+-- Indices de la tabla `pruebas`
+--
+ALTER TABLE `pruebas`
+  ADD PRIMARY KEY (`id_prueba`);
+
+--
 -- Indices de la tabla `puesto_votacion`
 --
 ALTER TABLE `puesto_votacion`
@@ -836,11 +909,21 @@ ALTER TABLE `puesto_votacion`
 ALTER TABLE `registro`
   ADD PRIMARY KEY (`id_registro`),
   ADD KEY `fk_id_alerta` (`fk_id_alerta`),
-  ADD KEY `fk_id_usuario` (`fk_id_usuario`),
-  ADD KEY `fk_id_puesto_votacion` (`fk_id_puesto_votacion`),
+  ADD KEY `fk_id_usuario` (`fk_id_usuario_r`),
+  ADD KEY `fk_id_puesto_votacion` (`fk_id_puesto_votacion_r`),
   ADD KEY `fk_id_user_coordinador` (`fk_id_user_coordinador`),
   ADD KEY `acepta` (`acepta`),
   ADD KEY `fk_id_user_actualiza` (`fk_id_user_actualiza`);
+
+--
+-- Indices de la tabla `registro_votos`
+--
+ALTER TABLE `registro_votos`
+  ADD PRIMARY KEY (`id_registro_votos`),
+  ADD KEY `fk_id_puesto_votos_rv` (`fk_id_puesto_votos_rv`),
+  ADD KEY `fk_id_mesa_rv` (`fk_id_mesa_rv`),
+  ADD KEY `fk_id_candidato_rv` (`fk_id_candidato_rv`),
+  ADD KEY `fk_id_usuario_rv` (`fk_id_usuario_rv`);
 
 --
 -- Indices de la tabla `usuario`
@@ -881,6 +964,11 @@ ALTER TABLE `encargado_puesto_votacion`
 ALTER TABLE `log_registro`
   MODIFY `id_log_registro` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
+-- AUTO_INCREMENT de la tabla `log_registro_votos`
+--
+ALTER TABLE `log_registro_votos`
+  MODIFY `id_log_registro_votos` int(10) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT de la tabla `mesas`
 --
 ALTER TABLE `mesas`
@@ -906,6 +994,11 @@ ALTER TABLE `param_tipo_alerta`
 ALTER TABLE `partidos`
   MODIFY `id_partido` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
+-- AUTO_INCREMENT de la tabla `pruebas`
+--
+ALTER TABLE `pruebas`
+  MODIFY `id_prueba` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
 -- AUTO_INCREMENT de la tabla `puesto_votacion`
 --
 ALTER TABLE `puesto_votacion`
@@ -916,6 +1009,11 @@ ALTER TABLE `puesto_votacion`
 ALTER TABLE `registro`
   MODIFY `id_registro` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
+-- AUTO_INCREMENT de la tabla `registro_votos`
+--
+ALTER TABLE `registro_votos`
+  MODIFY `id_registro_votos` int(10) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
@@ -923,6 +1021,13 @@ ALTER TABLE `usuario`
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `candidatos`
+--
+ALTER TABLE `candidatos`
+  ADD CONSTRAINT `candidatos_ibfk_1` FOREIGN KEY (`fk_id_corporacion`) REFERENCES `corporacion` (`id_corporacion`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `candidatos_ibfk_2` FOREIGN KEY (`fk_id_partido`) REFERENCES `partidos` (`id_partido`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `encargado_puesto_votacion`
@@ -935,6 +1040,18 @@ ALTER TABLE `encargado_puesto_votacion`
 --
 ALTER TABLE `mesas`
   ADD CONSTRAINT `mesas_ibfk_1` FOREIGN KEY (`fk_puesto_votacion_mesas`) REFERENCES `puesto_votacion` (`id_puesto_votacion`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `puesto_votacion`
+--
+ALTER TABLE `puesto_votacion`
+  ADD CONSTRAINT `puesto_votacion_ibfk_1` FOREIGN KEY (`fk_id_municipio`) REFERENCES `param_divipola` (`codigo_municipio`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `registro`
+--
+ALTER TABLE `registro`
+  ADD CONSTRAINT `registro_ibfk_1` FOREIGN KEY (`fk_id_puesto_votacion_r`) REFERENCES `puesto_votacion` (`id_puesto_votacion`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
