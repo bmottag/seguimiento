@@ -15,10 +15,10 @@
 <div id="page-wrapper">
 	<div class="row"><br>
 		<div class="col-md-12">
-			<div class="panel panel-danger">
+			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h4 class="list-group-item-heading">
-						DASHBOARD
+						DASHBOARD AUDITOR
 					</h4>
 				</div>
 			</div>
@@ -59,7 +59,7 @@ if ($retornoError) {
 	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="panel panel-danger">
+			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<i class="fa fa-building"></i> Puesto de votación
 				</div>
@@ -68,7 +68,7 @@ if ($retornoError) {
 					<div class="col-lg-4">				
 						<div class="row">	
 							<div class="col-lg-12">	
-								<div class="alert alert-danger">
+								<div class="alert alert-info">
 									<strong>No. puesto de votación: </strong>
 									<?php echo $infoPuesto[0]['numero_puesto_votacion']; ?>
 									<br><strong>Puesto de votación: </strong><br>
@@ -83,7 +83,7 @@ if ($retornoError) {
 					<div class="col-lg-4">				
 						<div class="row">	
 							<div class="col-lg-12">	
-								<div class="alert alert-danger">
+								<div class="alert alert-info">
 									<strong>Departamento: </strong>
 									<?php echo $infoPuesto[0]['nombre_departamento']; ?>
 									
@@ -101,7 +101,7 @@ if ($retornoError) {
 					<div class="col-lg-4">				
 						<div class="row">	
 							<div class="col-lg-12">	
-								<div class="alert alert-danger">
+								<div class="alert alert-info">
 									<strong>Auditor: </strong><br>
 									<?php 
 										echo $this->session->userdata("firstname"); 
@@ -362,7 +362,7 @@ $( document ).ready( function () {
 	<div class="row">
 			
 		<div class="col-lg-12">
-			<div class="panel panel-danger">
+			<div class="panel panel-primary">
 			
 				<div class="panel-heading">
 					<i class="fa fa-home fa-fw"></i> LISTA MESAS DE VOTACIÓN
@@ -381,7 +381,6 @@ $( document ).ready( function () {
 						<thead>
 							<tr>
 								<th class="text-center">Número mesa</th>
-								<th class="text-center">Número personas habilitadas</th>
 								<th class="text-center">Escrutinio presidente</th>
 								<th class="text-center">Escrutinio diputado</th>
 								<th class="text-center">Estado mesa</th>
@@ -394,7 +393,6 @@ $( document ).ready( function () {
 								$i++;
 								echo "<tr>";								
 								echo "<td class='text-center'>" . $lista['numero_mesa'] . "</td>";
-								echo "<td class='text-center'>" . $lista['personas_habilitadas'] . "</td>";
 								
 ///VERIFICAR SI YA SE REALIZARON LOS VOTOS 
 if($lista['estado_mesa'] == 2){
