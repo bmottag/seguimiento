@@ -50,7 +50,7 @@ if($userRol!=7){//USUARIOS QUE NO SON PISA
 				
 				
 <?php 
-if($userRol==2 || $userRol==1){ //SI es usuario ADMIN o DIRECTIVO
+if($userRol==1){ //SI es usuario ADMIN o DIRECTIVO
 ?>				
 		<li class="dropdown">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#">
