@@ -48,10 +48,13 @@
 			$idMesa = $this->input->post("hddIdMesa");
 			$idUser = $this->session->userdata("id");
 			$numeroVotos = $this->input->post("numeroVotos");
+			$conteoVotos = 0;
 			
 			if ($candidatos = $this->input->post('hddIdCandidato')) {
 				$tot = count($candidatos);
-				for ($i = 0; $i < $tot; $i++) {
+				for ($i = 0; $i < $tot; $i++) 
+				{
+					$conteoVotos = $conteoVotos + $numeroVotos[$i];
 					$data = array(
 						'fk_id_puesto_votos_rv' => $idPuesto,
 						'fk_id_mesa_rv' => $idMesa,
@@ -76,7 +79,7 @@
 			}
 			
 			if ($query) {
-				return true;
+				return $conteoVotos;
 			} else{
 				return false;
 			}

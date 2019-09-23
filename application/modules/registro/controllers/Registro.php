@@ -48,7 +48,7 @@ class Registro extends MX_Controller {
 	{	
 			$idMesa = $this->input->post("hddIdMesa");
 
-			if ($this->registro_model->saveVotos()) {
+			if ($conteoVotos = $this->registro_model->saveVotos()) {
 				$data["result"] = true;
 				$this->session->set_flashdata('retornoExito', "Se guardó la información con éxito. Adicionar la foto del acta de escrutinio.");
 				
@@ -61,6 +61,16 @@ class Registro extends MX_Controller {
 					"value" => 2
 				);
 				$this->load->model("general_model");
+				$this->general_model->updateRecord($arrParam);
+				
+				//actualizo el conteo de votos de la MESA para la corporacion
+				$arrParam = array(
+					"table" => "mesas",
+					"primaryKey" => "id_mesa",
+					"id" => $idMesa,
+					"column" => "sumatoria_votos_" . $corporacion,
+					"value" => $conteoVotos
+				);
 				$this->general_model->updateRecord($arrParam);
 								
 			} else {
