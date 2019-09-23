@@ -112,6 +112,34 @@ class Dashboard extends MX_Controller {
 			$data["view"] = "dashboard_operador";
 			$this->load->view("layout", $data);
 	}	
+	
+	/**
+	 * Controlador para operadores
+	 */
+	public function ver_puesto($idPuesto)
+	{	
+			$this->load->model("general_model");
+			$userRol = $this->session->userdata("rol");
+	/**
+	 * ACA SOLO PUEDE INGRESAR EL USUARIO AUDITOR
+	 */
+			if($userRol!=3){
+				show_error('ERROR!!! - You are in the wrong place.');	
+			}
+			
+			//Informacion PUESTO VOTACION			
+			$arrParam = array('idPuesto' => $idPuesto);
+			$data['infoPuesto'] = $this->general_model->get_puesto($arrParam);
+			
+			//Informacion de las mesas para el Puesto de votacion
+			$data['infoMesas'] = $this->general_model->get_mesas($arrParam);
+			
+			//Busco informacion de AUDITOR
+			$data['infoEncargado'] = $this->general_model->get_info_encargado_puesto($arrParam);
+
+			$data["view"] = "vista_puesto_votacion";
+			$this->load->view("layout", $data);
+	}
 
 
 

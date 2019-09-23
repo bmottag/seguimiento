@@ -396,7 +396,6 @@ $( document ).ready( function () {
 								
 ///VERIFICAR SI YA SE REALIZARON LOS VOTOS 
 if($lista['estado_mesa'] == 2){
-	$boton = "disabled";
 	$botonPresidente = "disabled";
 	$botonDiputado = "disabled";
 	$enlacePresidente = "#" ;
@@ -405,7 +404,6 @@ if($lista['estado_mesa'] == 2){
 	$enlaceDiputado = "#" ;
 	$mensajeDiputado = '<p class="text-danger"><strong>Escrutinio cerrado para diputado</strong></p>';
 }else{
-	$boton = "";
 	$botonPresidente = "";
 	$botonDiputado = "";
 	$enlacePresidente = base_url("registro/presidente/" . $lista['id_mesa']); 

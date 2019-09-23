@@ -205,28 +205,7 @@ if($infoAlerta["fk_id_tipo_alerta"] == 2)//NOTIFICACION
 <?php
 		endforeach;
 	}
-?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
+?>				
 				
 				</div>
 			</div>
@@ -241,7 +220,7 @@ if($infoAlerta["fk_id_tipo_alerta"] == 2)//NOTIFICACION
 			<div class="panel panel-primary">
 			
 				<div class="panel-heading">
-					<i class="fa fa-home fa-fw"></i> LISTA PUESTOS DE VOTACIÓN
+					<i class="fa fa-building"></i> LISTA PUESTOS DE VOTACIÓN
 				</div>
 				
 				<!-- /.panel-heading -->
@@ -256,32 +235,71 @@ if($infoAlerta["fk_id_tipo_alerta"] == 2)//NOTIFICACION
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
-								<th>No. puesto de votación</th>
-								<th>Nombre puesto de votación</th>
-								<th>Departamento</th>
-								<th>Municipio</th>
-								<th>Localidad</th>
-								<th>No. total de mesas</th>
+								<th class='text-center'>Puesto de votación</th>
+								<th class='text-center'>Ubicación</th>
+								<th class='text-center'>No. total de mesas</th>
+								<th class='text-center'>No. mesas cerradas</th>
+								<th class='text-center'>No. mesas cerradas presidente</th>
+								<th class='text-center'>No. mesas cerradas diputado</th>
 							</tr>
 						</thead>
 						<tbody>							
 						<?php
 							$i=0;
 							foreach ($infoPuestos as $lista):
-								$i++;
+
+								//conteo de mesas cerradas para un PUESTO DE VOTACION
+								$arrParam = array(
+												"idPuesto" => $lista["id_puesto_votacion"],
+												"columna" => "estado_mesa",
+												"valor" => 2
+												);
+								$contarMesasCerradas = $this->specific_model->countMesasCerradas($arrParam);
+								//conteo de mesas cerradas para PRESIDENTE para un PUESTO DE VOTACION
+								$arrParam = array(
+												"idPuesto" => $lista["id_puesto_votacion"],
+												"columna" => "estado_presidente",
+												"valor" => 3
+												);
+								$contarMesasPresidenteCerradas = $this->specific_model->countMesasCerradas($arrParam);
+								//conteo de mesas cerradas para DIPUTADO para un PUESTO DE VOTACION
+								$arrParam = array(
+												"idPuesto" => $lista["id_puesto_votacion"],
+												"columna" => "estado_diputado",
+												"valor" => 3
+												);
+								$contarMesasDiputadoCerradas = $this->specific_model->countMesasCerradas($arrParam);
+
 								echo "<tr>";								
-								echo "<td class='text-center'>" . $lista['numero_puesto_votacion'] . "</td>";
-								echo "<td >" . strtoupper($lista['nombre_puesto_votacion']) . "</td>";
-								echo "<td >" . strtoupper($lista['nombre_departamento']) . "</td>";
-								echo "<td >" . strtoupper($lista['nombre_municipio']) . "</td>";
-								echo "<td>";
-								echo "<strong>ID: </strong>" . $lista['id_localidad'];
-								echo "<br>" . $lista['nombre_localidad'];
+								
+								echo "<td >";
+								echo "<strong>No.: </strong>" . strtoupper($lista['numero_puesto_votacion']);
+								echo "<br>" . strtoupper($lista['nombre_puesto_votacion']);
 								echo "</td>";
 								
-								echo "<td class='text-center'>";
-echo "<a href='" . base_url('report/mostrarSesiones/' . $lista['id_puesto_votacion'] . '/admin' ) . "'>" . $lista['total_mesas'] . "</a>";
+								echo "<td >";
+								echo "<strong>Departamento: </strong>" . strtoupper($lista['nombre_departamento']);
+								echo "<br><strong>Municipio: </strong>" . strtoupper($lista['nombre_municipio']);
+								echo "<br><strong>Id Localidad: </strong>" . strtoupper($lista['id_localidad']);
+								echo "<br><strong>Localidad: </strong>" . strtoupper($lista['nombre_localidad']);
+								echo "<br><strong>Circusncripción: </strong>" . strtoupper($lista['circunscripcion']);
 								echo "</td>";
+																
+								echo "<td class='text-center'>";
+								echo $lista['total_mesas'];
+								?>
+<br><br>
+<a href="<?php echo base_url("dashboard/ver_puesto/" . $lista['id_puesto_votacion']); ?>" class="btn btn-info btn-xs">
+Ver mesas de votación
+</a>	
+								<?php
+
+								echo "</td>";
+								
+								echo "<td class='text-center'>" . $contarMesasCerradas . "</td>";
+								echo "<td class='text-center'>" . $contarMesasPresidenteCerradas . "</td>";
+								echo "<td class='text-center'>" . $contarMesasDiputadoCerradas . "</td>";
+								
 								echo "</tr>";
 							endforeach;
 						?>

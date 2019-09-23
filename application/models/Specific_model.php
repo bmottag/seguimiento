@@ -28,6 +28,25 @@ class Specific_model extends CI_Model {
 		}
 		
 		/**
+		 * Contar MESAS CERRADAS PARA UN PUESTO
+		 * @since 22/9/2019
+		 */
+		public function countMesasCerradas($arrDatos)
+		{
+
+				$sql = "SELECT count(id_mesa) CONTEO";
+				$sql.= " FROM mesas";
+				$sql.= " WHERE " . $arrDatos["columna"] . " = " . $arrDatos["valor"];
+				if (array_key_exists("idPuesto", $arrDatos)) {
+					$sql.= " AND fk_puesto_votacion_mesas = " . $arrDatos["idPuesto"];
+				}
+				
+				$query = $this->db->query($sql);
+				$row = $query->row();
+				return $row->CONTEO;
+		}		
+		
+		/**
 		 * Lista de alertas para mostrar en la app
 		 * @since 28/7/2017
 		 */
