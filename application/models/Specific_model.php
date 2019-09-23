@@ -13,10 +13,6 @@ class Specific_model extends CI_Model {
 		{
 				$this->db->select();
 				$this->db->join('param_tipo_alerta T', 'T.id_tipo_alerta = A.fk_id_tipo_alerta', 'INNER');//tipo alerta
-				$this->db->join('param_roles R', 'R.id_rol = A.fk_id_rol', 'INNER');//ROLES - ALERTA
-				$this->db->join('sesiones S', 'S.id_sesion = A.fk_id_sesion', 'INNER');//SESIONES - ALERTA
-				$this->db->join('param_grupo_instrumentos G', 'G.id_grupo_instrumentos = S.fk_id_grupo_instrumentos', 'INNER'); //GRUPO INSTRUMENTO - SESIONES
-				$this->db->join('pruebas P', 'P.id_prueba = G.fk_id_prueba', 'INNER');//PRUEBA - GRUPO INSTRUMENTO
 				
 				if (array_key_exists("idAlerta", $arrDatos)) {
 					$this->db->where('A.id_alerta', $arrDatos["idAlerta"]); //FILTRO POR ID ALERTA
@@ -110,24 +106,7 @@ class Specific_model extends CI_Model {
 				$region = $this->input->post('region');
 
 				$this->db->select('distinct(id_alerta)');
-
-				//SITIO-SESION
-				$this->db->join('sitio_sesion X', 'X.fk_id_sitio = Y.id_sitio', 'INNER');
-				
-				//SESION
-				$this->db->join('sesiones S', 'S.id_sesion = X.fk_id_sesion', 'INNER');
-				
-				//ALERTA
-				$this->db->join('alertas A', 'A.fk_id_sesion = S.id_sesion', 'INNER');
-				
-				if (array_key_exists("idSesion", $arrDatos)) {
-					$this->db->where('S.id_sesion', $arrDatos["idSesion"]); //filtro por SESION
-				}
-				
-				if ($sesion && $sesion != "") {
-					$this->db->where('S.id_sesion', $sesion); //filtro por SESION
-				}
-				
+								
 				if ($alerta && $alerta != "") {
 					$this->db->where('A.id_alerta', $alerta); //FILTRO POR ALERTA
 				}
@@ -144,27 +123,12 @@ class Specific_model extends CI_Model {
 					$this->db->where('Y.fk_mpio_divipola', $mcpio); //FILTRO POR MUNICIPIO
 				}
 				
-				//FILTRO POR COORDINADOR SI EL USUARIO DE SESION ES COORDINADOR
-				$userRol = $this->session->rol;
-				if($userRol==3) {
-					$this->db->where('Y.fk_id_user_coordinador', $this->session->id); //FILTRO POR ID DEL COORDINADOR
-				}				
-				//FILTRO POR OPERADOR SI EL USUARIO DE SESION ES OPERADOR
-				if($userRol==6) {
-					$this->db->where('Y.fk_id_user_operador', $this->session->id); //FILTRO POR ID DEL OPERADOR
-				}
-				
 				$this->db->where('A.estado_alerta', 1); //ALERTAS ACTIVAS
-				$this->db->where('A.fk_id_rol', 4); //ALERTAS QUE SON PARA DELEGADO
-				
-				$tipoMensaje = array(1, 2);//filtrar por alertas que se muestren en el APP
-				$this->db->where_in('A.tipo_mensaje', $tipoMensaje);
-				
-				//$this->db->where('A.fecha_fin <=', $fechaActual); //FECHA FINAL SEA MAYOR A LA FECHA ACTUAL
+								
 				$this->db->where('A.fecha_alerta <=', $fechaActual); //FECHA FINAL SEA MAYOR A LA FECHA ACTUAL
 			
 				$this->db->order_by('A.id_alerta', 'asc');
-				$query = $this->db->get('sitios Y');
+				$query = $this->db->get('alertas A');
 
 				if ($query->num_rows() > 0) {
 					return $query->result_array();
@@ -292,6 +256,76 @@ class Specific_model extends CI_Model {
 				$query = $this->db->query($sql);
 				$row = $query->row();
 				return $row->CONTEO;
+		}
+		
+		/**
+		 * Obtener alertas vencidas y que se le debe dar respuesta por el delegado
+		 * se filtra por alertas para un periodo de 24 horas
+		 * @since 24/5/2017
+		 */
+		public function get_alertas_vencidas_by($arrDatos) 
+		{		
+				//fecha para uscar las que ya se vencieron
+				$fechaActual = date('Y-m-d G:i:s');
+				
+				$fechaMinima = strtotime ( '-1 day' , strtotime ( $fechaActual ) ) ;
+				$fechaMinima = date ( 'Y-m-d G:i:s' , $fechaMinima );//fecha minima para la busqueda
+		
+				$this->db->select();
+				
+
+				$this->db->where('A.estado_alerta', 1); //ALERTAS ACTIVAS
+				
+
+				
+				$this->db->where('A.fecha_fin <=', $fechaActual); //FECHA FINAL SEA MAYOR A LA FECHA ACTUAL
+				//$this->db->where('A.fecha_fin >', $fechaMinima); //FECHA FINAL SEA MAYOR A LA FECHA ACTUAL
+				
+				
+				if (array_key_exists("tipoAlerta", $arrDatos)) {
+					$this->db->where('A.fk_id_tipo_alerta', $arrDatos["tipoAlerta"]); //filtro por tipo de alerta
+				}
+				
+				if (array_key_exists("idAlerta", $arrDatos)) {
+					$this->db->where('A.id_alerta', $arrDatos["idAlerta"]); //id alerta
+				}
+			
+				$query = $this->db->get('alertas A');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+		
+		/**
+		 * Revisar si se dio respuesta a la alerta para un sitio especifico y una sesion
+		 * @since 12/5/2017
+		 */
+		public function get_respuestas_alertas_vencidas_by($arrDatos) 
+		{
+				$this->db->select();
+
+				if (array_key_exists("idAlerta", $arrDatos)) {
+					$this->db->where('fk_id_alerta', $arrDatos["idAlerta"]); 
+				}
+				
+				if (array_key_exists("respuestaAcepta", $arrDatos)) {
+					$this->db->where('acepta', $arrDatos["respuestaAcepta"]); //filtro para las NOTIFICACIONES
+				}
+				
+				if (array_key_exists("idRegistro", $arrDatos)) {
+					$this->db->where('id_registro', $arrDatos["idRegistro"]); //filtro por el id del registro
+				}
+				
+				$query = $this->db->get('registro');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();;
+				} else {
+					return false;
+				}
 		}
 
 

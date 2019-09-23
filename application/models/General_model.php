@@ -54,6 +54,10 @@ class General_model extends CI_Model {
 				if (array_key_exists("idPuesto", $arrDatos)) {
 					$this->db->where('P.id_puesto_votacion', $arrDatos["idPuesto"]);
 				}
+				
+				if (array_key_exists("idOperador", $arrDatos)) {
+					$this->db->where('P.fk_ud_usuario_operador', $arrDatos["idOperador"]);
+				}
 												
 				$this->db->order_by('P.nombre_puesto_votacion', 'asc');
 				$query = $this->db->get('puesto_votacion P');

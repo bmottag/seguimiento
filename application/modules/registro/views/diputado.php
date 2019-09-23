@@ -185,7 +185,7 @@ if ($retornoError) {
 												<br><br>		
 
 												<?php 
-													if($infoMesa[0]['estado_presidente'] == 2){
+													if($infoMesa[0]['estado_diputado'] == 2){
 												?>
 										
 														<?php

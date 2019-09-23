@@ -80,7 +80,43 @@ class Dashboard extends MX_Controller {
 			$this->load->view("layout", $data);
 	}
 	
+	/**
+	 * Controlador para OPERADORES
+	 */
+	public function operador()
+	{	
+			$this->load->model("general_model");
+			$this->load->model("specific_model");
+			$userRol = $this->session->userdata("rol");
+			$userID = $this->session->userdata("id");
+			$data['rol_busqueda'] = "Representantes";
+			
+	/**
+	 * ACA SOLO PUEDE INGRESAR EL USUARIO OPERADOR
+	 */
+			if($userRol!=3){
+				show_error('ERROR!!! - You are in the wrong place.');	
+			}
 	
+			$arrParam = array("idOperador" => $userID);
+			$data['conteoPuestos'] = $this->dashboard_model->countPuestosVotacion($arrParam);//cuenta PUESTOS DE VOTACION
+			
+			//listado de PUESTOS DE VOTACION para el OPERADOR
+			$arrParam = array('idCoordinador' => $userID);
+			$data['infoPuestos'] = $this->general_model->get_puesto($arrParam);
+			
+			//Buscar la alertas para esta sesion y el coordinador de sesion
+			$arrParam = array();
+			$data['alertasVencidas'] = $this->specific_model->get_alertas_vencidas_totales($arrParam);
+									
+			$data["view"] = "dashboard_operador";
+			$this->load->view("layout", $data);
+	}	
+
+
+
+
+
 	
 	
 	
@@ -246,91 +282,7 @@ class Dashboard extends MX_Controller {
 			$this->load->view("layout", $data);
 	}
 		
-	/**
-	 * Controlador para coordinadores
-	 */
-	public function coordinador()
-	{	
-			$this->load->model("general_model");
-			$userRol = $this->session->userdata("rol");
-			$userID = $this->session->userdata("id");
-			$data['rol_busqueda'] = "Representantes";
-	 //inicio consulta de SITIOS
-			$arrParam = array("idCoordinador" => $userID);
-			$data['noSitios'] = $this->dashboard_model->countSitios($arrParam);//cuenta de sitios
-			
-	//listado de sitios para el coordinador
-			$arrParam = array('idCoordinador' => $userID);
-			$data['infoSitios'] = $this->general_model->get_sitios($arrParam);
-	/**
-	 * ACA SOLO PUEDE INGRESAR EL USUARIO COORDINADOR
-	 */
-			if($userRol!=3){
-				show_error('ERROR!!! - You are in the wrong place.');	
-			}
-		
-//conteo de los sitios segun el filtro
-			$data['conteoSitios'] = $this->general_model->get_numero_sitios_por_filtro_by_coordinador($arrParam);
-//conteo de citados			
-			$data['conteoCitados'] = $this->general_model->get_numero_citados_por_filtro_by_coordinnador();
 
-			/**
-			 * INICIO
-			 * Listado de alertas
-			 * @since 28/7/2017
-			 */			 
-			 
-			 //alertas para el coordinador en sesion
-			$this->load->model("specific_model");
-			$data["listadoSesiones"] = $this->specific_model->get_sesiones_operador();
-		
-			/**
-			 * FIN
-			 */
-
-
-			/**
-			 * INICIO
-			 * consultar en las novedades si existe alguna sin responder para colocar un mensaje en el dashboard 
-			 * @since 16/8/2017
-			 */			 			 
-
-			$arrParam = array("idCoordinador" => $userID);
-			$anulaciones = $this->specific_model->get_anulaciones_sin_aprobar($arrParam);
-			
-			$arrParam = array("idCoordinador" => $userID);
-			$cambio_cuadernillo = $this->specific_model->get_cambio_cuadernillo_sin_aprobar($arrParam);
-			
-			$arrParam = array("idCoordinador" => $userID);
-			$holguras = $this->specific_model->get_holguras_sin_aprobar($arrParam);
-			
-			$arrParam = array("idCoordinador" => $userID);
-			$otras = $this->specific_model->get_otras_sin_aprobar($arrParam);
-			
-			$data['msjNovedades'] = false;
-			if($anulaciones || $cambio_cuadernillo || $holguras || $otras){
-				$data['msjNovedades'] = "Existen novedades por aprobar:"; 
-				if($anulaciones){
-					$data['msjNovedades'].= " - Anulaciones";
-				}
-				if($cambio_cuadernillo){
-					$data['msjNovedades'].= " - Cambio de cuadernillo";
-				}
-				if($holguras){
-					$data['msjNovedades'].= " - Holguras";
-				}
-				if($otras){
-					$data['msjNovedades'].= " - Otras novedades";
-				}
-			}
-			
-			/**
-			 * FIN
-			 */
-
-			$data["view"] = "dashboard_coordinador";
-			$this->load->view("layout", $data);
-	}
 	
 	/**
 	 * Lista de alertas sin respuesta del delegado

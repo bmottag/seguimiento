@@ -397,6 +397,30 @@
 				return false;
 			}
 		}
+		
+		/**
+		 * Contar PUESTOS DE VOTACION
+		 * @since 22/9/2019
+		 */
+		public function countPuestosVotacion($arrDatos)
+		{
+
+				$sql = "SELECT count(id_puesto_votacion) CONTEO";
+				$sql.= " FROM puesto_votacion";
+				
+				if (array_key_exists("idCoordinador", $arrDatos)) {
+					$sql.= " WHERE fk_id_user_coordinador = " . $arrDatos["idCoordinador"];
+				}
+				
+				if (array_key_exists("idOperador", $arrDatos)) {
+					$sql.= " WHERE fk_id_usuario_operador = " . $arrDatos["idOperador"];
+				}
+
+				$query = $this->db->query($sql);
+				$row = $query->row();
+				return $row->CONTEO;
+		}		
+
 
 		
 		

@@ -57,7 +57,7 @@ class Registro extends MX_Controller {
 					"table" => "mesas",
 					"primaryKey" => "id_mesa",
 					"id" => $idMesa,
-					"column" => "estado_presidente",
+					"column" => "estado_" . $corporacion,
 					"value" => 2
 				);
 				$this->load->model("general_model");
