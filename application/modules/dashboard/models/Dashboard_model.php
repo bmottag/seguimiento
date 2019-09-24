@@ -157,8 +157,8 @@
 		{
 				$data = array(
 					'fk_id_alerta' => $this->input->post('hddId'),
-					'fk_id_usuario' => $this->session->id,
-					'fk_id_puesto_votacion' => $this->input->post('hddIdPrueba'),
+					'fk_id_usuario_r' => $this->session->id,
+					'fk_id_puesto_votacion_r' => $this->input->post('hddIdPrueba'),
 					'acepta' => $this->input->post('acepta'),
 					'observacion' => $this->input->post('observacion'),
 					'fecha_registro' => date("Y-m-d G:i:s")
