@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-09-2019 a las 18:45:30
+-- Tiempo de generación: 24-09-2019 a las 06:14:52
 -- Versión del servidor: 10.1.16-MariaDB
 -- Versión de PHP: 5.6.24
 
@@ -86,7 +86,11 @@ INSERT INTO `candidatos` (`id_candidato`, `nombre_completo_candidato`, `fk_id_co
 (17, 'Candidato Diputado 6', 3, 9, 6, 0),
 (18, 'Candidato Diputado 7', 3, 5, 7, 0),
 (19, 'Candidato Diputado 8', 3, 7, 8, 0),
-(20, 'Candidato Diputado 9', 3, 4, 9, 0);
+(20, 'Candidato Diputado 9', 3, 4, 9, 0),
+(21, 'VOTOS EN BLANCO', 1, 10, 10, 0),
+(22, 'VOTOS NULOS', 1, 11, 11, 0),
+(23, 'VOTOS EN BLANCO', 3, 10, 10, 0),
+(24, 'VOTOS NULOS', 3, 11, 11, 0);
 
 -- --------------------------------------------------------
 
@@ -153,13 +157,6 @@ CREATE TABLE `log_registro` (
   `fk_id_user_actualiza` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Volcado de datos para la tabla `log_registro`
---
-
-INSERT INTO `log_registro` (`id_log_registro`, `fk_id_alerta`, `fk_id_usuario`, `fk_id_puesto_votacion`, `acepta`, `observacion`, `fecha_registro`, `fk_id_user_coordinador`, `nota`, `fecha_actualizacion`, `fk_id_user_actualiza`) VALUES
-(1, 1, 1, 1, 1, 'Todo bajo control', '2019-09-17 21:59:01', NULL, NULL, NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -194,18 +191,20 @@ CREATE TABLE `mesas` (
   `estado_presidente` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1:Abierto 2.Iniciada 3:Cerrada',
   `estado_diputado` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1:Abierto 2.Iniciada 3:Cerrada',
   `foto_acta_presidente` varchar(250) NOT NULL,
-  `foto_acta_diputado` varchar(250) NOT NULL
+  `foto_acta_diputado` varchar(250) NOT NULL,
+  `sumatoria_votos_presidente` int(10) NOT NULL DEFAULT '0',
+  `sumatoria_votos_diputado` int(10) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `mesas`
 --
 
-INSERT INTO `mesas` (`id_mesa`, `fk_puesto_votacion_mesas`, `numero_mesa`, `personas_habilitadas`, `tipo_voto`, `sumatoria_votos`, `estado_mesa`, `fk_id_usuario_auditor`, `estado_presidente`, `estado_diputado`, `foto_acta_presidente`, `foto_acta_diputado`) VALUES
-(1, 1, 10001, 250, 2, 0, 1, 1, 1, 1, '', ''),
-(2, 1, 10002, 120, 3, 0, 1, 1, 1, 1, '', ''),
-(3, 1, 10003, 260, 1, 0, 1, 0, 1, 1, '', ''),
-(4, 1, 1004, 39, 1, 0, 1, 0, 1, 1, '', '');
+INSERT INTO `mesas` (`id_mesa`, `fk_puesto_votacion_mesas`, `numero_mesa`, `personas_habilitadas`, `tipo_voto`, `sumatoria_votos`, `estado_mesa`, `fk_id_usuario_auditor`, `estado_presidente`, `estado_diputado`, `foto_acta_presidente`, `foto_acta_diputado`, `sumatoria_votos_presidente`, `sumatoria_votos_diputado`) VALUES
+(1, 1, 10001, 250, 2, 0, 1, 1, 1, 1, '', '', 220, 0),
+(2, 1, 10002, 120, 3, 0, 1, 1, 1, 1, '', '', 0, 30),
+(3, 1, 10003, 260, 1, 0, 1, 0, 1, 1, '', '', 0, 66),
+(4, 1, 1004, 39, 1, 0, 1, 0, 1, 1, '', '', 110, 11);
 
 -- --------------------------------------------------------
 
@@ -641,7 +640,7 @@ INSERT INTO `param_tipo_alerta` (`id_tipo_alerta`, `nombre_tipo_alerta`, `descri
 
 CREATE TABLE `partidos` (
   `id_partido` int(10) NOT NULL,
-  `sigla` varchar(10) NOT NULL,
+  `sigla` varchar(100) NOT NULL,
   `nombre_partido` varchar(100) NOT NULL,
   `numero_orden_partido` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -659,7 +658,9 @@ INSERT INTO `partidos` (`id_partido`, `sigla`, `nombre_partido`, `numero_orden_p
 (6, 'BDN-21F', 'BOLIVIA DICE NO', 6),
 (7, 'PDC', 'PARTIDO DEMOCRATA CRISTIANO', 7),
 (8, 'MNR', 'MOVIMIENTO NACIONALISTA REVOLUCIONARIO', 8),
-(9, 'PAN-BOL', 'PARTIDO DE ACCION NACIONAL DEMOCRATICO', 9);
+(9, 'PAN-BOL', 'PARTIDO DE ACCION NACIONAL DEMOCRATICO', 9),
+(10, ' ', 'VOTOS EN BLANCO', 10),
+(11, ' ', 'VOTOS NULOS', 11);
 
 -- --------------------------------------------------------
 
@@ -702,18 +703,19 @@ CREATE TABLE `puesto_votacion` (
   `total_mesas` int(1) NOT NULL,
   `total_personas_habilitadas` int(10) NOT NULL,
   `latitud` varchar(200) NOT NULL,
-  `longitud` varchar(200) NOT NULL
+  `longitud` varchar(200) NOT NULL,
+  `fk_id_usuario_operador` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `puesto_votacion`
 --
 
-INSERT INTO `puesto_votacion` (`id_puesto_votacion`, `fk_id_departamento`, `fk_id_municipio`, `id_localidad`, `nombre_localidad`, `circunscripcion`, `numero_puesto_votacion`, `nombre_puesto_votacion`, `total_mesas`, `total_personas_habilitadas`, `latitud`, `longitud`) VALUES
-(1, 8, 80802, 10, 'Principal', 'nose', 10001, 'Puesto de votación 1', 25, 0, '2343', '79878'),
-(2, 1, 10201, 17, 'Central', 'otro dato', 2001, 'PUESTO DE VOTACIÓN 2', 12, 0, '234234', '23452345'),
-(3, 3, 30501, 45, 'nueva localidad', 'dato circuns', 3001, 'Puesto de votación 3', 36, 0, '3245234', '2345234'),
-(4, 2, 20701, 457, 'nueva', 'circunscripcion', 40001, 'PUESTO DE VOTACIÓN 4', 7, 0, '70808767', '876876');
+INSERT INTO `puesto_votacion` (`id_puesto_votacion`, `fk_id_departamento`, `fk_id_municipio`, `id_localidad`, `nombre_localidad`, `circunscripcion`, `numero_puesto_votacion`, `nombre_puesto_votacion`, `total_mesas`, `total_personas_habilitadas`, `latitud`, `longitud`, `fk_id_usuario_operador`) VALUES
+(1, 8, 80802, 10, 'Principal', 'nose', 10001, 'Puesto de votación 1', 25, 0, '2343', '79878', 4),
+(2, 1, 10201, 17, 'Central', 'otro dato', 2001, 'PUESTO DE VOTACIÓN 2', 12, 0, '234234', '23452345', 4),
+(3, 3, 30501, 45, 'nueva localidad', 'dato circuns', 3001, 'Puesto de votación 3', 36, 0, '3245234', '2345234', 4),
+(4, 2, 20701, 457, 'nueva', 'circunscripcion', 40001, 'PUESTO DE VOTACIÓN 4', 7, 0, '70808767', '876876', 4);
 
 -- --------------------------------------------------------
 
@@ -735,13 +737,6 @@ CREATE TABLE `registro` (
   `fk_id_user_actualiza` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Volcado de datos para la tabla `registro`
---
-
-INSERT INTO `registro` (`id_registro`, `fk_id_alerta`, `fk_id_usuario_r`, `fk_id_puesto_votacion_r`, `acepta`, `observacion`, `fecha_registro`, `fk_id_user_coordinador`, `nota`, `fecha_actualizacion`, `fk_id_user_actualiza`) VALUES
-(1, 1, 1, 1, 1, 'Todo bajo control', '2019-09-17 21:59:01', NULL, NULL, NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -756,6 +751,19 @@ CREATE TABLE `registro_votos` (
   `fk_id_usuario_rv` int(10) NOT NULL,
   `numero_votos` int(10) NOT NULL,
   `fecha_registro_votos` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `sumatoria_votos_puesto_votacion`
+--
+
+CREATE TABLE `sumatoria_votos_puesto_votacion` (
+  `id_sumatoria` int(10) NOT NULL,
+  `fk_id_puesto_votacion_sumatoria` int(10) NOT NULL,
+  `fk_id_candidato_sumatoria` int(10) NOT NULL,
+  `sumatoria_candidato` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -791,7 +799,8 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`id_usuario`, `numero_documento`, `tipo_documento`, `nombres_usuario`, `apellidos_usuario`, `telefono_fijo`, `celular`, `email`, `edad`, `sistema_operativo`, `nombre_contacto`, `telefono_contacto`, `tipo_usuario`, `log_user`, `password`, `clave`, `fk_id_rol`, `estado`) VALUES
 (1, 12645615, '1', 'AUDITOR', 'APP', '3347766asdfa', '403408992123', 'sinemail@sinemail.com', NULL, '', 'Pepito', '345234', 2, 12645615, 'ce5dbff68c1cb46e1dbf45eb6736ddc2', '12645615', 2, 1),
-(2, 79757228, '1', 'ADMINISTRADOR', 'APP', '', '300 275 44 7', 'jelozanoo@gmail.com', NULL, NULL, '', '', NULL, 79757228, '7b544b82d84f041224ca43f597bfc6c9', '79757228', 1, 1);
+(2, 79757228, '1', 'ADMINISTRADOR', 'APP', '', '300 275 44 7', 'jelozanoo@gmail.com', NULL, NULL, '', '', NULL, 79757228, '7b544b82d84f041224ca43f597bfc6c9', '79757228', 1, 1),
+(4, 123456789, '1', 'OPERADOR', 'APP', '43252345', '2345234', 'operador@gmail.com', 45, 'android', 'juanpis', '345234', 1, 123456789, '25f9e794323b453885f5181f1b624d0b', '123456789', 3, 1);
 
 --
 -- Índices para tablas volcadas
@@ -901,7 +910,8 @@ ALTER TABLE `puesto_votacion`
   ADD PRIMARY KEY (`id_puesto_votacion`),
   ADD KEY `fk_id_departamento` (`fk_id_departamento`),
   ADD KEY `fk_id_municipio` (`fk_id_municipio`),
-  ADD KEY `id_localidad` (`id_localidad`);
+  ADD KEY `id_localidad` (`id_localidad`),
+  ADD KEY `fk_id_usuario_operador` (`fk_id_usuario_operador`);
 
 --
 -- Indices de la tabla `registro`
@@ -947,7 +957,7 @@ ALTER TABLE `alertas`
 -- AUTO_INCREMENT de la tabla `candidatos`
 --
 ALTER TABLE `candidatos`
-  MODIFY `id_candidato` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_candidato` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT de la tabla `corporacion`
 --
@@ -962,7 +972,7 @@ ALTER TABLE `encargado_puesto_votacion`
 -- AUTO_INCREMENT de la tabla `log_registro`
 --
 ALTER TABLE `log_registro`
-  MODIFY `id_log_registro` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_log_registro` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `log_registro_votos`
 --
@@ -992,7 +1002,7 @@ ALTER TABLE `param_tipo_alerta`
 -- AUTO_INCREMENT de la tabla `partidos`
 --
 ALTER TABLE `partidos`
-  MODIFY `id_partido` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_partido` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT de la tabla `pruebas`
 --
@@ -1007,7 +1017,7 @@ ALTER TABLE `puesto_votacion`
 -- AUTO_INCREMENT de la tabla `registro`
 --
 ALTER TABLE `registro`
-  MODIFY `id_registro` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_registro` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `registro_votos`
 --
@@ -1017,7 +1027,7 @@ ALTER TABLE `registro_votos`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_usuario` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- Restricciones para tablas volcadas
 --
