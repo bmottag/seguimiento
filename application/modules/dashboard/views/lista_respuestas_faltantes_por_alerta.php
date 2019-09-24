@@ -14,16 +14,6 @@
 	</div>
 	
 	<div class="row">
-		<div class="col-md-4">
-			<div class="panel panel-success">
-				<div class="panel-heading">
-					<strong>Prueba: </strong><?php echo $infoAlerta['nombre_prueba']; ?>
-					<br><strong>Grupo de Instrumentos: </strong><?php echo $infoAlerta['nombre_grupo_instrumentos']; ?>
-					<br><strong>Sesión: </strong><?php echo $infoAlerta['sesion_prueba']; ?>
-					<br><strong>Fecha: </strong><?php echo $infoAlerta['fecha']; ?>
-				</div>
-			</div>
-		</div>
 		
 		<div class="col-md-4">
 			<div class="panel panel-success">
@@ -44,7 +34,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<a class="btn btn-success" href=" <?php echo base_url(). "dashboard/" . $rol; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Regresar </a> 
-                    <i class="fa fa-life-saver fa-fw"></i> Alerta específica para varios sitios
+                    <i class="fa fa-life-saver fa-fw"></i> Alerta específica para varios puestos de votación
 				</div>
 				<div class="panel-body">
 
@@ -52,92 +42,64 @@
 						<thead>
 							<tr>
 								<th class="text-center">Dar respuesta</th>
-								<th class="text-center">Sitio</th>
-								<th class="text-center">Nodo o Región</th>
+								<th class="text-center">Puesto de votación</th>
 								<th class="text-center">Departamento</th>
 								<th class="text-center">Municipio</th>
-								<th class="text-center">Códifo DANE</th>
-								<th class="text-center">Representante</th>
+								<th class="text-center">Localidad</th>
+								<th class="text-center">Circunscripción</th>
 							</tr>
 						</thead>
 						<tfoot>
 							<tr>
 								<th class="text-center">Dar respuesta</th>
-								<th class="text-center">Sitio</th>
-								<th class="text-center">Nodo o Región</th>
+								<th class="text-center">Puesto de votación</th>
 								<th class="text-center">Departamento</th>
 								<th class="text-center">Municipio</th>
-								<th class="text-center">Códifo DANE</th>
-								<th class="text-center">Representante</th>
+								<th class="text-center">Localidad</th>
+								<th class="text-center">Circunscripción</th>
 							</tr>
 						</tfoot>
 						<tbody>	
 						
-		<?php
+						<?php
 
-		if($infoAlertaVencida){
-			foreach ($infoAlertaVencida as $lista):
-				$arrParam = array(
-						"idSitioSesion" => $lista['id_sitio_sesion'],
-						"idAlerta" => $lista['id_alerta']
-				);
-				$respuesta = $this->general_model->get_respuestas_alertas_vencidas_by($arrParam);
-				
-				//si no tiene respuesta entonces buscar la información
-				if(!$respuesta){
-					$info = $this->general_model->get_informacion_respuestas_alertas_vencidas_by($arrParam);
-					
+						if($infoPuestos){
+							foreach ($infoPuestos as $lista):
+								$arrParam = array(
+										"idPuesto" => $lista['id_puesto_votacion'],
+										"idAlerta" => $infoAlerta['id_alerta']
+								);
+								$respuesta = $this->specific_model->get_respuestas_alertas_vencidas_by($arrParam);
 
-					
-					
-							foreach ($info as $lista):
+								//si no tiene respuesta entonces buscar la información
+								if(!$respuesta){
 									echo "<tr>";
 									echo "<td>";
-									//si no existe el representante entonces no se muestra el enlace
-									if($lista['fk_id_user_delegado']){
-echo "<a href=" . base_url("report/responder_alerta/" . $lista['id_alerta'] . "/" . $lista['fk_id_user_delegado'] . "/" . $lista['id_sitio_sesion'] . "/" . $rol) . " ><strong><u>Dar Respuesta</u></strong> </a>";
-									}else{
-										echo "<p class='text-danger'>Falta asignar representante para este Sitio</p>";
-									}
-									echo "</td>";
-									echo "<td>";
-									echo $lista['nombre_sitio'];
-									echo "</td>";
-									echo "<td>";
-									echo $lista['nombre_region'];
-									echo "</td>";
-									echo "<td>";
-									echo $lista['dpto_divipola_nombre'];
-									echo "</td>";
-									echo "<td>";
-									echo $lista['mpio_divipola_nombre'];
-									echo "</td>";
-									echo "<td>";
-									echo $lista['codigo_dane'];
-									echo "</td>";
-									echo "<td>";
-									echo $lista['nombre_delegado'];
-									echo "<br>";
-
-echo "<a href='tel:".$lista['celular_delegado']."'>".$lista['celular_delegado']."</a>";
-									
-									echo "<br>" . $lista['email'];
-
+				//Enlace para dar respuesta
+				echo "<a href=" . base_url("report/responder_alerta/" . $lista['id_puesto_votacion'] . "/" . $infoAlerta['id_alerta'] . "/" . $rol) . " ><strong><u>Dar Respuesta</u></strong> </a>";
 
 									echo "</td>";
+									echo "<td>";
+									echo "<strong>No.: </strong>" . $lista['numero_puesto_votacion'];
+									echo "<br><strong>Nombre: </strong>" . $lista['nombre_puesto_votacion'];
+									echo "</td>";
+									echo "<td>";
+									echo $lista['nombre_departamento'];
+									echo "</td>";
+									echo "<td>";
+									echo $lista['nombre_municipio'];
+									echo "</td>";
+									echo "<td>";
+									echo "<strong>ID: </strong>" . $lista['id_localidad'];
+									echo "<br><strong>Nombre: </strong>" . $lista['nombre_localidad'];
+									echo "</td>";
+									echo "<td>";
+									echo $lista['circunscripcion'];
+									echo "</td>";
+									echo "</tr>";
+								}
 							endforeach;
-					
-					
-					
-					
-				}
-			endforeach;
-		}
-						
-						
-						
-						
-
+						}
 						?>
 						</tbody>
 					</table>
@@ -159,18 +121,8 @@ $(document).ready(function() {
 	$('#dataTables').DataTable({
 		responsive: true,
 		order: false,
-		"pageLength": 25,
-		 "columnDefs": [
-    { "width": "60%", "targets": 0 }
+		"pageLength": 25
   ]
 	});
 });
-
-
-
-
-
-
-
-
 </script>

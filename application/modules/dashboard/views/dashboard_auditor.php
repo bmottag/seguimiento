@@ -86,7 +86,6 @@ if ($retornoError) {
 								<div class="alert alert-info">
 									<strong>Departamento: </strong>
 									<?php echo $infoPuesto[0]['nombre_departamento']; ?>
-									
 									<br><strong>Municipio: </strong>
 									<?php echo $infoPuesto[0]['nombre_municipio']; ?>
 									<br><strong>ID Localidad: </strong>

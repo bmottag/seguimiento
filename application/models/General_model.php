@@ -56,7 +56,7 @@ class General_model extends CI_Model {
 				}
 				
 				if (array_key_exists("idOperador", $arrDatos)) {
-					$this->db->where('P.fk_ud_usuario_operador', $arrDatos["idOperador"]);
+					$this->db->where('P.fk_id_usuario_operador', $arrDatos["idOperador"]);
 				}
 												
 				$this->db->order_by('P.nombre_puesto_votacion', 'asc');

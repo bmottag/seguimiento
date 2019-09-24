@@ -162,14 +162,14 @@ if($infoAlerta["fk_id_tipo_alerta"] == 2)//NOTIFICACION
 							<strong>Conteo de respuestas:</strong>
 							<span class="pull-right text-muted"></span>
 						
-<a href="<?php echo base_url("dashboard/alerta_especifica/" . $lista['id_alerta'] . "/directivo/contestaron");?>" >
+<a href="<?php echo base_url("dashboard/alerta_especifica/" . $lista['id_alerta'] . "/operador/contestaron");?>" >
 							<div class="progress">
 								<div class="progress-bar progress-bar-info" role="progressbar" style="width:50%">
 								Contestaron <?php echo number_format($contadorNotificacionContestaron) . " (" . $porcentajeSiContestaron . "%)"; ?>
 								</div>
 </a>
 								
-<a href="<?php echo base_url("dashboard/alerta_especifica/" . $lista['id_alerta'] . "/directivo/no_contestaron");?>" >
+<a href="<?php echo base_url("dashboard/alerta_especifica/" . $lista['id_alerta'] . "/operador/no_contestaron");?>" >
 								<div class="progress-bar progress-bar-warning" role="progressbar" style="width:50%">
 								No contestaron <?php echo number_format($contadorNotificacionNoContestaron) . " (" . $porcentajeNoContestaron . "%)"; ?>
 								</div>

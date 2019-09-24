@@ -102,7 +102,7 @@ class Dashboard extends MX_Controller {
 			$data['conteoPuestos'] = $this->dashboard_model->countPuestosVotacion($arrParam);//cuenta PUESTOS DE VOTACION
 			
 			//listado de PUESTOS DE VOTACION para el OPERADOR
-			$arrParam = array('idCoordinador' => $userID);
+			$arrParam = array('idOperador' => $userID);
 			$data['infoPuestos'] = $this->general_model->get_puesto($arrParam);
 			
 			//Buscar la alertas para esta sesion y el coordinador de sesion
@@ -220,29 +220,6 @@ class Dashboard extends MX_Controller {
 			$data["view"] = 'vista_diputado';
 			$this->load->view("layout", $data);
 	}
-
-	
-	
-	
-	
-	
-	
-
-/**
- * BASURA DE ACA PARA ABAJO
- */				 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-
 	
 	/**
 	 * Registro de la aceptacion de la alerta informativa
@@ -348,6 +325,79 @@ class Dashboard extends MX_Controller {
 				redirect("/dashboard/coordinadores","location",301);	
 			}
 	}
+	
+	/**
+	 * Lista de todas las alertas para una alerta especifica
+	 * Fltrada para el operador o coordinador de sesion
+	 * @since 24/9/2019
+	 */
+	public function alerta_especifica($idAlerta, $rol, $respuesta="")
+	{
+			$this->load->model("specific_model");
+			$this->load->model("general_model");
+			$userID = $this->session->userdata("id");
+
+			//consultar informacion de la alerta
+			$arrParam = array("idAlerta" => $idAlerta);
+			$data['infoAlerta'] = $this->specific_model->get_info_alerta($arrParam);
+				
+			//se buscan listado de ALERTAS
+			$data['infoAlertaVencida'] = $this->specific_model->get_alertas_vencidas_by($arrParam);
+			
+			//listado de PUESTOS DE VOTACION para el OPERADOR
+			$arrParam = array('idOperador' => $userID);
+			$data['infoPuestos'] = $this->general_model->get_puesto($arrParam);
+
+			$data["rol"] = $rol;//se pasa el rol del operador o del coordinador
+			
+			$data["view"] = "lista_respuestas_por_alerta";
+			switch ($respuesta) {
+				case "contestaron":
+					$data["answer"] = $respuesta;
+					break;
+				case "si":
+					$data["answer"] = $respuesta;
+					break;
+				case "no":
+					$data["answer"] = $respuesta;
+					break;
+				default:
+					$data["view"] = "lista_respuestas_faltantes_por_alerta";
+			}
+						
+			$this->load->view("layout", $data);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+/**
+ * BASURA DE ACA PARA ABAJO
+ */				 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	/**
 	 * Controlador para delegados
@@ -457,44 +507,7 @@ class Dashboard extends MX_Controller {
 			$this->load->view("layout", $data);
 	}
 	
-	/**
-	 * Lista de todas las alertas para una alerta especifica
-	 * Fltrada para el operador o coordinador de sesion
-	 * @since 29/7/2017
-	 */
-	public function alerta_especifica($idAlerta, $rol, $respuesta="")
-	{
-			$this->load->model("specific_model");
-			$this->load->model("general_model");
 
-			//consultar informacion de la alerta
-			$arrParam = array("idAlerta" => $idAlerta);
-			$data['infoAlerta'] = $this->specific_model->get_info_alerta($arrParam);
-				
-
-			//se buscan las alertas INFORMATIVAS que se tienen el OPERADOR a cargo
-			$data['infoAlertaVencida'] = $this->general_model->get_alertas_vencidas_by($arrParam);
-
-			
-			$data["rol"] = $rol;//se pasa el rol del operador o del coordinador
-			
-			$data["view"] = "lista_respuestas_por_alerta";
-			switch ($respuesta) {
-				case "contestaron":
-					$data["answer"] = $respuesta;
-					break;
-				case "si":
-					$data["answer"] = $respuesta;
-					break;
-				case "no":
-					$data["answer"] = $respuesta;
-					break;
-				default:
-					$data["view"] = "lista_respuestas_faltantes_por_alerta";
-			}
-						
-			$this->load->view("layout", $data);
-	}
 	
 	/**
 	 * Formulario para seleccionar los ausentes

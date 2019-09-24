@@ -330,6 +330,10 @@ class Specific_model extends CI_Model {
 					$this->db->where('fk_id_alerta', $arrDatos["idAlerta"]); 
 				}
 				
+				if (array_key_exists("idPuesto", $arrDatos)) {
+					$this->db->where('fk_id_puesto_votacion_r', $arrDatos["idPuesto"]); 
+				}
+				
 				if (array_key_exists("respuestaAcepta", $arrDatos)) {
 					$this->db->where('acepta', $arrDatos["respuestaAcepta"]); //filtro para las NOTIFICACIONES
 				}

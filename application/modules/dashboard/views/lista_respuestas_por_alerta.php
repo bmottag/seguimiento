@@ -19,16 +19,6 @@
 	</div>
 	
 	<div class="row">
-		<div class="col-md-4">
-			<div class="panel panel-success">
-				<div class="panel-heading">
-					<strong>Prueba: </strong><?php echo $infoAlerta['nombre_prueba']; ?>
-					<br><strong>Grupo de Instrumentos: </strong><?php echo $infoAlerta['nombre_grupo_instrumentos']; ?>
-					<br><strong>Sesión: </strong><?php echo $infoAlerta['sesion_prueba']; ?>
-					<br><strong>Fecha: </strong><?php echo $infoAlerta['fecha']; ?>
-				</div>
-			</div>
-		</div>
 		
 		<div class="col-md-4">
 			<div class="panel panel-success">
@@ -49,7 +39,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<a class="btn btn-success" href=" <?php echo base_url(). "dashboard/" . $rol; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Regresar </a> 
-                    <i class="fa fa-life-saver fa-fw"></i> Alerta específica para varios sitios
+                    <i class="fa fa-life-saver fa-fw"></i> Alerta específica para puestos de votación
 				</div>
 				<div class="panel-body">
 
@@ -81,13 +71,13 @@
 						
 		<?php
 
-		if($infoAlertaVencida){
-			foreach ($infoAlertaVencida as $lista):
+		if($infoPuestos){
+			foreach ($infoPuestos as $lista):
 				$arrParam = array(
-						"idSitioSesion" => $lista['id_sitio_sesion'],
-						"idAlerta" => $lista['id_alerta']
+						"idPuesto" => $lista['id_puesto_votacion'],
+						"idAlerta" => $infoAlerta['id_alerta']
 				);
-				$respuesta = $this->general_model->get_respuestas_alertas_vencidas_by($arrParam);
+				$respuesta = $this->specific_model->get_respuestas_alertas_vencidas_by($arrParam);
 				
 				$bandera = FALSE;
 				if($answer == "si" && $respuesta[0]['acepta']==1){
@@ -99,7 +89,7 @@
 				if($answer == "contestaron"){
 					$bandera = TRUE;
 				}
-			
+pr($respuesta); exit;			
 				if($respuesta && $bandera){
 					$info = $this->general_model->get_informacion_respuestas_alertas_vencidas_by($arrParam);
 	
