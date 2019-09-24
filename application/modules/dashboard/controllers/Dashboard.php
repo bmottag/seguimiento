@@ -136,6 +136,22 @@ class Dashboard extends MX_Controller {
 			
 			//Busco informacion de AUDITOR
 			$data['infoEncargado'] = $this->general_model->get_info_encargado_puesto($arrParam);
+			
+			//Sumatoria de votos para presidente para este puesto de votacion
+			$arrParam = array(
+						'idPuesto' => $idPuesto,
+						'idCorporacion' => 1
+						);
+			$data['candidatosPresidente'] = $this->general_model->sumatoria_votos_candidatos($arrParam);
+			
+			
+			//Sumatoria de votos para diputado para este puesto de votacion
+			$arrParam = array(
+						'idPuesto' => $idPuesto,
+						'idCorporacion' => 3
+						);
+			$data['candidatosDiputado'] = $this->general_model->sumatoria_votos_candidatos($arrParam);
+
 
 			$data["view"] = "vista_puesto_votacion";
 			$this->load->view("layout", $data);

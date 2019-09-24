@@ -106,6 +106,118 @@ if ($retornoError) {
 		<!-- /.col-lg-12 -->
 	</div>
 	<!-- /.row -->
+	
+	<!-- /.row -->
+	<div class="row">
+		<div class="col-lg-6">
+			<div class="panel panel-warning">
+				<div class="panel-heading">
+					<i class="fa fa-home"></i> Número de votos de los candidatos para presidente
+				</div>
+				<div class="panel-body">
+
+				<?php
+					if($candidatosPresidente){
+				?>			
+				
+					<div class="row">
+						<div class="col-lg-12">				
+							<div class="row">	
+								<div class="col-lg-12">	
+							
+									<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+										<thead>
+											<tr>
+												<th class="text-center">Sigla partido</th>
+												<th class="text-center">Nombre candidato</th>
+												<th class="text-center">Número de votos</th>
+											</tr>
+										</thead>
+										<tbody>							
+										<?php
+										
+											foreach ($candidatosPresidente as $lista):
+																											
+													echo "<tr>";
+													echo "<td class='text-center'>" . $lista['sigla'] . "</td>";
+													echo "<td>" . $lista['nombre_completo_candidato'] . "</td>";
+													echo "<td class='text-center'>" . $lista['sumatoria'] . "</td>";
+													echo "<tr>";
+
+											endforeach;
+										?>
+										</tbody>
+									</table>
+
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+				<?php } ?>
+				</div>
+				<!-- /.panel-body -->
+			</div>
+			<!-- /.panel -->
+		</div>
+		<!-- /.col-lg-12 -->
+		
+		<div class="col-lg-6">
+			<div class="panel panel-danger">
+				<div class="panel-heading">
+					<i class="fa fa-home"></i> Número de votos de los candidatos para diputado
+				</div>
+				<div class="panel-body">
+
+				<?php
+					if($candidatosDiputado){
+				?>			
+				
+					<div class="row">
+						<div class="col-lg-12">				
+							<div class="row">	
+								<div class="col-lg-12">	
+							
+									<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
+										<thead>
+											<tr>
+												<th class="text-center">Sigla partido</th>
+												<th class="text-center">Número de votos</th>
+											</tr>
+										</thead>
+										<tbody>							
+										<?php
+										
+											foreach ($candidatosDiputado as $lista):
+																											
+													echo "<tr>";
+													echo "<td class='text-center'>" . $lista['sigla'] . "</td>";
+													echo "<td class='text-center'>" . $lista['sumatoria'] . "</td>";
+													echo "<tr>";
+
+											endforeach;
+										?>
+										</tbody>
+									</table>
+
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+				<?php } ?>
+				</div>
+				<!-- /.panel-body -->
+			</div>
+			<!-- /.panel -->
+		</div>
+		<!-- /.col-lg-12 -->
+		
+	</div>
+	<!-- /.row -->
+	
 
 	<!-- LISTADO MESAS PARA EL AUDITOR -->
 	<div class="row">

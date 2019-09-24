@@ -274,6 +274,30 @@ class General_model extends CI_Model {
 				}
 		}
 		
+		/**
+		 * Lista de sesiones que no se han asignado a un sitio
+		 * @since  22/5/2017
+		 */
+		public function sumatoria_votos_candidatos($arrData)
+		{
+				$sql = "SELECT P.sigla, C.nombre_completo_candidato, SUM(numero_votos) as sumatoria ";
+				$sql.= " FROM registro_votos R";
+				$sql.= " INNER JOIN candidatos C ON C.id_candidato = R.fk_id_candidato_rv ";
+				$sql.= " INNER JOIN partidos P ON P.id_partido = C.fk_id_partido";
+				$sql.= " WHERE R.fk_id_puesto_votos_rv = " . $arrData["idPuesto"];
+				$sql.= " AND C.fk_id_corporacion = " . $arrData["idCorporacion"];
+				$sql.= " GROUP BY R.fk_id_candidato_rv";
+				$sql.= " ORDER BY sumatoria DESC, P.numero_orden_partido ASC";
+				
+				$query = $this->db->query($sql);
+				
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+		
 
 	
 	

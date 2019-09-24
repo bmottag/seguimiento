@@ -6,7 +6,7 @@ $( document ).ready( function () {
 	$( "#form" ).validate( {
 		rules: {
 			nombrePartido:		{ required: true, minlength: 3, maxlength:100 },
-			sigla:				{ required: true, maxlength:10 },
+			sigla:				{ required: true, maxlength:100 },
 			numeroOrden:		{ required: true }
 		},
 		errorElement: "em",

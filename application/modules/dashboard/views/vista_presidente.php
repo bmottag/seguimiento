@@ -213,16 +213,6 @@ if ($retornoError) {
 <!-- /#page-wrapper -->
 		
 				
-<!--INICIO Modal para adicionar HAZARDS -->
-<div class="modal fade text-center" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">    
-	<div class="modal-dialog" role="document">
-		<div class="modal-content" id="tablaDatos">
-
-		</div>
-	</div>
-</div>                       
-<!--FIN Modal para adicionar HAZARDS -->
-
 <!-- Tables -->
 <script>
 $(document).ready(function() {
