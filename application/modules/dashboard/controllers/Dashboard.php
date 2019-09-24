@@ -141,9 +141,69 @@ class Dashboard extends MX_Controller {
 			$this->load->view("layout", $data);
 	}
 
+	/**
+	 * Informacion de votos para PRESIDENTE en una MESA
+	 * $idMesa = llave principal mesa
+     * @since 12/9/2019
+	 */
+	public function ver_presidente($idMesa)
+	{
+			$this->load->model("general_model");
+			$userID = $this->session->userdata("id");
+			
+			//Informacion de las mesas para el Puesto de votacion
+			$arrParam = array('idMesa' => $idMesa);
+			$data['infoMesa'] = $this->general_model->get_mesas($arrParam);
+			
+			//Informacion PUESTO VOTACION			
+			$arrParam = array('idPuesto' => $data['infoMesa'][0]['fk_puesto_votacion_mesas']);
+			$data['infoPuesto'] = $this->general_model->get_puesto($arrParam);
+			
+			//Informacion de las mesas para el Puesto de votacion
+			$data['infoMesas'] = $this->general_model->get_mesas($arrParam);
+			
+			//Busco informacion de AUDITOR
+			$data['infoEncargado'] = $this->general_model->get_info_encargado_puesto($arrParam);
+			
+			//Listado de CANDIDATOS PRESIDENTE
+			$arrParam = array('idCorporacion' => 1);//buscar solo candidatos para presidente
+			$data['info'] = $this->general_model->get_candidatos($arrParam);
+			
+			$data["view"] = 'vista_presidente';
+			$this->load->view("layout", $data);
+	}
 
-
-
+	/**
+	 * Informacion de votos para PRESIDENTE en una MESA
+	 * $idMesa = llave principal mesa
+     * @since 12/9/2019
+	 */
+	public function ver_diputado($idMesa)
+	{
+			$this->load->model("general_model");
+			$userID = $this->session->userdata("id");
+			
+			//Informacion de las mesas para el Puesto de votacion
+			$arrParam = array('idMesa' => $idMesa);
+			$data['infoMesa'] = $this->general_model->get_mesas($arrParam);
+			
+			//Informacion PUESTO VOTACION			
+			$arrParam = array('idPuesto' => $data['infoMesa'][0]['fk_puesto_votacion_mesas']);
+			$data['infoPuesto'] = $this->general_model->get_puesto($arrParam);
+			
+			//Informacion de las mesas para el Puesto de votacion
+			$data['infoMesas'] = $this->general_model->get_mesas($arrParam);
+			
+			//Busco informacion de AUDITOR
+			$data['infoEncargado'] = $this->general_model->get_info_encargado_puesto($arrParam);
+			
+			//Listado de CANDIDATOS DIPUTADO
+			$arrParam = array('idCorporacion' => 3);//buscar solo candidatos para DIPUTADO
+			$data['info'] = $this->general_model->get_candidatos($arrParam);
+			
+			$data["view"] = 'vista_diputado';
+			$this->load->view("layout", $data);
+	}
 
 	
 	

@@ -152,16 +152,28 @@ if($lista['estado_mesa'] == 2){
 	$mensajeDiputado = '<p class="text-danger"><strong>Escrutinio cerrado para diputado</strong></p>';
 }else{
 	
+	$botonPresidente = "";
+	$botonDiputado = "";
+	$enlacePresidente = base_url("dashboard/ver_presidente/" . $lista['id_mesa']); 
+	$mensajePresidente = '<p class="text-danger"><strong>Escrutinio cerrado para presidente</strong></p>';
+	
+	$enlaceDiputado = base_url("dashboard/ver_diputado/" . $lista['id_mesa']); 
+	$mensajeDiputado = '<p class="text-danger"><strong>Escrutinio cerrado para diputado</strong></p>';
+	
 	if($lista['estado_presidente'] == 1){
 		$botonPresidente = "disabled";
 		$enlacePresidente = "#"; 
 		$mensajePresidente = '<p class="text-danger"><strong>No se ha guardado el escrutinio para presidente</strong></p>';
+	}elseif($lista['estado_presidente'] == 2){
+		$mensajePresidente = '<p class="text-danger"><strong>Escrutinio iniciado</strong></p>';
 	}
 		
 	if($lista['estado_diputado'] == 1){
 		$botonDiputado = "disabled";
 		$enlaceDiputado = "#"; 
 		$mensajeDiputado = '<p class="text-danger"><strong>No se ha guardado el escrutinio para diputado</strong></p>';
+	}elseif($lista['estado_presidente'] == 2){
+		$mensajePresidente = '<p class="text-danger"><strong>Escrutinio iniciado</strong></p>';
 	}
 }
 								echo "<td class='text-center'>";
