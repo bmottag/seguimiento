@@ -18,7 +18,7 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h4 class="list-group-item-heading">
-						DASHBOARD OPERADO
+						DASHBOARD OPERADOR
 					</h4>
 				</div>
 			</div>
