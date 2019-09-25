@@ -86,14 +86,7 @@ if ($retornoError) {
 			$infoAlerta = $this->specific_model->get_info_alerta($arrParam);
 
 if($infoAlerta["fk_id_tipo_alerta"] == 2)//NOTIFICACION
-{
-//se buscan las alertas NOTIFICACION vencidas
-			$arrParam = array(
-							"tipoAlerta" => 2,
-							"idAlerta" => $lista["id_alerta"]
-			);
-			$infoAlertaVencidaNotificacion = $this->specific_model->get_alertas_vencidas_by($arrParam);
-			
+{			
 			//recorro las alertas y reviso se se les dio respuesta, si no se le dio respuesta las voy contando
 			$contadorNotificacion = 0;
 			
@@ -101,35 +94,35 @@ if($infoAlerta["fk_id_tipo_alerta"] == 2)//NOTIFICACION
 			$contadorNotificacionSi = 0;
 			$contadorNotificacionNoContestaron = 0;
 			$total = $conteoPuestos;
-		
-			
-			if($infoAlertaVencidaNotificacion){
-				foreach ($infoAlertaVencidaNotificacion as $lista):
-					$arrParam = array(
-							"idAlerta" => $lista['id_alerta']
-					);
-					$respuesta = $this->specific_model->get_respuestas_alertas_vencidas_by($arrParam);
-								
-					if(!$respuesta){
-						$contadorNotificacion++;
-					}
-										
-					$arrParam = array(
-							"idAlerta" => $lista['id_alerta'],
-							"respuestaAcepta" => 1
-					);//filtro por los que contestaron que SI
-					$respuestaSI = $this->specific_model->get_respuestas_alertas_vencidas_by($arrParam);
 					
-					if($respuestaSI){
-						$contadorNotificacionSi++;
-					}
-					
-					if($respuesta){
-						$contadorNotificacionContestaron++;
-					}
+			foreach ($infoPuestos as $listaPuesto):
+				$arrParam = array(
+						"idPuesto" => $listaPuesto['id_puesto_votacion'],
+						"idAlerta" => $lista['id_alerta']
+				);
+				$respuesta = $this->specific_model->get_respuestas_alertas_vencidas_by($arrParam);
+							
+				if(!$respuesta){
+					$contadorNotificacion++;
+				}
+									
+				$arrParam = array(
+						"idPuesto" => $listaPuesto['id_puesto_votacion'],
+						"idAlerta" => $lista['id_alerta'],
+						"respuestaAcepta" => 1
+				);//filtro por los que contestaron que SI
+				$respuestaSI = $this->specific_model->get_respuestas_alertas_vencidas_by($arrParam);
+				
+				if($respuestaSI){
+					$contadorNotificacionSi++;
+				}
+				
+				if($respuesta){
+					$contadorNotificacionContestaron++;
+				}
 
-				endforeach;
-			}
+			endforeach;
+
 
 			//calculo el total
 			$contadorNotificacionNo = $contadorNotificacionContestaron - $contadorNotificacionSi;

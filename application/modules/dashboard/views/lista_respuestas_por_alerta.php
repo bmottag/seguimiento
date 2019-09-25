@@ -102,7 +102,7 @@
 									
 //si no se acepta la alerta enotnces se crea enlace para poder aceptarla por parte del OPERADOR, director
 if($respuesta[0]['acepta']==2){
-	if(($userRol == 6 && $lista['fk_id_user_operador'] == $userID) || ($userRol == 3 && $lista['fk_id_user_coordinador'] == $userID) || $userRol == 2 || $userRol == 1){						
+	if(($userRol == 3 && $lista['fk_id_usuario_operador'] == $userID) || $userRol == 1){						
 echo "<br><a href=" . base_url("report/update_alerta_notificacion/" . $respuesta[0]['id_registro'] . "/" . $rol) . " ><strong>Cambiar Respuesta</strong> </a>";
 	}
 }
