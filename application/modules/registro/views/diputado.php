@@ -10,33 +10,6 @@
 				</div>
 				<div class="panel-body">
 									
-					
-<?php
-$retornoExito = $this->session->flashdata('retornoExito');
-if ($retornoExito) {
-    ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-success ">
-			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-			<?php echo $retornoExito ?>		
-		</div>
-	</div>
-    <?php
-}
-
-$retornoError = $this->session->flashdata('retornoError');
-if ($retornoError) {
-    ?>
-	<div class="col-lg-12">	
-		<div class="alert alert-danger ">
-			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-			<?php echo $retornoError ?>
-		</div>
-	</div>
-    <?php
-}
-?> 
-
 					<div class="row">
 						<div class="col-lg-4">				
 							<div class="row">	
@@ -113,10 +86,37 @@ if ($retornoError) {
 						<div class="col-lg-8">				
 							<div class="row">	
 								<div class="col-lg-12">	
+								
+<?php
+$retornoExito = $this->session->flashdata('retornoExito');
+if ($retornoExito) {
+    ?>
+	<div class="col-lg-12">	
+		<div class="alert alert-success ">
+			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+			<?php echo $retornoExito ?>		
+		</div>
+	</div>
+    <?php
+}
+
+$retornoError = $this->session->flashdata('retornoError');
+if ($retornoError) {
+    ?>
+	<div class="col-lg-12">	
+		<div class="alert alert-danger ">
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			<?php echo $retornoError ?>
+		</div>
+	</div>
+    <?php
+}
+?> 
 				
 <form  name="votos_presidente" id="votos_presidente" method="post" action="<?php echo base_url("registro/guardar_votos/diputado"); ?>">
 		<input type="hidden" id="hddIdPuesto" name="hddIdPuesto" value="<?php echo $infoPuesto[0]['id_puesto_votacion']; ?>"/>
 		<input type="hidden" id="hddIdMesa" name="hddIdMesa" value="<?php echo $infoMesa[0]['id_mesa']; ?>"/>
+		<input type="hidden" id="hddNumeroPersonasHabilitadas" name="hddNumeroPersonasHabilitadas" value="<?php echo $infoMesa[0]['personas_habilitadas']; ?>"/>
 				
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
@@ -150,12 +150,12 @@ if ($retornoError) {
 						<input type="hidden" id="hddIdCandidato" name="hddIdCandidato[]" value="<?php echo $lista['id_candidato']; ?>"/>
 						<input type="hidden" id="hddIdRegistroVoto" name="hddIdRegistroVoto[]" value="<?php echo $votosCandidato?$votosCandidato[0]["id_registro_votos"]:""; ?>"/>
 						
-						<input type="text" id="numeroVotos" name="numeroVotos[]" class="form-control" placeholder="Número de votos" value="<?php echo $votosCandidato?$votosCandidato[0]["numero_votos"]:""; ?>" required >
+						<input type="number" id="numeroVotos" name="numeroVotos[]" class="form-control" placeholder="Número de votos" value="<?php echo $votosCandidato?$votosCandidato[0]["numero_votos"]:""; ?>" required >
 		
 						</td>
 						
 						<td>
-						<input type="text" id="confirmarNumeroVotos" name="confirmarNumeroVotos[]" class="form-control" placeholder="Confirmar número de votos" value="<?php echo $votosCandidato?$votosCandidato[0]["numero_votos"]:""; ?>" required >
+						<input type="number" id="confirmarNumeroVotos" name="confirmarNumeroVotos[]" class="form-control" placeholder="Confirmar número de votos" value="<?php echo $votosCandidato?$votosCandidato[0]["numero_votos"]:""; ?>" required >
 						</td>
 						
 						<?php		

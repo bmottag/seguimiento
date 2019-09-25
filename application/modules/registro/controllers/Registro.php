@@ -47,22 +47,39 @@ class Registro extends MX_Controller {
 	public function guardar_votos($corporacion)
 	{	
 			$idMesa = $this->input->post("hddIdMesa");
+			$hddNumeroPersonasHabilitadas = $this->input->post("hddNumeroPersonasHabilitadas");
 
-			if ($conteoVotos = $this->registro_model->saveVotos()) {
+			if ($conteoVotos = $this->registro_model->saveVotos()) 
+			{
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoExito', "Se guardó la información con éxito. Adicionar la foto del acta de escrutinio.");
+				$this->load->model("general_model");
 				
-				//actualizo el estado de la MESA a INICIADA(2) para mostrar el boton para subir la foto del acta de escrutinio
 				$arrParam = array(
 					"table" => "mesas",
 					"primaryKey" => "id_mesa",
 					"id" => $idMesa,
 					"column" => "estado_" . $corporacion,
-					"value" => 2
+					"value" => 1
 				);
-				$this->load->model("general_model");
-				$this->general_model->updateRecord($arrParam);
 				
+				//si la sumatoria de votos es mayor al numero de personas habilitadas, dejo el estado de la mesa en 1
+				//y le muestro mensaje de error
+				if($conteoVotos > $hddNumeroPersonasHabilitadas){							
+						$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> La sumatoria de votos NO debe ser mayor al número de personas habilitadas para esta mesa.');
+						$arrParam['value'] = 1;
+				}else{
+						//si la sumatoria es menor del 80% del numero de personas habilitadas entonces muestro mensaje
+						$porcentajeHabilitadas = $hddNumeroPersonasHabilitadas * 80 /100;
+						if($conteoVotos < $porcentajeHabilitadas){
+								$this->session->set_flashdata('retornoError', '<strong>ATENCIÓN!!!</strong> La sumatoria de votos es menos del 80% del número de personas habilitadas para esta mesa, por favor verificar la información.');
+						}
+					
+						$this->session->set_flashdata('retornoExito', "Se guardó la información con éxito. Adicionar la foto del acta de escrutinio.");
+						//actualizo el estado de la MESA a INICIADA(2) para mostrar el boton para subir la foto del acta de escrutinio
+						$arrParam['value'] = 2;
+				}
+				$this->general_model->updateRecord($arrParam);
+								
 				//actualizo el conteo de votos de la MESA para la corporacion
 				$arrParam = array(
 					"table" => "mesas",
