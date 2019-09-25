@@ -107,6 +107,11 @@ if ($retornoError) {
 										echo " "; 
 										echo $this->session->userdata("lastname"); 
 									?>
+									
+									<br><br>			
+<a href="<?php echo base_url(); ?>" class="btn btn-danger btn-lg btn-block" > FINALIZAR PROCESO <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></a> 
+									
+									
 								</div>
 							</div>
 						</div>	
