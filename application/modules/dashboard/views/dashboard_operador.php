@@ -109,7 +109,7 @@ if($infoAlerta["fk_id_tipo_alerta"] == 2)//NOTIFICACION
 							"idAlerta" => $lista['id_alerta']
 					);
 					$respuesta = $this->specific_model->get_respuestas_alertas_vencidas_by($arrParam);
-					
+								
 					if(!$respuesta){
 						$contadorNotificacion++;
 					}
@@ -180,13 +180,13 @@ if($infoAlerta["fk_id_tipo_alerta"] == 2)//NOTIFICACION
 
 						
 							<div class="progress">
-<a href="<?php echo base_url("dashboard/alerta_especifica/" . $lista['id_alerta'] . "/directivo/si");?>" >
+<a href="<?php echo base_url("dashboard/alerta_especifica/" . $lista['id_alerta'] . "/operador/si");?>" >
 								<div class="progress-bar progress-bar-success" role="progressbar" style="width:50%">
 								Si <?php echo number_format($contadorNotificacionSi) . " (" . $porcentajeSi . "%)"; ?>
 								</div>
 </a>
 								
-<a href="<?php echo base_url("dashboard/alerta_especifica/" . $lista['id_alerta'] . "/directivo/no");?>" >
+<a href="<?php echo base_url("dashboard/alerta_especifica/" . $lista['id_alerta'] . "/operador/no");?>" >
 								<div class="progress-bar progress-bar-danger" role="progressbar" style="width:50%">
 								No <?php echo number_format($contadorNotificacionNo) . " (" . $porcentajeNo . "%)"; ?>
 								</div>

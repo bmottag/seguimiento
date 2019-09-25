@@ -47,103 +47,89 @@
 						<thead>
 							<tr>
 								<th class="text-center">Respuesta</th>
-								<th class="text-center">Sitio</th>
-								<th class="text-center">Nodo o Región</th>
+								<th class="text-center">Puesto de votación</th>
 								<th class="text-center">Departamento</th>
 								<th class="text-center">Municipio</th>
-								<th class="text-center">Códifo DANE</th>
-								<th class="text-center">Representante</th>
-								
+								<th class="text-center">Localidad</th>
+								<th class="text-center">Circunscripción</th>
 							</tr>
 						</thead>
-        <tfoot>
-            <tr>
-                <th class="text-center">Respuesta</th>
-				<th class="text-center">Sitio</th>
-				<th class="text-center">Nodo o Región</th>
-				<th class="text-center">Departamento</th>
-				<th class="text-center">Municipio</th>
-				<th class="text-center">Códifo DANE</th>
-				<th class="text-center">Representante</th>
-            </tr>
-        </tfoot>
+						<tfoot>
+							<tr>
+								<th class="text-center">Respuesta</th>
+								<th class="text-center">Puesto de votación</th>
+								<th class="text-center">Departamento</th>
+								<th class="text-center">Municipio</th>
+								<th class="text-center">Localidad</th>
+								<th class="text-center">Circunscripción</th>
+							</tr>
+						</tfoot>
 						<tbody>	
 						
-		<?php
+						<?php
 
-		if($infoPuestos){
-			foreach ($infoPuestos as $lista):
-				$arrParam = array(
-						"idPuesto" => $lista['id_puesto_votacion'],
-						"idAlerta" => $infoAlerta['id_alerta']
-				);
-				$respuesta = $this->specific_model->get_respuestas_alertas_vencidas_by($arrParam);
+						if($infoPuestos){
+							foreach ($infoPuestos as $lista):
+								$arrParam = array(
+										"idPuesto" => $lista['id_puesto_votacion'],
+										"idAlerta" => $infoAlerta['id_alerta']
+								);
+								$respuesta = $this->specific_model->get_respuestas_alertas_vencidas_by($arrParam);
 				
-				$bandera = FALSE;
-				if($answer == "si" && $respuesta[0]['acepta']==1){
-					$bandera = TRUE;
-				}
-				if($answer == "no" && $respuesta[0]['acepta']==2){
-					$bandera = TRUE;
-				}
-				if($answer == "contestaron"){
-					$bandera = TRUE;
-				}
-pr($respuesta); exit;			
+								$bandera = FALSE;
+								if($answer == "si" && $respuesta[0]['acepta']==1){
+									$bandera = TRUE;
+								}
+								if($answer == "no" && $respuesta[0]['acepta']==2){
+									$bandera = TRUE;
+								}
+								if($answer == "contestaron"){
+									$bandera = TRUE;
+								}
+
 				if($respuesta && $bandera){
-					$info = $this->general_model->get_informacion_respuestas_alertas_vencidas_by($arrParam);
+
 	
-							foreach ($info as $lista):
-									echo "<tr>";
+								echo "<tr>";
+								
+								echo "<td>";
+								echo "<strong>Respuesta: </strong>";
+								echo $acepta = $respuesta[0]['acepta']==1?"Si":"No";
+								echo "<br><strong>Observación: </strong>" . $respuesta[0]['observacion'];
+								echo "<br><strong>Fecha registro: </strong>" . $respuesta[0]['fecha_registro'];
 									
-									echo "<td>";
-										echo "<strong>Respuesta: </strong>";
-										echo $acepta = $respuesta[0]['acepta']==1?"Si":"No";
-										echo "<br><strong>Observación: </strong>" . $respuesta[0]['observacion'];
-										if($respuesta[0]['ausentes']!=""){
-											echo "<br><strong>Ausentes: </strong>" . $respuesta[0]['ausentes'];
-											echo "<br><a href=" . base_url("report/update_alerta_consolidacion/" . $respuesta[0]['id_registro'] . "/" . $rol) . " ><strong>Editar Respuesta</strong> </a>";
-										}
-										echo "<br><strong>Fecha registro: </strong>" . $respuesta[0]['fecha_registro'];
-										
-										
-										
-//si no se acepta la alerta enotnces se crea enlace para poder aceptarla por parte del coordiandor, director o operador
+									
+									
+//si no se acepta la alerta enotnces se crea enlace para poder aceptarla por parte del OPERADOR, director
 if($respuesta[0]['acepta']==2){
-		if(($userRol == 6 && $lista['fk_id_user_operador'] == $userID) || ($userRol == 3 && $lista['fk_id_user_coordinador'] == $userID) || $userRol == 2 || $userRol == 1){						
+	if(($userRol == 6 && $lista['fk_id_user_operador'] == $userID) || ($userRol == 3 && $lista['fk_id_user_coordinador'] == $userID) || $userRol == 2 || $userRol == 1){						
 echo "<br><a href=" . base_url("report/update_alerta_notificacion/" . $respuesta[0]['id_registro'] . "/" . $rol) . " ><strong>Cambiar Respuesta</strong> </a>";
-		}
+	}
 }
-									echo "</td>";
-						
-									echo "<td>";
-									echo $lista['nombre_sitio'];
-									echo "</td>";
-									echo "<td>";
-									echo $lista['nombre_region'];
-									echo "</td>";
-									echo "<td>";
-									echo $lista['dpto_divipola_nombre'];
-									echo "</td>";
-									echo "<td>";
-									echo $lista['mpio_divipola_nombre'];
-									echo "</td>";
-									echo "<td>";
-									echo $lista['codigo_dane'];
-									echo "</td>";
-									echo "<td>";
-									echo $lista['nombre_delegado'];
-									echo "<br>";
-
-echo "<a href='tel:".$lista['celular_delegado']."'>".$lista['celular_delegado']."</a>";
-									
-									echo "<br>" . $lista['email'];
-									echo "</td>";
-
-									echo "</tr>";
-							endforeach;
+								echo "</td>";
 					
-					
+								echo "<td>";
+								echo "<strong>No.: </strong>" . $lista['numero_puesto_votacion'];
+								echo "<br><strong>Nombre: </strong>" . $lista['nombre_puesto_votacion'];
+								echo "</td>";
+								echo "<td>";
+								echo $lista['nombre_departamento'];
+								echo "</td>";
+								echo "<td>";
+								echo $lista['nombre_municipio'];
+								echo "</td>";
+								echo "<td>";
+								echo "<strong>ID: </strong>" . $lista['id_localidad'];
+								echo "<br><strong>Nombre: </strong>" . $lista['nombre_localidad'];
+								echo "</td>";
+								echo "<td>";
+								echo $lista['circunscripcion'];
+								echo "</td>";
+
+								echo "</tr>";
+
+				
+				
 					
 				}
 			endforeach;
