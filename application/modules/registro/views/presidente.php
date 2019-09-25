@@ -83,6 +83,8 @@ if ($retornoError) {
 										?>
 										<br><strong>No. mesa: </strong>
 										<?php echo $infoMesa[0]['numero_mesa']; ?>
+										<br><strong>No. personas habilitadas para votar: </strong>
+										<?php echo $infoMesa[0]['personas_habilitadas']; ?>
 									</div>
 								</div>
 							</div>	
