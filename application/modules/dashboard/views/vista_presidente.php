@@ -110,7 +110,7 @@ if ($retornoError) {
 				?>			
 				
 					<div class="row">
-						<div class="col-lg-8">				
+						<div class="col-lg-6">				
 							<div class="row">	
 								<div class="col-lg-12">	
 							
@@ -163,39 +163,28 @@ if ($retornoError) {
 							</div>
 						</div>
 
-						<div class="col-lg-4">				
+						<div class="col-lg-6">
 							<div class="row">	
 								<div class="col-lg-12">	
 									<div class="alert alert-info">
 										<div class="row" align="center">
-											<div style="width:70%;" align="center">
-																			
-												<?php 
-													if($infoMesa[0]['estado_presidente'] == 2){
-												?>
-										
-														<?php
-														if($infoMesa[0]["foto_acta_presidente"]){ 
-															$estiloFoto = "btn btn-primary";
-															$textoFoto = "Foto acta escrutinio";
-														?>
-														
-				<a href='<?php echo base_url($infoMesa[0]["foto_acta_presidente"]); ?>' target="_blanck">
-					<img src="<?php echo base_url($infoMesa[0]["foto_acta_presidente"]); ?>" class="img-rounded" width="120" height="120" />
-				</a>
-														<?php }else{ 
-																echo "Falta foto acta escrutinio";
-															} 
-														?>
-														<br><br>			
-														
+											<div style="width:90%;" align="center">
 												<?php
-														
-													}
-												 ?>
+												if($infoMesa[0]["foto_acta_presidente"]){ 
+													$estiloFoto = "btn btn-primary";
+													$textoFoto = "Foto acta escrutinio";
+												?>
+												
+		<a href='<?php echo base_url($infoMesa[0]["foto_acta_presidente"]); ?>' target="_blank">
+			<img src="<?php echo base_url($infoMesa[0]["foto_acta_presidente"]); ?>" class="img-rounded" width="540" height="450" />
+		</a>
+												<?php }else{ 
+														echo "Falta foto acta escrutinio";
+													} 
+												?>													
+											</div>
+										</div>
 									</div>
-
-</div></div>
 								</div>
 							</div>
 						</div>

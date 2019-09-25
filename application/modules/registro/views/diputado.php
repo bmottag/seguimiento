@@ -196,7 +196,7 @@ if ($retornoError) {
 															$textoFoto = "Foto acta escrutinio";
 														?>
 														
-				<a href='<?php echo base_url($infoMesa[0]["foto_acta_diputado"]); ?>' target="_blanck">
+				<a href='<?php echo base_url($infoMesa[0]["foto_acta_diputado"]); ?>' target="_blank">
 					<img src="<?php echo base_url($infoMesa[0]["foto_acta_diputado"]); ?>" class="img-rounded" width="120" height="120" />
 				</a>
 														<?php }else{ 

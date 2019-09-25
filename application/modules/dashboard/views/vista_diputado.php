@@ -110,7 +110,7 @@ if ($retornoError) {
 				?>			
 				
 					<div class="row">
-						<div class="col-lg-8">				
+						<div class="col-lg-6">				
 							<div class="row">	
 								<div class="col-lg-12">	
 								
@@ -159,49 +159,28 @@ if ($retornoError) {
 							</div>
 						</div>
 
-						<div class="col-lg-4">				
+						<div class="col-lg-6">
 							<div class="row">	
 								<div class="col-lg-12">	
 									<div class="alert alert-danger">
 										<div class="row" align="center">
-											<div style="width:70%;" align="center">
-
-												<?php 
-													if($infoMesa[0]['estado_diputado'] == 2){
-												?>
-										
-														<?php
-														if($infoMesa[0]["foto_acta_diputado"]){ 
-															$estiloFoto = "btn btn-danger";
-															$textoFoto = "Foto acta escrutinio";
-														?>
-														
-				<a href='<?php echo base_url($infoMesa[0]["foto_acta_diputado"]); ?>' target="_blanck">
-					<img src="<?php echo base_url($infoMesa[0]["foto_acta_diputado"]); ?>" class="img-rounded" width="120" height="120" />
-				</a>
-														<?php }else{ 
-
-																echo "<p>Falta foto acta escrutinio</p>";
-															} 
-														?>
-
-														
+											<div style="width:90%;" align="center">
 												<?php
-														//si ya estan los votos y esta la foto muestro boton para cerrar votos para presidente
-														if($infoMesa[0]["foto_acta_diputado"]){ 
+												if($infoMesa[0]["foto_acta_diputado"]){ 
+													$estiloFoto = "btn btn-primary";
+													$textoFoto = "Foto acta escrutinio";
 												?>
-														<br><br>
-				<a href="<?php echo base_url().'registro/cerrar_mesa_corporacion/' . $infoMesa[0]['id_mesa'] . '/diputado'; ?>" class="btn btn-danger" > Cerrar escrutinio para diputado <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></a> 
-															
-												<?php
-														
-														}
-														
-													}
-												 ?>
+												
+		<a href='<?php echo base_url($infoMesa[0]["foto_acta_diputado"]); ?>' target="_blank">
+			<img src="<?php echo base_url($infoMesa[0]["foto_acta_diputado"]); ?>" class="img-rounded" width="540" height="450" />
+		</a>
+												<?php }else{ 
+														echo "Falta foto acta escrutinio";
+													} 
+												?>													
+											</div>
+										</div>
 									</div>
-
-</div></div>
 								</div>
 							</div>
 						</div>
