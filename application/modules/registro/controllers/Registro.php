@@ -155,7 +155,7 @@ class Registro extends MX_Controller {
 			}elseif($userRol==2){//vista para AUDITOR
 				$data['linkBack'] = "registro/" . $corporacion . "/" . $idMesa;
 			}elseif($userRol==3){//vista para OPERADOR
-				$data['linkBack'] = "dashboard/ver_presidente/" . $idMesa;
+				$data['linkBack'] = "dashboard/ver_" . $corporacion . "/" . $idMesa;
 			}else{
 
 			}
