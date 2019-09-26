@@ -402,10 +402,10 @@ if($lista['estado_mesa'] == 2){
 	$botonPresidente = "disabled";
 	$botonDiputado = "disabled";
 	$enlacePresidente = "#" ;
-	$mensajePresidente = '<p class="text-danger"><strong>Escrutinio cerrado para presidente</strong></p>';
+	$mensajePresidente = '<p class="text-danger">Escrutinio <strong>cerrado </strong>para presidente</p>';
 	
 	$enlaceDiputado = "#" ;
-	$mensajeDiputado = '<p class="text-danger"><strong>Escrutinio cerrado para diputado</strong></p>';
+	$mensajeDiputado = '<p class="text-danger">Escrutinio <strong>cerrado</strong> para diputado</p>';
 }else{
 	$botonPresidente = "";
 	$botonDiputado = "";
@@ -418,13 +418,13 @@ if($lista['estado_mesa'] == 2){
 	if($lista['estado_presidente'] == 3){
 		$botonPresidente = "disabled";
 		$enlacePresidente = "#" ;
-		$mensajePresidente = '<p class="text-danger"><strong>Escrutinio cerrado para presidente</strong></p>';
+		$mensajePresidente = '<p class="text-danger">Escrutinio <strong>cerrado </strong>para presidente</p>';
 	}
 		
 	if($lista['estado_diputado'] == 3){
 		$botonDiputado = "disabled";
 		$enlaceDiputado = "#" ;
-		$mensajeDiputado = '<p class="text-danger"><strong>Escrutinio cerrado para diputado</strong></p>';
+		$mensajeDiputado = '<p class="text-danger"><strong>Escrutinio <strong>cerrado</strong> para diputado</strong></p>';
 	}
 }
 								echo "<td class='text-center'>";
@@ -457,7 +457,7 @@ Votos DIPUTADOS
 									}
 
 								}else{
-									echo '<p class="text-primary"><strong>Escrutinio solo para Presidente</strong></p>';
+									echo '<p class="text-primary">Escrutinio solo para Presidente</p>';
 								} 
 								
 								echo "</td>";
