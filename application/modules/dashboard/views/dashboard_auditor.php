@@ -392,9 +392,8 @@ $( document ).ready( function () {
 						</thead>
 						<tbody>							
 						<?php
-							$i=0;
 							foreach ($infoMesas as $lista):
-								$i++;
+
 								echo "<tr>";								
 								echo "<td class='text-center'>" . $lista['numero_mesa'] . "</td>";
 								
@@ -441,15 +440,26 @@ Votos PRESIDENTE
 						<?php
 								echo "</td>";
 								echo "<td class='text-center'>";
-						?>
 
+								//si el TIPO DE VOTO ES SOLO PARA PRESIDENTE ENTONCES NO MOSTRAR BOTON
+								if($lista['tipo_voto'] != 1)
+								{
+						?>
 <a href="<?php echo $enlaceDiputado; ?>" class="btn btn-danger btn-xs" <?php echo $botonDiputado; ?>>
 Votos DIPUTADOS  
 </a>	
+								<?php 
+									echo $mensajeDiputado; 
+									
+									//si el TIPO DE VOTO es tipo 3, mostrar mensaje
+									if($lista['tipo_voto'] == 3){
+										echo '<p class="text-warning"><strong>Advertencia: </strong>Registre la información de DIPUTADOS CIR. UNINOMINAL</p>';
+									}
 
-<?php echo $mensajeDiputado; ?>
-
-						<?php
+								}else{
+									echo '<p class="text-primary"><strong>Escrutinio solo para Presidente</strong></p>';
+								} 
+								
 								echo "</td>";
 								
 									echo "<td class='text-center'>";

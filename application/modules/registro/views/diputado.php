@@ -86,6 +86,23 @@
 						<div class="col-lg-8">				
 							<div class="row">	
 								<div class="col-lg-12">	
+			
+<?php 
+	//si el TIPO DE VOTO es tipo 3, mostrar mensaje
+	if($infoMesa[0]['tipo_voto'] == 3){
+?>
+			
+	<div class="col-lg-12">	
+		<div class="alert alert-warning ">
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			<strong>Advertencia: </strong>Registre la información de DIPUTADOS CIR. UNINOMINAL	
+		</div>
+	</div>
+	
+<?php 
+	} 
+?>
+								
 								
 <?php
 $retornoExito = $this->session->flashdata('retornoExito');

@@ -166,11 +166,11 @@ if ($retornoError) {
 													break;
 											case 2:
 													$valor = 'Presidente y Diputado';
-													$clase = "text-warning";
+													$clase = "text-danger";
 													break;
 											case 3:
 													$valor = 'Presidente, Diputado y Especiales';
-													$clase = "text-danger";
+													$clase = "text-warning";
 													break;
 									}
 									echo "<td class='text-center'>";

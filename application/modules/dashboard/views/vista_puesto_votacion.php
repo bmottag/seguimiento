@@ -142,45 +142,35 @@ if ($retornoError) {
 								echo "<td class='text-center'>" . $lista['numero_mesa'] . "</td>";
 								
 ///VERIFICAR SI YA SE REALIZARON LOS VOTOS 
+	$enlacePresidente = base_url("dashboard/ver_presidente/" . $lista['id_mesa']); 	
+	$enlaceDiputado = base_url("dashboard/ver_diputado/" . $lista['id_mesa']); 
+	
 if($lista['estado_mesa'] == 2){
-	$botonPresidente = "";
-	$botonDiputado = "";
-	$enlacePresidente = base_url("dashboard/ver_presidente/" . $lista['id_mesa']); 
-	$mensajePresidente = '<p class="text-danger"><strong>Escrutinio cerrado para presidente</strong></p>';
+	$mensajePresidente = '<p class="text-danger">Escrutinio cerrado para presidente</p>';
 	
-	$enlaceDiputado = base_url("dashboard/ver_diputado/" . $lista['id_mesa']); 
-	$mensajeDiputado = '<p class="text-danger"><strong>Escrutinio cerrado para diputado</strong></p>';
+	$mensajeDiputado = '<p class="text-danger">Escrutinio cerrado para diputado</p>';
 }else{
+	$mensajePresidente = '<p class="text-danger">Escrutinio cerrado para presidente</p>';
 	
-	$botonPresidente = "";
-	$botonDiputado = "";
-	$enlacePresidente = base_url("dashboard/ver_presidente/" . $lista['id_mesa']); 
-	$mensajePresidente = '<p class="text-danger"><strong>Escrutinio cerrado para presidente</strong></p>';
-	
-	$enlaceDiputado = base_url("dashboard/ver_diputado/" . $lista['id_mesa']); 
-	$mensajeDiputado = '<p class="text-danger"><strong>Escrutinio cerrado para diputado</strong></p>';
+	$mensajeDiputado = '<p class="text-danger">Escrutinio cerrado para diputado</p>';
 	
 	if($lista['estado_presidente'] == 1){
-		$botonPresidente = "disabled";
-		$enlacePresidente = "#"; 
-		$mensajePresidente = '<p class="text-danger"><strong>No se ha guardado el escrutinio para presidente</strong></p>';
+		$mensajePresidente = '<p class="text-danger">No se ha guardado el escrutinio para presidente</p>';
 	}elseif($lista['estado_presidente'] == 2){
-		$mensajePresidente = '<p class="text-danger"><strong>Escrutinio iniciado</strong></p>';
+		$mensajePresidente = '<p class="text-danger">Escrutinio iniciado</p>';
 	}
 		
 	if($lista['estado_diputado'] == 1){
-		$botonDiputado = "disabled";
-		$enlaceDiputado = "#"; 
-		$mensajeDiputado = '<p class="text-danger"><strong>No se ha guardado el escrutinio para diputado</strong></p>';
+		$mensajeDiputado = '<p class="text-danger">No se ha guardado el escrutinio para diputado</p>';
 	}elseif($lista['estado_presidente'] == 2){
-		$mensajePresidente = '<p class="text-danger"><strong>Escrutinio iniciado</strong></p>';
+		$mensajePresidente = '<p class="text-danger">Escrutinio iniciado</p>';
 	}
 }
 								echo "<td class='text-center'>";
 
 
 ?>
-<a href="<?php echo $enlacePresidente; ?>" class="btn btn-info btn-xs" <?php echo $botonPresidente; ?>>
+<a href="<?php echo $enlacePresidente; ?>" class="btn btn-info btn-xs">
 Ver votos PRESIDENTE  
 </a>	
 
@@ -189,15 +179,26 @@ Ver votos PRESIDENTE
 						<?php
 								echo "</td>";
 								echo "<td class='text-center'>";
+
+								//si el TIPO DE VOTO ES SOLO PARA PRESIDENTE ENTONCES NO MOSTRAR BOTON
+								if($lista['tipo_voto'] != 1)
+								{
 						?>
-
-<a href="<?php echo $enlaceDiputado; ?>" class="btn btn-danger btn-xs" <?php echo $botonDiputado; ?>>
-Ver votos DIPUTADOS  
+<a href="<?php echo $enlaceDiputado; ?>" class="btn btn-danger btn-xs">
+Votos DIPUTADOS  
 </a>	
+								<?php 
+									echo $mensajeDiputado; 
+									
+									//si el TIPO DE VOTO es tipo 3, mostrar mensaje
+									if($lista['tipo_voto'] == 3){
+										echo '<p class="text-warning"><strong>Advertencia: </strong>Registre la información de DIPUTADOS CIR. UNINOMINAL</p>';
+									}
 
-<?php echo $mensajeDiputado; ?>
-
-						<?php
+								}else{
+									echo '<p class="text-primary">Escrutinio solo para Presidente</p>';
+								} 
+								
 								echo "</td>";
 								
 									echo "<td class='text-center'>";
