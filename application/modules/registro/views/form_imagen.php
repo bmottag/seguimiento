@@ -6,7 +6,9 @@
 		<div class="col-lg-12">
 			<div class="panel panel-info">
 				<div class="panel-heading">
-					<a class="btn btn-info btn-xs" href=" <?php echo base_url().'registro/' . $corporacion . '/' . $infoMesa[0]['id_mesa']; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Regresar </a> 
+					<?php if($linkBack){ ?>
+					<a class="btn btn-info btn-xs" href=" <?php echo base_url($linkBack); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Regresar </a> 
+					<?php } ?>
 					<i class="fa fa-photo"></i> <strong>Foto acta escrutinio</strong>
 				</div>
 				<div class="panel-body">
@@ -51,9 +53,9 @@
 									<div class="alert alert-info">
 										<strong>Auditor: </strong><br>
 										<?php 
-											echo $this->session->userdata("firstname"); 
+											echo $infoEncargado[0]['nombres_usuario'];
 											echo " "; 
-											echo $this->session->userdata("lastname"); 
+											echo $infoEncargado[0]['apellidos_usuario'];
 										?>
 										<br><strong>No. mesa: </strong>
 										<?php echo $infoMesa[0]['numero_mesa']; ?>

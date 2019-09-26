@@ -94,8 +94,19 @@ class Registro extends MX_Controller {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
-
-			redirect(base_url('registro/' . $corporacion . '/' . $idMesa), 'refresh');
+			
+			//dependiendo del ROL hago el redirecionamiento
+			$userRol = $this->session->userdata("rol");
+			if($userRol==1){//vista para ADMINISTRADOR
+				
+			}elseif($userRol==2){//vista para AUDITOR
+				redirect(base_url('registro/' . $corporacion . '/' . $idMesa), 'refresh');
+			}elseif($userRol==3){//vista para OPERADOR
+				redirect(base_url('dashboard/ver_' . $corporacion . '/' . $idMesa), 'refresh');
+			}else{
+				redirect("/dashboard/admin","location",301);
+			}
+			
 	}
 	
 	/**
@@ -137,19 +148,30 @@ class Registro extends MX_Controller {
 			$this->load->model("general_model");
 			$userID = $this->session->userdata("id");
 			
+			//dependiendo del ROL hago el redirecionamiento
+			$userRol = $this->session->userdata("rol");
+			if($userRol==1){//vista para ADMINISTRADOR
+				
+			}elseif($userRol==2){//vista para AUDITOR
+				$data['linkBack'] = "registro/" . $corporacion . "/" . $idMesa;
+			}elseif($userRol==3){//vista para OPERADOR
+				$data['linkBack'] = "dashboard/ver_presidente/" . $idMesa;
+			}else{
+
+			}
+			
 			$data['corporacion'] = $corporacion;
-			
-			//Informacion del Puesto de trabajo
-			$arrParam = array('idUsuario' => $userID);
-			$data['infoEncargado'] = $this->general_model->get_info_encargado_puesto($arrParam);
-			
-			$arrParam = array('idPuesto' => $data['infoEncargado'][0]['fk_id_puesto_votacion']);
-			$data['infoPuesto'] = $this->general_model->get_puesto($arrParam);
 			
 			//Informacion de las mesas para el Puesto de votacion
 			$arrParam = array('idMesa' => $idMesa);
 			$data['infoMesa'] = $this->general_model->get_mesas($arrParam);
-			
+
+			//Informacion del Puesto
+			$arrParam = array('idPuesto' => $data['infoMesa'][0]['fk_puesto_votacion_mesas']);
+			$data['infoPuesto'] = $this->general_model->get_puesto($arrParam);
+
+			$data['infoEncargado'] = $this->general_model->get_info_encargado_puesto($arrParam);
+
 			$data['error'] = $error; //se usa para mostrar los errores al cargar la imagen 			
 
 			$data["view"] = 'form_imagen';
@@ -175,7 +197,7 @@ class Registro extends MX_Controller {
 			//SI LA IMAGEN FALLA AL SUBIR MOSTRAMOS EL ERROR EN LA VISTA 
 			if (!$this->upload->do_upload()) {
 				$error = $this->upload->display_errors();
-				$this->acta($idMesa,$error);
+				$this->foto_acta($idMesa,$corporacion,$error);
 			} else {
 				$file_info = $this->upload->data();//subimos la imagen
 				
@@ -198,8 +220,19 @@ class Registro extends MX_Controller {
 				}else{
 					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 				}
-							
-				redirect('registro/' . $corporacion . '/' . $idMesa);
+											
+				//dependiendo del ROL hago el redirecionamiento
+				$userRol = $this->session->userdata("rol");
+				if($userRol==1){//vista para ADMINISTRADOR
+					
+				}elseif($userRol==2){//vista para AUDITOR
+					redirect(base_url('registro/' . $corporacion . '/' . $idMesa), 'refresh');
+				}elseif($userRol==3){//vista para OPERADOR
+					redirect(base_url('dashboard/ver_' . $corporacion . '/' . $idMesa), 'refresh');
+				}else{
+					redirect("/dashboard/admin","location",301);
+				}
+				
 			}
     }
 	
@@ -216,7 +249,18 @@ class Registro extends MX_Controller {
 				show_error('ERROR!!! - You are in the wrong place.');
 			}
 					
-			$data['linkBack'] = "dashboard/auditor";
+					
+			//dependiendo del ROL hago el redirecionamiento
+			$userRol = $this->session->userdata("rol");
+			if($userRol==1){//vista para ADMINISTRADOR
+				
+			}elseif($userRol==2){//vista para AUDITOR
+				$data['linkBack'] = "dashboard/auditor";
+			}elseif($userRol==3){//vista para OPERADOR
+				$data['linkBack'] = "dashboard/operador";
+			}else{
+				redirect("/dashboard/admin","location",301);
+			}
 			
 			$this->load->model("general_model");			
 			
