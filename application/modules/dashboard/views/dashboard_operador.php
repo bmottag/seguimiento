@@ -213,14 +213,14 @@ if($infoAlerta["fk_id_tipo_alerta"] == 2)//NOTIFICACION
 			<div class="panel panel-primary">
 			
 				<div class="panel-heading">
-					<i class="fa fa-building"></i> LISTA PUESTOS DE VOTACIÓN
+					<i class="fa fa-users"></i> Lista de auditores
 				</div>
 				
 				<!-- /.panel-heading -->
 				<div class="panel-body">
 
 <?php
-	if(!$infoPuestos){ 
+	if(!$infoAuditores){ 
 		echo "<a href='#' class='btn btn-danger btn-block'>No hay Puestos de Votación</a>";
 	}else{
 ?>						
@@ -228,50 +228,59 @@ if($infoAlerta["fk_id_tipo_alerta"] == 2)//NOTIFICACION
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
+								<th class='text-center'>Auditor</th>
 								<th class='text-center'>Puesto de votación</th>
-								<th class='text-center'>Ubicación</th>
 								<th class='text-center'>No. total de mesas</th>
-								<th class='text-center'>No. mesas cerradas</th>
-								<th class='text-center'>No. mesas cerradas presidente</th>
-								<th class='text-center'>No. mesas cerradas diputado</th>
+								<th class='text-center'>Porcentaje de avance</th>
+								<th class='text-center'>Resumen</th>
 							</tr>
 						</thead>
 						<tbody>							
 						<?php
-							$i=0;
-							foreach ($infoPuestos as $lista):
-
-								//conteo de mesas cerradas para un PUESTO DE VOTACION
+							foreach ($infoAuditores as $lista):
+							
+								//conteo mesas del auditor
 								$arrParam = array(
-												"idPuesto" => $lista["id_puesto_votacion"],
+												"idAuditor" => $lista["fk_id_usuario_auditor"],
+												);
+								$contarMesasAuditor = $this->specific_model->countMesasCerradas($arrParam);
+							
+								//conteo de mesas cerradas para un AUDITOR
+								$arrParam = array(
+												"idAuditor" => $lista["fk_id_usuario_auditor"],
 												"columna" => "estado_mesa",
 												"valor" => 2
 												);
 								$contarMesasCerradas = $this->specific_model->countMesasCerradas($arrParam);
-								//conteo de mesas cerradas para PRESIDENTE para un PUESTO DE VOTACION
+								
+								//conteo de mesas cerradas para PRESIDENTE para un AUDITOR
 								$arrParam = array(
-												"idPuesto" => $lista["id_puesto_votacion"],
+												"idAuditor" => $lista["fk_id_usuario_auditor"],
 												"columna" => "estado_presidente",
 												"valor" => 3
 												);
 								$contarMesasPresidenteCerradas = $this->specific_model->countMesasCerradas($arrParam);
-								//conteo de mesas cerradas para DIPUTADO para un PUESTO DE VOTACION
+								
+								//conteo de mesas cerradas para DIPUTADO para un AUDITOR
 								$arrParam = array(
-												"idPuesto" => $lista["id_puesto_votacion"],
+												"idAuditor" => $lista["fk_id_usuario_auditor"],
 												"columna" => "estado_diputado",
 												"valor" => 3
 												);
 								$contarMesasDiputadoCerradas = $this->specific_model->countMesasCerradas($arrParam);
 
 								echo "<tr>";								
+
+								echo "<td >";
+								echo strtoupper($lista['nombre']);
+								echo "<br>";
+								echo "<strong>Celular: </strong><a href='tel:" . $lista['celular'] . "'>" . $lista['celular'] . "</a>";								
+								echo "</td>";
 								
 								echo "<td >";
 								echo "<strong>No.: </strong>" . strtoupper($lista['numero_puesto_votacion']);
 								echo "<br>" . strtoupper($lista['nombre_puesto_votacion']);
-								echo "</td>";
-								
-								echo "<td >";
-								echo "<strong>Departamento: </strong>" . strtoupper($lista['nombre_departamento']);
+								echo "<br><strong>Departamento: </strong>" . strtoupper($lista['nombre_departamento']);
 								echo "<br><strong>Municipio: </strong>" . strtoupper($lista['nombre_municipio']);
 								echo "<br><strong>Id Localidad: </strong>" . strtoupper($lista['id_localidad']);
 								echo "<br><strong>Localidad: </strong>" . strtoupper($lista['nombre_localidad']);
@@ -279,7 +288,7 @@ if($infoAlerta["fk_id_tipo_alerta"] == 2)//NOTIFICACION
 								echo "</td>";
 																
 								echo "<td class='text-center'>";
-								echo $lista['total_mesas'];
+								echo $contarMesasAuditor;
 								?>
 <br><br>
 <a href="<?php echo base_url("dashboard/ver_puesto/" . $lista['id_puesto_votacion']); ?>" class="btn btn-info btn-xs">
@@ -289,10 +298,19 @@ Ver mesas de votación
 
 								echo "</td>";
 								
-								echo "<td class='text-center'>" . $contarMesasCerradas . "</td>";
-								echo "<td class='text-center'>" . $contarMesasPresidenteCerradas . "</td>";
-								echo "<td class='text-center'>" . $contarMesasDiputadoCerradas . "</td>";
+								echo "<td class='text-center'>" ;
 								
+								$porcentajeAvance = $contarMesasCerradas * 100/$contarMesasAuditor;								
+								echo '<p class="text-danger"><strong>' . $porcentajeAvance . '%</strong></p>';
+								
+								echo "</td>";
+								
+								echo "<td>";
+								echo "<strong>No. mesas cerradas: </strong>" . $contarMesasCerradas;
+								echo "<br><strong>No. mesas cerradas presidente: </strong>" . $contarMesasPresidenteCerradas;
+								echo "<br><strong>No. mesas cerradas diputado: </strong>" . $contarMesasDiputadoCerradas;
+								echo "</td>";
+																
 								echo "</tr>";
 							endforeach;
 						?>
@@ -310,3 +328,17 @@ Ver mesas de votación
 
 </div>
 <!-- /#page-wrapper -->
+
+<!-- Tables -->
+<script>
+$(document).ready(function() {
+	$('#dataTables').DataTable({
+		responsive: true,
+		"ordering": true,
+		"order": [[ 3, 'desc' ]],
+		 paging: false,
+		"searching": false
+		
+	});
+});
+</script>

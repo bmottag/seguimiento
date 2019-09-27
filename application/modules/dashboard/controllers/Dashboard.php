@@ -101,6 +101,9 @@ class Dashboard extends MX_Controller {
 			$arrParam = array("idOperador" => $userID);
 			$data['conteoPuestos'] = $this->dashboard_model->countPuestosVotacion($arrParam);//cuenta PUESTOS DE VOTACION
 			
+			//lista de AUDITORES
+			$data['infoAuditores'] = $this->specific_model->get_auditores_by_mesa($arrParam);
+						
 			//listado de PUESTOS DE VOTACION para el OPERADOR
 			$arrParam = array('idOperador' => $userID);
 			$data['infoPuestos'] = $this->general_model->get_puesto($arrParam);

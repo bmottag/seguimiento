@@ -36,9 +36,17 @@ class Specific_model extends CI_Model {
 
 				$sql = "SELECT count(id_mesa) CONTEO";
 				$sql.= " FROM mesas";
-				$sql.= " WHERE " . $arrDatos["columna"] . " = " . $arrDatos["valor"];
+				$sql.= " WHERE 1=1 ";
+				
+				if (array_key_exists("columna", $arrDatos)) {
+					$sql.= " AND " . $arrDatos["columna"] . " = " . $arrDatos["valor"];
+				}
+				
 				if (array_key_exists("idPuesto", $arrDatos)) {
 					$sql.= " AND fk_puesto_votacion_mesas = " . $arrDatos["idPuesto"];
+				}
+				if (array_key_exists("idAuditor", $arrDatos)) {
+					$sql.= " AND fk_id_usuario_auditor = " . $arrDatos["idAuditor"];
 				}
 				
 				$query = $this->db->query($sql);
@@ -72,33 +80,19 @@ class Specific_model extends CI_Model {
 		 * Lista de sesiones para un operador
 		 * @since 28/7/2017
 		 */
-		public function get_sesiones_operador() 
+		public function get_auditores_by_mesa() 
 		{				
-				$this->db->select("DISTINCT(id_sesion), nombre_prueba, nombre_grupo_instrumentos, fecha, sesion_prueba");
-
-				//SITIO-SESION
-				$this->db->join('sitio_sesion X', 'X.fk_id_sitio = Y.id_sitio', 'INNER');
+				$userID = $this->session->userdata("id");
 				
-				//SESION
-				$this->db->join('sesiones S', 'S.id_sesion = X.fk_id_sesion', 'INNER');
-				//GRUPO INSTRUMENTOS
-				$this->db->join('param_grupo_instrumentos G', 'G.id_grupo_instrumentos = S.fk_id_grupo_instrumentos', 'INNER');
-				//PRUEBA
-				$this->db->join('pruebas P', 'P.id_prueba = G.fk_id_prueba', 'INNER');
-				
-				
-				//FILTRO POR COORDINADOR SI EL USUARIO DE SESION ES COORDINADOR
-				$userRol = $this->session->rol;
-				if($userRol==3) {
-					$this->db->where('Y.fk_id_user_coordinador', $this->session->id); //FILTRO POR ID DEL COORDINADOR
-				}				
-				//FILTRO POR OPERADOR SI EL USUARIO DE SESION ES OPERADOR
-				if($userRol==6) {
-					$this->db->where('Y.fk_id_user_operador', $this->session->id); //FILTRO POR ID DEL OPERADOR
-				}
+				$this->db->select("DISTINCT(fk_id_usuario_auditor), , CONCAT(nombres_usuario, ' ', apellidos_usuario) nombre, celular, P.*, D.*");
+				$this->db->join('usuario U', 'U.id_usuario = M.fk_id_usuario_auditor', 'LEFT');
+				$this->db->join('puesto_votacion P', 'P.id_puesto_votacion = M.fk_puesto_votacion_mesas', 'INNER');
+				$this->db->join('param_divipola D', 'D.codigo_municipio = P.fk_id_municipio', 'LEFT');
+								
+				$this->db->where('P.fk_id_usuario_operador', $userID); //FILTRO POR ID DEL OPERADOR
+				$this->db->where('M.fk_id_usuario_auditor !=', 0); //FILTRO POR ID DEL OPERADOR
 			
-				$this->db->order_by('S.id_sesion', 'asc');
-				$query = $this->db->get('sitios Y');
+				$query = $this->db->get('mesas M');
 
 				if ($query->num_rows() > 0) {
 					return $query->result_array();
