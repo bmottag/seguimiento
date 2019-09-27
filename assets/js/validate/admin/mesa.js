@@ -1,9 +1,11 @@
 $( document ).ready( function () {
+
+$("#mesa").bloquearTexto().maxlength(18);
 		
 	$( "#form" ).validate( {
 		rules: {
-			mesa:				{ required: true, maxlength:30 },
-			habilitadas:			{ required: true, maxlength:30 },
+			mesa:				{ required: true, maxlength:18 },
+			habilitadas:		{ required: true, maxlength:30 },
 			tipo_voto:			{ required: true }
 		},
 		errorElement: "em",

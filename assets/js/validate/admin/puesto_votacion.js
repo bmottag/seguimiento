@@ -2,10 +2,10 @@ $( document ).ready( function () {
 	
 	$("#numeroPuesto").bloquearTexto().maxlength(12);
 	$("#nombrePuesto").convertirMayuscula();
-	$("#idLocalidad").bloquearTexto().maxlength(12);
+	$("#idLocalidad").bloquearTexto().maxlength(5);
 	$("#localidad").convertirMayuscula();
 	$("#numeroMesas").bloquearTexto().maxlength(12);
-	$("#circunscripcion").convertirMayuscula();
+	$("#circunscripcion").bloquearTexto().maxlength(3);
 	
 	$( "#form" ).validate( {
 		rules: {
@@ -13,10 +13,10 @@ $( document ).ready( function () {
 			nombrePuesto:		{ required: true, minlength: 3, maxlength:120 },
 			depto:				{ required: true },
 			mcpio:				{ required: true },
-			idLocalidad:		{ required: true, minlength: 3, maxlength:12 },
+			idLocalidad:		{ required: true, minlength: 1, maxlength:5 },
 			localidad:			{ required: true, minlength: 3, maxlength:120 },
 			numeroMesas:		{ required: true, number: true, minlength: 1, maxlength:10 },
-			circunscripcion:	{ required: true, minlength: 3, maxlength:50 }
+			circunscripcion:	{ required: true, minlength: 1, maxlength:3 }
 		},
 		errorElement: "em",
 		errorPlacement: function ( error, element ) {
