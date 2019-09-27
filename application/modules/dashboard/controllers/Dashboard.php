@@ -119,7 +119,7 @@ class Dashboard extends MX_Controller {
 	/**
 	 * Controlador para operadores
 	 */
-	public function ver_puesto($idPuesto)
+	public function ver_puesto($idAuditor)
 	{	
 			$this->load->model("general_model");
 			$userRol = $this->session->userdata("rol");
@@ -129,32 +129,17 @@ class Dashboard extends MX_Controller {
 			if($userRol!=3){
 				show_error('ERROR!!! - You are in the wrong place.');	
 			}
+
+			//Busco el ID del sitio
+			$arrParam = array('idUsuario' => $idAuditor);
+			$data['infoEncargado'] = $this->general_model->get_info_encargado_puesto($arrParam);
 			
-			//Informacion PUESTO VOTACION			
-			$arrParam = array('idPuesto' => $idPuesto);
+			$arrParam = array('idPuesto' => $data['infoEncargado'][0]['fk_id_puesto_votacion']);
 			$data['infoPuesto'] = $this->general_model->get_puesto($arrParam);
 			
 			//Informacion de las mesas para el Puesto de votacion
+			$arrParam = array('idAuditor' => $idAuditor);
 			$data['infoMesas'] = $this->general_model->get_mesas($arrParam);
-			
-			//Busco informacion de AUDITOR
-			$data['infoEncargado'] = $this->general_model->get_info_encargado_puesto($arrParam);
-			
-			//Sumatoria de votos para presidente para este puesto de votacion
-			$arrParam = array(
-						'idPuesto' => $idPuesto,
-						'idCorporacion' => 1
-						);
-			$data['candidatosPresidente'] = $this->general_model->sumatoria_votos_candidatos($arrParam);
-			
-			
-			//Sumatoria de votos para diputado para este puesto de votacion
-			$arrParam = array(
-						'idPuesto' => $idPuesto,
-						'idCorporacion' => 3
-						);
-			$data['candidatosDiputado'] = $this->general_model->sumatoria_votos_candidatos($arrParam);
-
 
 			$data["view"] = "vista_puesto_votacion";
 			$this->load->view("layout", $data);

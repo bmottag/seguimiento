@@ -89,7 +89,8 @@ if ($retornoError) {
 								<div class="alert alert-info">
 									<?php 
 									foreach ($infoEncargado as $listaEncargado):
-										echo "<strong>Auditor: </strong>" . $listaEncargado['nombres_usuario'] . ' ' . $listaEncargado['apellidos_usuario'] . ' - <strong>Celular: </strong>' . $listaEncargado['celular'];
+										echo "<strong>Auditor: </strong>" . $listaEncargado['nombres_usuario'] . ' ' . $listaEncargado['apellidos_usuario'] . ' - ';
+										echo "<strong>Celular: </strong><a href='tel:" . $listaEncargado['celular'] . "'>" . $listaEncargado['celular'] . "</a>";
 										echo "<br>";
 									endforeach;
 									?>

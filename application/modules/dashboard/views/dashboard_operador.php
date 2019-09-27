@@ -291,7 +291,7 @@ if($infoAlerta["fk_id_tipo_alerta"] == 2)//NOTIFICACION
 								echo $contarMesasAuditor;
 								?>
 <br><br>
-<a href="<?php echo base_url("dashboard/ver_puesto/" . $lista['id_puesto_votacion']); ?>" class="btn btn-info btn-xs">
+<a href="<?php echo base_url("dashboard/ver_puesto/" . $lista['fk_id_usuario_auditor']); ?>" class="btn btn-info btn-xs">
 Ver mesas de votación
 </a>	
 								<?php
@@ -307,8 +307,8 @@ Ver mesas de votación
 								
 								echo "<td>";
 								echo "<strong>No. mesas cerradas: </strong>" . $contarMesasCerradas;
-								echo "<br><strong>No. mesas cerradas presidente: </strong>" . $contarMesasPresidenteCerradas;
-								echo "<br><strong>No. mesas cerradas diputado: </strong>" . $contarMesasDiputadoCerradas;
+								echo "<br><strong>No. mesas escrutadas presidente: </strong>" . $contarMesasPresidenteCerradas;
+								echo "<br><strong>No. mesas escrutadas diputado: </strong>" . $contarMesasDiputadoCerradas;
 								echo "</td>";
 																
 								echo "</tr>";

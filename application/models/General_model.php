@@ -111,6 +111,10 @@ class General_model extends CI_Model {
 				if (array_key_exists("idMesa", $arrDatos)) {
 					$this->db->where('M.id_mesa', $arrDatos["idMesa"]);
 				}
+				
+				if (array_key_exists("idAuditor", $arrDatos)) {
+					$this->db->where('M.fk_id_usuario_auditor', $arrDatos["idAuditor"]);
+				}
 												
 				$this->db->order_by('M.numero_mesa', 'asc');
 				$query = $this->db->get('mesas M');
