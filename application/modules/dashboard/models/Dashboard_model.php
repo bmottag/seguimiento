@@ -105,6 +105,25 @@
 		}
 		
 		/**
+		 * Lista de alertas
+		 * @since 29/9/2019
+		 */
+		public function get_alertas_flujo($arrDatos) 
+		{
+				$this->db->select();
+				$this->db->where('A.estado_alerta', 1); //ALERTA ACTIVA
+				$this->db->where('A.fk_id_tipo_alerta', $arrDatos["tipoAlerta"]); //FILTRO POR TIPO ALERTA
+				$this->db->where('A.flujo_alerta', $arrDatos["flujoAlerta"]); //FILTRO POR TIPO ALERTA
+				$query = $this->db->get('alertas A');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}
+		
+		/**
 		 * Guardar respuesta del usuario
 		 * @since 19/5/2017
 		 */

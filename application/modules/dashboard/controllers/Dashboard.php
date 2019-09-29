@@ -76,6 +76,18 @@ class Dashboard extends MX_Controller {
 			$arrParam = array("tipoAlerta" => 3);
 			$data['infoAlertaConsolidacion'] = $this->dashboard_model->get_alerta_operadors_by($arrParam);
 			
+			//busco si hay alerta de notificacion que se tipo 3:Reporte cierre de primera mesa, 
+			//si es asi entonces entonces busco si ya dio respuesta a la alerta el usuario y si la respuesta fue si
+			//si es asi entonces coloco bandera para que no muestre la tabla con la lista de mesas
+			$arrParam = array(
+							"tipoAlerta" => 2,
+							"flujoAlerta" => 3
+						);
+			$data['infoAlertaFlujo'] = $this->dashboard_model->get_alertas_flujo($arrParam);
+			//busco el usuario ya le dio respuesta a esa alerta
+			$arrParam = array("idAlerta" => $data['infoAlertaFlujo'][0]['id_alerta']);
+			$data['infoAlertaFlujo'] = $this->dashboard_model->get_registro_by($arrParam);
+			
 			$data["view"] = "dashboard_auditor";
 			$this->load->view("layout", $data);
 	}

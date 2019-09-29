@@ -378,7 +378,11 @@ $( document ).ready( function () {
 <?php
 	if(!$infoMesas){ 
 		echo "<a href='#' class='btn btn-danger btn-block'>No tiene mesas de votación asignadas.</a>";
-	}else{
+	}elseif(!$infoAlertaFlujo){
+		echo "<a href='#' class='btn btn-danger btn-block'>No ha dado respuesta al inicio de cierre de la primera mesa.</a>";
+	}elseif($infoAlertaFlujo && $infoAlertaFlujo[0]['acepta'] == 2){
+		echo "<a href='#' class='btn btn-danger btn-block'>Respondio que no ha cerrado la primera mesa.</a>";
+	}elseif($infoAlertaFlujo && $infoAlertaFlujo[0]['acepta'] == 1){
 ?>						
 					
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
