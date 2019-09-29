@@ -111,7 +111,7 @@ if ($retornoError) {
 									<br><br>			
 <?php
 if($banderaCierreProceso){
-		echo "<a href='#' class='btn btn-danger btn-block'>Proceso finalizado.</a>";
+		echo "<a href='tel:800102700' class='btn btn-danger btn-block'>Proceso finalizado.<br> Comunicarse con el call center.</a>";
 }else{
 ?>							
 <a href="<?php echo base_url('dashboard/finalizar_proceso'); ?>" class="btn btn-danger btn-block" > FINALIZAR PROCESO <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></a> 			
