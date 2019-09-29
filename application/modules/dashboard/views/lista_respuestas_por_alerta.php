@@ -46,6 +46,7 @@
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
+								<th class="text-center">Auditor</th>
 								<th class="text-center">Respuesta</th>
 								<th class="text-center">Puesto de votación</th>
 								<th class="text-center">Departamento</th>
@@ -56,6 +57,7 @@
 						</thead>
 						<tfoot>
 							<tr>
+								<th class="text-center">Auditor</th>
 								<th class="text-center">Respuesta</th>
 								<th class="text-center">Puesto de votación</th>
 								<th class="text-center">Departamento</th>
@@ -91,6 +93,12 @@
 
 	
 								echo "<tr>";
+								
+								echo "<td >";
+								echo strtoupper($lista['nombre']);
+								echo "<br>";
+								echo "<strong>Celular: </strong><a href='tel:" . $lista['celular'] . "'>" . $lista['celular'] . "</a>";								
+								echo "</td>";
 								
 								echo "<td>";
 								echo "<strong>Respuesta: </strong>";
@@ -160,10 +168,7 @@ $(document).ready(function() {
 	$('#dataTables').DataTable({
 		responsive: true,
 		order: false,
-		"pageLength": 25,
-		 "columnDefs": [
-    { "width": "60%", "targets": 0 }
-  ]
+		"pageLength": 25
 	});
 });
 

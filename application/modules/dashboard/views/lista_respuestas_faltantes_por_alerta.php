@@ -41,6 +41,7 @@
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
+								<th class="text-center">Auditor</th>
 								<th class="text-center">Dar respuesta</th>
 								<th class="text-center">Puesto de votación</th>
 								<th class="text-center">Departamento</th>
@@ -51,6 +52,7 @@
 						</thead>
 						<tfoot>
 							<tr>
+								<th class="text-center">Auditor</th>
 								<th class="text-center">Dar respuesta</th>
 								<th class="text-center">Puesto de votación</th>
 								<th class="text-center">Departamento</th>
@@ -74,6 +76,13 @@
 								//si no tiene respuesta entonces buscar la información
 								if(!$respuesta){
 									echo "<tr>";
+									
+									echo "<td >";
+									echo strtoupper($lista['nombre']);
+									echo "<br>";
+									echo "<strong>Celular: </strong><a href='tel:" . $lista['celular'] . "'>" . $lista['celular'] . "</a>";								
+									echo "</td>";
+									
 									echo "<td>";
 				//Enlace para dar respuesta
 				echo "<a href=" . base_url("report/responder_alerta/" . $lista['id_puesto_votacion'] . "/" . $lista['fk_id_usuario_auditor'] . "/" . $infoAlerta['id_alerta'] . "/" . $rol) . " ><strong><u>Dar Respuesta</u></strong> </a>";
