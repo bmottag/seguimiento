@@ -324,6 +324,10 @@ class Specific_model extends CI_Model {
 					$this->db->where('fk_id_alerta', $arrDatos["idAlerta"]); 
 				}
 				
+				if (array_key_exists("idUsuario", $arrDatos)) {
+					$this->db->where('fk_id_usuario_r', $arrDatos["idUsuario"]); 
+				}
+				
 				if (array_key_exists("idPuesto", $arrDatos)) {
 					$this->db->where('fk_id_puesto_votacion_r', $arrDatos["idPuesto"]); 
 				}

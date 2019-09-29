@@ -93,11 +93,10 @@ if($infoAlerta["fk_id_tipo_alerta"] == 2)//NOTIFICACION
 			$contadorNotificacionContestaron = 0;
 			$contadorNotificacionSi = 0;
 			$contadorNotificacionNoContestaron = 0;
-			$total = $conteoPuestos;
-					
-			foreach ($infoPuestos as $listaPuesto):
+
+			foreach ($infoAuditores as $listaAuditor):
 				$arrParam = array(
-						"idPuesto" => $listaPuesto['id_puesto_votacion'],
+						"idUsuario" => $listaAuditor['fk_id_usuario_auditor'],
 						"idAlerta" => $lista['id_alerta']
 				);
 				$respuesta = $this->specific_model->get_respuestas_alertas_vencidas_by($arrParam);
@@ -107,7 +106,7 @@ if($infoAlerta["fk_id_tipo_alerta"] == 2)//NOTIFICACION
 				}
 									
 				$arrParam = array(
-						"idPuesto" => $listaPuesto['id_puesto_votacion'],
+						"idUsuario" => $listaAuditor['fk_id_usuario_auditor'],
 						"idAlerta" => $lista['id_alerta'],
 						"respuestaAcepta" => 1
 				);//filtro por los que contestaron que SI
@@ -119,6 +118,8 @@ if($infoAlerta["fk_id_tipo_alerta"] == 2)//NOTIFICACION
 				
 				if($respuesta){
 					$contadorNotificacionContestaron++;
+				}else{
+					$contadorNotificacionNoContestaron++;
 				}
 
 			endforeach;
@@ -126,7 +127,7 @@ if($infoAlerta["fk_id_tipo_alerta"] == 2)//NOTIFICACION
 
 			//calculo el total
 			$contadorNotificacionNo = $contadorNotificacionContestaron - $contadorNotificacionSi;
-			$contadorNotificacionNoContestaron = $total - $contadorNotificacionContestaron;
+			$total = $contadorNotificacionNoContestaron + $contadorNotificacionSi + $contadorNotificacionNo;
 			$totalNotificacion = $contadorNotificacionSi + $contadorNotificacionNo;
 			
 			if($total != 0){
