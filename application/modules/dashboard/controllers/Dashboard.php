@@ -146,11 +146,7 @@ class Dashboard extends MX_Controller {
 			
 			//lista de AUDITORES
 			$data['infoAuditores'] = $this->specific_model->get_auditores_by_mesa($arrParam);
-						
-			//listado de PUESTOS DE VOTACION para el OPERADOR
-			$arrParam = array('idOperador' => $userID);
-			$data['infoPuestos'] = $this->general_model->get_puesto($arrParam);
-			
+									
 			//Buscar la alertas para esta sesion y el coordinador de sesion
 			$arrParam = array();
 			$data['alertasVencidas'] = $this->specific_model->get_alertas_vencidas_totales($arrParam);
@@ -375,9 +371,9 @@ class Dashboard extends MX_Controller {
 			//se buscan listado de ALERTAS
 			$data['infoAlertaVencida'] = $this->specific_model->get_alertas_vencidas_by($arrParam);
 			
-			//listado de PUESTOS DE VOTACION para el OPERADOR
-			$arrParam = array('idOperador' => $userID);
-			$data['infoPuestos'] = $this->general_model->get_puesto($arrParam);
+			//lista de AUDITORES
+			$arrParam = array("idOperador" => $userID);
+			$data['infoAuditores'] = $this->specific_model->get_auditores_by_mesa($arrParam);
 
 			$data["rol"] = $rol;//se pasa el rol del operador o del coordinador
 			

@@ -120,6 +120,7 @@ if($infoAlerta['fk_id_tipo_alerta'] == 1){//informativa
 	<input type="hidden" id="hddIdRol" name="hddIdRol" value="<?php echo $rol; ?>"/>
 	<input type="hidden" id="hddIdAlerta" name="hddIdAlerta" value="<?php echo $infoAlerta["id_alerta"]; ?>"/>
 	<input type="hidden" id="hddIdPuesto" name="hddIdPuesto" value="<?php echo $infoPuestos[0]["id_puesto_votacion"]; ?>"/>
+	<input type="hidden" id="hddIdUserAuditor" name="hddIdUserAuditor" value="<?php echo $idAuditor; ?>"/>
 
 	<div class="form-group">							
 		<div class="col-sm-12">

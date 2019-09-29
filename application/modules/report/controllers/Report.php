@@ -12,7 +12,7 @@ class Report extends CI_Controller {
 	 * Formulario para dar respuesta a la alerta
      * @since 23/5/2017
 	 */
-	public function responder_alerta($idPuesto, $idAlerta, $rol)
+	public function responder_alerta($idPuesto, $idAuditor, $idAlerta, $rol)
 	{
 			$this->load->model("general_model");
 			$this->load->model("specific_model");
@@ -25,7 +25,7 @@ class Report extends CI_Controller {
 			$arrParam = array('idPuesto' => $idPuesto);
 			$data['infoPuestos'] = $this->general_model->get_puesto($arrParam);
 
-			
+			$data["idAuditor"] = $idAuditor;//se pasa el rol del operador o del coordinador
 			$data["rol"] = $rol;//se pasa el rol del operador o del coordinador
 			$data["view"] = 'form_responder_alerta';
 			$this->load->view("layout", $data);

@@ -14,7 +14,7 @@
 				$data = array(
 					'fk_id_alerta' => $this->input->post('hddIdAlerta'),
 					'fk_id_puesto_votacion_r' => $this->input->post('hddIdPuesto'),
-					'fk_id_usuario_r' => $this->session->id,
+					'fk_id_usuario_r' => $this->input->post('hddIdUserAuditor'),
 					'acepta' => $this->input->post('acepta'),
 					'observacion' => $this->input->post('observacion'),
 					'fecha_registro' => date("Y-m-d G:i:s"),

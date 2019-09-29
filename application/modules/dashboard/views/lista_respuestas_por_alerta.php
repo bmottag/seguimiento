@@ -68,10 +68,10 @@
 						
 						<?php
 
-						if($infoPuestos){
-							foreach ($infoPuestos as $lista):
+						if($infoAuditores){
+							foreach ($infoAuditores as $lista):
 								$arrParam = array(
-										"idPuesto" => $lista['id_puesto_votacion'],
+										"idUsuario" => $lista['fk_id_usuario_auditor'],
 										"idAlerta" => $infoAlerta['id_alerta']
 								);
 								$respuesta = $this->specific_model->get_respuestas_alertas_vencidas_by($arrParam);
