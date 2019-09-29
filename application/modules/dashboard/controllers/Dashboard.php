@@ -58,6 +58,9 @@ class Dashboard extends MX_Controller {
 			$arrParam = array('idUsuario' => $userID);
 			$data['infoEncargado'] = $this->general_model->get_info_encargado_puesto($arrParam);
 			
+			//bandera de cierre de proceso por parte del auditor
+			$data['banderaCierreProceso'] = $data['infoEncargado'][0]['estado_auditor'] == 4?true:false;
+
 			$arrParam = array('idPuesto' => $data['infoEncargado'][0]['fk_id_puesto_votacion']);
 			$data['infoPuesto'] = $this->general_model->get_puesto($arrParam);
 			
@@ -92,6 +95,34 @@ class Dashboard extends MX_Controller {
 			$this->load->view("layout", $data);
 	}
 	
+	/**
+	 * Finalizar proceso por parte del auditor
+	 * @since 29/9/2019
+	 */
+	public function finalizar_proceso()
+	{
+			$userID = $this->session->userdata("id");
+						
+			$msj = "Gracias por su respuesta.";
+			
+			//actualizo el estado del puesto de votacio para el usuario en sesion en la tabla encargado_puesto_votacion
+			$arrParam = array(
+				"table" => "encargado_puesto_votacion",
+				"primaryKey" => "fk_id_usuario",
+				"id" => $userID,
+				"column" => "estado_auditor",
+				"value" => 4
+			);
+			$this->load->model("general_model");
+			if ($this->general_model->updateRecord($arrParam)) {
+				$this->session->set_flashdata('retornoExito', $msj);
+			} else {
+				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el Administrador.');
+			}
+
+			redirect(base_url('dashboard/auditor'), 'refresh');
+	}
+		
 	/**
 	 * Controlador para OPERADORES
 	 */

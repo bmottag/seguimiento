@@ -109,9 +109,13 @@ if ($retornoError) {
 									?>
 									
 									<br><br>			
-<a href="<?php echo base_url(); ?>" class="btn btn-danger btn-lg btn-block" > FINALIZAR PROCESO <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></a> 
-									
-									
+<?php
+if($banderaCierreProceso){
+		echo "<a href='#' class='btn btn-danger btn-block'>Proceso finalizado.</a>";
+}else{
+?>							
+<a href="<?php echo base_url('dashboard/finalizar_proceso'); ?>" class="btn btn-danger btn-block" > FINALIZAR PROCESO <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></a> 			
+<?php } ?>									
 								</div>
 							</div>
 						</div>	
@@ -376,6 +380,10 @@ $( document ).ready( function () {
 				<div class="panel-body">
 
 <?php
+//badera del estado del auditor para este puesto si exite es porque esta cerrado
+if($banderaCierreProceso){
+		echo "<a href='#' class='btn btn-danger btn-block'>Proceso finalizado.</a>";
+}else{
 	if(!$infoMesas){ 
 		echo "<a href='#' class='btn btn-danger btn-block'>No tiene mesas de votación asignadas.</a>";
 	}elseif(!$infoAlertaFlujo){
@@ -486,7 +494,10 @@ Votos DIPUTADOS
 						</tbody>
 					</table>
 				
-<?php	} ?>					
+<?php	
+	}
+}
+ ?>					
 				</div>
 				<!-- /.panel-body -->
 			</div>
