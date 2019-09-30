@@ -444,7 +444,7 @@ if($lista['estado_mesa'] == 2){
 
 ?>
 <a href="<?php echo $enlacePresidente; ?>" class="btn btn-info btn-xs" <?php echo $botonPresidente; ?>>
-Votos PRESIDENTE  
+Escrutinio Presidente
 </a>	
 
 <?php echo $mensajePresidente; ?>
@@ -458,7 +458,7 @@ Votos PRESIDENTE
 								{
 						?>
 <a href="<?php echo $enlaceDiputado; ?>" class="btn btn-danger btn-xs" <?php echo $botonDiputado; ?>>
-Votos DIPUTADOS  
+Escrutinio Diputados
 </a>	
 								<?php 
 									echo $mensajeDiputado; 
