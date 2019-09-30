@@ -74,7 +74,8 @@
 		<div class="col-lg-12">
 			<div class="panel panel-info">
 				<div class="panel-heading">
-					<i class="fa fa-home"></i> Resgistro conteo de votos de los candidatos para presidente
+					<a class="btn btn-info btn-xs" href=" <?php echo base_url(). 'dashboard/auditor'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Regresar </a> 
+					<i class="fa fa-home"></i> Escrutinio candidatos para Presidente
 				</div>
 				<div class="panel-body">
 
