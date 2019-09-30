@@ -131,8 +131,8 @@ if ($retornoError) {
 						<thead>
 							<tr>
 								<th class="text-center">Número mesa</th>
-								<th class="text-center">Escrutinio presidente</th>
-								<th class="text-center">Escrutinio diputado</th>
+								<th class="text-center">Escrutinio Presidente</th>
+								<th class="text-center">Escrutinio Diputado</th>
 								<th class="text-center">Estado mesa</th>
 							</tr>
 						</thead>
@@ -147,22 +147,22 @@ if ($retornoError) {
 	$enlaceDiputado = base_url("dashboard/ver_diputado/" . $lista['id_mesa']); 
 	
 if($lista['estado_mesa'] == 2){
-	$mensajePresidente = '<p class="text-danger">Escrutinio cerrado para presidente</p>';
+	$mensajePresidente = '<p class="text-danger">Escrutinio cerrado para Presidente</p>';
 	
-	$mensajeDiputado = '<p class="text-danger">Escrutinio cerrado para diputado</p>';
+	$mensajeDiputado = '<p class="text-danger">Escrutinio cerrado para Diputado</p>';
 }else{
-	$mensajePresidente = '<p class="text-danger">Escrutinio cerrado para presidente</p>';
+	$mensajePresidente = '<p class="text-danger">Escrutinio cerrado para Presidente</p>';
 	
-	$mensajeDiputado = '<p class="text-danger">Escrutinio cerrado para diputado</p>';
+	$mensajeDiputado = '<p class="text-danger">Escrutinio cerrado para Diputado</p>';
 	
 	if($lista['estado_presidente'] == 1){
-		$mensajePresidente = '<p class="text-danger">No se ha guardado el escrutinio para presidente</p>';
+		$mensajePresidente = '<p class="text-danger">No se ha guardado el escrutinio para Presidente</p>';
 	}elseif($lista['estado_presidente'] == 2){
 		$mensajePresidente = '<p class="text-danger">Escrutinio iniciado</p>';
 	}
 		
 	if($lista['estado_diputado'] == 1){
-		$mensajeDiputado = '<p class="text-danger">No se ha guardado el escrutinio para diputado</p>';
+		$mensajeDiputado = '<p class="text-danger">No se ha guardado el escrutinio para Diputado</p>';
 	}elseif($lista['estado_presidente'] == 2){
 		$mensajePresidente = '<p class="text-danger">Escrutinio iniciado</p>';
 	}
@@ -172,7 +172,7 @@ if($lista['estado_mesa'] == 2){
 
 ?>
 <a href="<?php echo $enlacePresidente; ?>" class="btn btn-info btn-xs">
-Ver votos PRESIDENTE  
+Escrutinio Presidente  
 </a>	
 
 <?php echo $mensajePresidente; ?>
@@ -186,7 +186,7 @@ Ver votos PRESIDENTE
 								{
 						?>
 <a href="<?php echo $enlaceDiputado; ?>" class="btn btn-danger btn-xs">
-Votos DIPUTADOS  
+Escrutinio Diputados
 </a>	
 								<?php 
 									echo $mensajeDiputado; 
