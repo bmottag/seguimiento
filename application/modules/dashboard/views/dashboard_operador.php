@@ -232,7 +232,8 @@ if($infoAlerta["fk_id_tipo_alerta"] == 2)//NOTIFICACION
 								<th class='text-center'>Auditor</th>
 								<th class='text-center'>Puesto de votación</th>
 								<th class='text-center'>No. total de mesas</th>
-								<th class='text-center'>Porcentaje de avance</th>
+								<th class='text-center'>Presidente - Porcentaje de avance</th>
+								<th class='text-center'>Diputados - Porcentaje de avance</th>
 								<th class='text-center'>Resumen</th>
 							</tr>
 						</thead>
@@ -299,11 +300,14 @@ Ver mesas de votación
 
 								echo "</td>";
 								
+								$porcentajeAvancePresidente = $contarMesasPresidenteCerradas * 100/$contarMesasAuditor;								
+								$porcentajeAvanceDiputado = $contarMesasDiputadoCerradas * 100/$contarMesasAuditor;								
 								echo "<td class='text-center'>" ;
+								echo '<p class="text-info"><strong>' . $porcentajeAvancePresidente . '%</strong></p>';
+								echo "</td>";
 								
-								$porcentajeAvance = $contarMesasCerradas * 100/$contarMesasAuditor;								
-								echo '<p class="text-danger"><strong>' . $porcentajeAvance . '%</strong></p>';
-								
+								echo "<td class='text-center'>";
+								echo '<p class="text-danger"><strong>' . $porcentajeAvanceDiputado . '%</strong></p>';
 								echo "</td>";
 								
 								echo "<td>";
