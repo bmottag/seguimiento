@@ -41,6 +41,48 @@ $(function(){
 			}
 	});
 	
+	$(".btn-warning").click(function () {	
+			
+			//Activa icono guardando
+			if(window.confirm('Esta seguro de eliminar los registros de la Base de Datos?'))
+			{
+					$(".btn-info").attr('disabled','-1');
+					$.ajax ({
+						type: 'POST',
+						url: base_url + 'admin/eliminar_usuarios_db',
+						cache: false,
+						success: function(data){
+												
+							if( data.result == "error" )
+							{
+								alert(data.mensaje);
+								$(".btn-info").removeAttr('disabled');							
+								return false;
+							} 
+											
+							if( data.result )//true
+							{	                                                        
+								$(".btn-info").removeAttr('disabled');
+
+								var url = base_url + "admin/atencion_eliminar";
+								$(location).attr("href", url);
+							}
+							else
+							{
+								alert('Error. Reload the web page.');
+								$(".btn-info").removeAttr('disabled');
+							}	
+						},
+						error: function(result) {
+							alert('Error. Reload the web page.');
+							$(".btn-info").removeAttr('disabled');
+						}
+
+					});
+			}
+	});
+
+	
 });
 </script>
 
@@ -95,7 +137,7 @@ if ($retornoError) {
 }
 ?> 
 					<div class="row">
-						<div class="col-lg-12">	
+						<div class="col-lg-4">	
 							<div class="alert alert-danger">
 								<strong>Atención:</strong> <br>Al aceptar borrará toda la información de Registro de Alertas, 
 								Registro de Votos, Sumatoria de votos y Estados de mesas.
@@ -107,6 +149,16 @@ if ($retornoError) {
 							</div>
 						</div>
 
+						<div class="col-lg-4">	
+							<div class="alert alert-warning">
+								<strong>Borrar usuarios:</strong> <br>Al aceptar borrará los Auditores y Operadores.
+								
+								<br><br>
+								<button type="button" class="btn btn-warning btn-xs" >
+									Aceptar <span class="fa fa-times fa-fw" aria-hidden="true">
+								</button>						
+							</div>
+						</div>
 						
 					</div>
 					
