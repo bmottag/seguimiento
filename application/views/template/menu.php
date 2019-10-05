@@ -134,7 +134,7 @@ if($userRol==1){ //ADMIN
 						<li class="divider"></li>
 						
 						<li>
-							<a href="<?php echo base_url("admin/param_email"); ?>"><i class="fa fa-ban fa-fw"></i> Email</a>
+							<a href="<?php echo base_url("admin/atencion_eliminar"); ?>"><i class="fa fa-ban fa-fw"></i> Eiminar registros BD</a>
 						</li>
 
                     </ul>

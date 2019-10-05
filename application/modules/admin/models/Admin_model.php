@@ -624,7 +624,8 @@
 		}
 		
 		/**
-		 * Eliminar registros de la tabla registros y log_registro
+		 * Eliminar registros de la tabla registros y log_registro, registros_votos, log_registro_votos, mensajes_texto
+		 * actualizar estados de mesas y limpiar campo foto_acta_diputado y foto_acta_presidente
 		 * @since  23/5/2017
 		 * @review  23/2/2018
 		 */
@@ -635,7 +636,21 @@
 			
 				$sql = "TRUNCATE TABLE registro";
 				$query = $this->db->query($sql);
-
+				
+				$sql = "TRUNCATE TABLE log_registro_votos";
+				$query = $this->db->query($sql);
+			
+				$sql = "TRUNCATE TABLE registro_votos";
+				$query = $this->db->query($sql);				
+				
+				$sql = "TRUNCATE TABLE mensaje_texto";
+				$query = $this->db->query($sql);								
+				
+				$sql = "UPDATE mesas SET sumatoria_votos_presidente = 0, sumatoria_votos_diputado = 0,
+						estado_presidente = 1, estado_diputado = 1, estado_mesa = 1,
+						foto_acta_presidente = '', foto_acta_diputado = ''";
+				$query = $this->db->query($sql);
+								
 				if ($query) {
 					return true;
 				} else {

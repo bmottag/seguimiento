@@ -136,7 +136,7 @@ class Admin extends MX_Controller {
 			} else {
 					if ($idUsuario = $this->admin_model->saveUser($clave)) {
 						$data["result"] = true;					
-						$this->session->set_flashdata('retornoéxito', $msj);
+						$this->session->set_flashdata('retornoExito', $msj);
 						
 						//a los usuarios nuevos les envio correo con contraseña
 						if($idUser == '') {
@@ -174,7 +174,7 @@ class Admin extends MX_Controller {
 	public function resetPassword($idUser)
 	{
 			if ($this->admin_model->resetEmployeePassword($idUser)) {
-				$this->session->set_flashdata('retornoéxito', 'You have reset the Employee pasword to: 123456');
+				$this->session->set_flashdata('retornoExito', 'You have reset the Employee pasword to: 123456');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
 			}
@@ -300,7 +300,7 @@ class Admin extends MX_Controller {
 				$data["result"] = true;
 				$data["idRecord"] = $idTipoAlerta;
 				
-				$this->session->set_flashdata('retornoéxito', $msj);
+				$this->session->set_flashdata('retornoExito', $msj);
 			} else {
 				$data["result"] = "error";
 				$data["idRecord"] = "";
@@ -393,7 +393,7 @@ class Admin extends MX_Controller {
 				$data["result"] = true;
 				$data["idRecord"] = $idAlerta;
 				
-				$this->session->set_flashdata('retornoéxito', $msj);
+				$this->session->set_flashdata('retornoExito', $msj);
 			} else {
 				$data["result"] = "error";
 				$data["idRecord"] = "";
@@ -469,7 +469,7 @@ class Admin extends MX_Controller {
 				$data["result"] = true;
 				$data["idRecord"] = $idPuesto;
 				
-				$this->session->set_flashdata('retornoéxito', $msj);
+				$this->session->set_flashdata('retornoExito', $msj);
 			} else {
 				$data["result"] = "error";
 				$data["idRecord"] = "";
@@ -546,7 +546,7 @@ class Admin extends MX_Controller {
 				$data["result"] = true;
 				$data["idRecord"] = $idPuesto;
 
-				$this->session->set_flashdata('retornoéxito', $msj);
+				$this->session->set_flashdata('retornoExito', $msj);
 			} else {
 				$data["result"] = "error";
 				$data["idRecord"] = "";
@@ -626,7 +626,7 @@ class Admin extends MX_Controller {
 
 			if ($idUsuario = $this->admin_model->saveCandidato()) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoéxito', $msj);
+				$this->session->set_flashdata('retornoExito', $msj);
 			} else {
 				$data["result"] = "error";					
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el administrador.');
@@ -689,7 +689,7 @@ class Admin extends MX_Controller {
 			if ($idPartido = $this->admin_model->savePartido()) {
 				$data["result"] = true;
 				
-				$this->session->set_flashdata('retornoéxito', $msj);
+				$this->session->set_flashdata('retornoExito', $msj);
 			} else {
 				$data["result"] = "error";
 				
@@ -781,7 +781,7 @@ class Admin extends MX_Controller {
 			if ($identificador = $this->admin_model->saveParametros()) {
 				$data["result"] = true;
 				
-				$this->session->set_flashdata('retornoéxito', $msj);
+				$this->session->set_flashdata('retornoExito', $msj);
 			} else {
 				$data["result"] = "error";
 				
@@ -967,7 +967,7 @@ class Admin extends MX_Controller {
 			}else{
 				if ($idSesion = $this->admin_model->saveSitiosSesion()) {
 					$data["result"] = true;
-					$this->session->set_flashdata('retornoéxito', $msj);
+					$this->session->set_flashdata('retornoExito', $msj);
 				} else {
 					$data["result"] = "error";
 					$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el Administrador.');
@@ -1058,31 +1058,12 @@ class Admin extends MX_Controller {
 			
 			if ($this->admin_model->eliminarRegistros()) {
 				
-				$data["msj"] = "Tabla Registro";
-				
-				if ($this->admin_model->eliminarAlertas()) {
-					$data["msj"] .= ", Tabla Alertas";
-				}
-				
-				if ($this->admin_model->eliminarSitioSesion()) {
-					$data["msj"] .= ", Tabla Sitio Sesión";
-				}				
-				
-				if ($this->admin_model->eliminarNovedades()) {
-					$data["msj"] .= ", Tablas de novedades";
-				}
-				
-				if ($this->admin_model->eliminarSesiones()) {
-					$data["msj"] .= ", Tabla Sesiones";
-					
-					if ($this->admin_model->eliminarGrupoInstrumentos()) {
-						$data["msj"] .= ", Tabla Grupo Instrumentos.";
-					}
-				}
+				$data["msj"] = "Tabla Registro, Tabla Registro votos, Tabla Mensaje texto";
+				$data["msj"] .= ", y se actualizarón estados de las mesas.";
 				
 				$data["result"] = true;
 				$data["mensaje"] = "Se eliminaron los registros.";
-				$this->session->set_flashdata('retornoéxito', 'Se eliminó los registros de ' . $data["msj"]);
+				$this->session->set_flashdata('retornoExito', 'Se eliminó los registros de ' . $data["msj"]);
 			}else{
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
@@ -1116,7 +1097,7 @@ class Admin extends MX_Controller {
 				
 				$data["result"] = true;
 				$data["mensaje"] = "Se eliminaron los registros.";
-				$this->session->set_flashdata('retornoéxito', 'Se eliminó los registros de ' . $data["msj"]);
+				$this->session->set_flashdata('retornoExito', 'Se eliminó los registros de ' . $data["msj"]);
 			}else{
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
@@ -1140,7 +1121,7 @@ class Admin extends MX_Controller {
 			{
 				$data["result"] = true;
 				$data["mensaje"] = "Se eliminaron los registros.";
-				$this->session->set_flashdata('retornoéxito', 'Se eliminó los registros de la tabla de usuarios.');
+				$this->session->set_flashdata('retornoExito', 'Se eliminó los registros de la tabla de usuarios.');
 			}else{
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
@@ -1170,7 +1151,7 @@ class Admin extends MX_Controller {
 				
 				$data["result"] = true;
 				$data["mensaje"] = "Se eliminaron los registros.";
-				$this->session->set_flashdata('retornoéxito', 'Se eliminó los registros de ' . $data["msj"]);
+				$this->session->set_flashdata('retornoExito', 'Se eliminó los registros de ' . $data["msj"]);
 			}else{
 				$data["result"] = "error";
 				$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
@@ -1201,7 +1182,7 @@ class Admin extends MX_Controller {
 			$this->load->model("general_model");
 
 			if ($this->general_model->updateRecord($arrParam)) {
-				$this->session->set_flashdata('retornoéxito', 'Se eliminó el <strong>DELEGADO</strong> del sitio.');
+				$this->session->set_flashdata('retornoExito', 'Se eliminó el <strong>DELEGADO</strong> del sitio.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el Administrador');
 			}
@@ -1230,7 +1211,7 @@ class Admin extends MX_Controller {
 			$this->load->model("general_model");
 
 			if ($this->general_model->updateRecord($arrParam)) {
-				$this->session->set_flashdata('retornoéxito', 'Se eliminó el <strong>COORDINADOR</strong> del sitio.');
+				$this->session->set_flashdata('retornoExito', 'Se eliminó el <strong>COORDINADOR</strong> del sitio.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el Administrador');
 			}
@@ -1284,7 +1265,7 @@ class Admin extends MX_Controller {
 				if ($this->general_model->deleteRecord($arrParam)) {
 					$data["result"] = true;
 					$data["mensaje"] = "Se eliminó la asociación.";
-					$this->session->set_flashdata('retornoéxito', 'Se eliminó la asociación');
+					$this->session->set_flashdata('retornoExito', 'Se eliminó la asociación');
 				} else {
 					$data["result"] = "error";
 					$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
@@ -1331,7 +1312,7 @@ class Admin extends MX_Controller {
 				if ($this->general_model->deleteRecord($arrParam)) {
 					$data["result"] = true;
 					$data["mensaje"] = "Se eliminó la Alerta.";
-					$this->session->set_flashdata('retornoéxito', 'Se eliminó la alerta');
+					$this->session->set_flashdata('retornoExito', 'Se eliminó la alerta');
 				} else {
 					$data["result"] = "error";
 					$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
@@ -1400,7 +1381,7 @@ class Admin extends MX_Controller {
 				if ($this->general_model->deleteRecord($arrParam)) {
 					$data["result"] = true;
 					$data["mensaje"] = "Se eliminó la asociación.";
-					$this->session->set_flashdata('retornoéxito', 'Se eliminó la asociación');
+					$this->session->set_flashdata('retornoExito', 'Se eliminó la asociación');
 				} else {
 					$data["result"] = "error";
 					$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
@@ -1447,7 +1428,7 @@ class Admin extends MX_Controller {
 				if ($this->general_model->deleteRecord($arrParam)) {
 					$data["result"] = true;
 					$data["mensaje"] = "Se eliminó el Grupo de Instrumentos.";
-					$this->session->set_flashdata('retornoéxito', 'Se eliminó el Grupo de Instrumentos');
+					$this->session->set_flashdata('retornoExito', 'Se eliminó el Grupo de Instrumentos');
 				} else {
 					$data["result"] = "error";
 					$data["mensaje"] = "Error!!! Contactarse con el Administrador.";
@@ -1530,7 +1511,7 @@ class Admin extends MX_Controller {
 
 				if ($this->general_model->updateRecord($arrParam)) {				
 						$data["result"] = true;
-						$this->session->set_flashdata('retornoéxito', 'Se guardó la información');
+						$this->session->set_flashdata('retornoExito', 'Se guardó la información');
 				}else{
 						$data["result"] = "error";				
 						$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el Administrador.');					
@@ -1615,7 +1596,7 @@ class Admin extends MX_Controller {
 
 				if ($this->general_model->updateRecord($arrParam)) {				
 						$data["result"] = true;
-						$this->session->set_flashdata('retornoéxito', 'Se guardó la información');
+						$this->session->set_flashdata('retornoExito', 'Se guardó la información');
 				}else{
 						$data["result"] = "error";				
 						$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el Administrador.');					
@@ -1701,7 +1682,7 @@ class Admin extends MX_Controller {
 
 				if ($this->general_model->updateRecord($arrParam)) {				
 						$data["result"] = true;
-						$this->session->set_flashdata('retornoéxito', 'Se guardó la información');
+						$this->session->set_flashdata('retornoExito', 'Se guardó la información');
 				}else{
 						$data["result"] = "error";				
 						$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el Administrador.');					
@@ -1786,7 +1767,7 @@ class Admin extends MX_Controller {
 
 				if ($this->general_model->updateRecord($arrParam)) {				
 						$data["result"] = true;
-						$this->session->set_flashdata('retornoéxito', 'Se guardó la información');
+						$this->session->set_flashdata('retornoExito', 'Se guardó la información');
 				}else{
 						$data["result"] = "error";				
 						$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el Administrador.');					
@@ -1905,7 +1886,7 @@ class Admin extends MX_Controller {
 			}
 			
 			//regresar a la pantalla inicial
-			$this->session->set_flashdata('retornoéxito', 'Se actualizó la información.');
+			$this->session->set_flashdata('retornoExito', 'Se actualizó la información.');
 			redirect("/admin/atencion_eliminar/",'refresh');
 	}
 	
@@ -1930,7 +1911,7 @@ class Admin extends MX_Controller {
 			}
 			
 			//regresar a la pantalla inicial
-			$this->session->set_flashdata('retornoéxito', 'Se enviaron los correos.');
+			$this->session->set_flashdata('retornoExito', 'Se enviaron los correos.');
 			redirect("/dashboard/admin",'refresh');
 	}
 	
@@ -1981,7 +1962,7 @@ class Admin extends MX_Controller {
 
 			if ($idAlerta = $this->admin_model->saveParamEmail()) {
 				$data["result"] = true;
-				$this->session->set_flashdata('retornoéxito', "Se actualizarón los datos con éxito");
+				$this->session->set_flashdata('retornoExito', "Se actualizarón los datos con éxito");
 			} else {
 				$data["result"] = "error";
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el Administrador.');
@@ -2023,7 +2004,7 @@ class Admin extends MX_Controller {
 			}
 			
 			//regresar a la pantalla inicial
-			$this->session->set_flashdata('retornoéxito', 'Se enviaron los correos.');
+			$this->session->set_flashdata('retornoExito', 'Se enviaron los correos.');
 			redirect("/admin/param_email",'refresh');
 	}	
 	
