@@ -14,7 +14,7 @@ class Home {
 
     public function check_login() {
         $error = FALSE;
-        $arrModules = array("login", "cron", "ieredirect");
+        $arrModules = array("login", "cron", "ieredirect", "registro", "ws","mensajes","pruebas");
         if (!in_array($this->ci->uri->segment(1), $arrModules)) {
             if ($this->ci->uri->segment(1) == "menu") {
                 if(($this->ci->uri->segment(2) . '/' . $this->ci->uri->segment(3)) != 'menu/salir') {
@@ -22,8 +22,8 @@ class Home {
                         $error = TRUE;
                     }
                 }
-            } else if ($this->ci->uri->segment(1) == "gh_asistencia") {
-                $arrControllers = array($this->ci->uri->segment(1), "index", "insertarAsisDiario", "registro", "userAuth", "validaSesion");
+            } else if ($this->ci->uri->segment(1) == "registro") {
+                $arrControllers = array($this->ci->uri->segment(1), "storeSms", "index", "insertarAsisDiario", "registro", "userAuth", "validaSesion");
                 if ($this->ci->uri->segment(2) != FALSE && !in_array($this->ci->uri->segment(2), $arrControllers)) {
                     if (isset($this->ci->session) && $this->ci->session->userdata('id') == FALSE) {
                         $error = TRUE;
