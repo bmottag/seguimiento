@@ -405,14 +405,14 @@
 		 * param Id municipio int para asignar operador a todos los sitios con ese id
 	     * @since  4/6/2017
 	     */
-	    public function updateSitio_operador($idMunicipio)
+	    public function updatePuesto_operador($idMunicipio)
 		{
 				$data = array(
-					'fk_id_user_operador' => $this->input->post("usuario")
+					'fk_id_usuario_operador' => $this->input->post("usuario")
 				);
 
-				$this->db->where('fk_mpio_divipola', $idMunicipio);
-				$query = $this->db->update('sitios', $data);
+				$this->db->where('fk_id_municipio', $idMunicipio);
+				$query = $this->db->update('puesto_votacion', $data);
 
 				if ($query) {
 					return true;
@@ -782,6 +782,9 @@
 
 				$sql = "UPDATE puesto_votacion SET fk_id_usuario_operador = 0";
 				$query = $this->db->query($sql);				
+				
+				$sql = "UPDATE param_divipola SET fk_id_operador_mcpio = 0";
+				$query = $this->db->query($sql);
 				
 				$sql = "TRUNCATE TABLE encargado_puesto_votacion";
 				$query = $this->db->query($sql);				

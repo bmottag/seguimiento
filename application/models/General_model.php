@@ -302,6 +302,36 @@ class General_model extends CI_Model {
 				}
 		}
 		
+		/**
+		 * Lista operadores
+		 * @since 5/10/2019
+		 */
+		public function get_operadores($arrDatos) 
+		{
+				$this->db->select('');
+				$this->db->join('usuario U', 'U.id_usuario = D.fk_id_operador_mcpio', 'INNER');
+				
+				$where = "D.fk_id_operador_mcpio IS NOT NULL";
+				$this->db->where($where);
+				
+				if (array_key_exists("idMcpio", $arrDatos)) {
+					$this->db->where('D.codigo_municipio', $arrDatos["idMcpio"]);
+				}
+				
+				if (array_key_exists("idOperador", $arrDatos)) {
+					$this->db->where('D.fk_id_operador_mcpio', $arrDatos["idOperador"]);
+				}
+				
+				$this->db->order_by('nombre_departamento, nombre_provincia, nombre_municipio', 'asc');
+				$query = $this->db->get('param_divipola D');
+
+				if ($query->num_rows() > 0) {
+					return $query->result_array();
+				} else {
+					return false;
+				}
+		}	
+		
 
 	
 	

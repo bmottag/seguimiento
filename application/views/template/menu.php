@@ -127,6 +127,12 @@ if($userRol==1){ //ADMIN
 						<li class="divider"></li>
 						
 						<li>
+							<a href="<?php echo base_url("admin/asignar_operador"); ?>"><i class="fa fa-building-o fa-fw"></i> Operadores por municipio</a>
+						</li>
+												
+						<li class="divider"></li>
+						
+						<li>
 							<a href="<?php echo base_url("admin/alertas"); ?>"><i class="fa fa-bell fa-fw"></i> Alertas</a>
 						</li>
 						

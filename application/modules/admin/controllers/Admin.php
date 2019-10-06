@@ -1619,7 +1619,7 @@ class Admin extends MX_Controller {
 	 * Lista de OPERADOR
      * @since 5/6/2017
 	 */
-	public function operador()
+	public function asignar_operador()
 	{
 			$this->load->model("general_model");
 			$arrParam = array();
@@ -1641,7 +1641,12 @@ class Admin extends MX_Controller {
 			$data["identificador"] = $this->input->post("identificador");
 			
 			$this->load->model("general_model");
-			$data['usuarios'] = $this->general_model->lista_operador();//listado usuarios coordinadores
+			
+			//listado usuarios operadores
+			$arrParam = array(
+				"idRol" => 3
+			);
+			$data['usuarios'] = $this->admin_model->get_users($arrParam);
 			
 			$data['departamentos'] = $this->general_model->get_dpto_divipola();//listado de departamentos
 			
@@ -1667,12 +1672,12 @@ class Admin extends MX_Controller {
 			$idMcpio = $this->input->post('mcpio');
 			$idUser = $this->input->post('usuario');
 
-			if ($this->admin_model->updateSitio_operador($idMcpio)) {
+			if ($this->admin_model->updatePuesto_operador($idMcpio)) {
 				
-				//actualizamos el campo coordinador en la lista de municipios
+				//actualizamos el campo fk_id_operador_mcpio en la lista de municipios
 				$arrParam = array(
 					"table" => "param_divipola",
-					"primaryKey" => "mpio_divipola",
+					"primaryKey" => "codigo_municipio",
 					"id" => $idMcpio,
 					"column" => "fk_id_operador_mcpio",
 					"value" => $idUser
