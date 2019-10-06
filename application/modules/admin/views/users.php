@@ -97,8 +97,21 @@ if ($retornoError) {
 									echo "</td>";
 									echo "<td class='text-center'>" . $lista['numero_documento'] . "</td>";
 
+									switch ($lista['id_rol']) {
+											case 1:
+													$clase = "text-danger";
+													break;
+											case 2:
+													$valor = 'Presidente<br> y Diputados Uninominales';
+													$clase = "text-primary";
+													break;
+											case 3:
+													$valor = 'Presidente,<br>Diputados Uninominales<br> y Diputados Especiales';
+													$clase = "text-success";
+													break;
+									}
 									echo "<td class='text-center'>";
-									echo '<p class="text-primary"><strong>' . $lista['nombre_rol'] . '</strong></p>';
+									echo '<p class="' . $clase . '"><strong>' . $lista['nombre_rol'] . '</strong></p>';
 									echo "</td>";
 									
 									echo "<td class='text-center'>";
