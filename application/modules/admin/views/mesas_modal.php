@@ -37,9 +37,9 @@
 					<label class="control-label" for="perfil">Tipo de voto</label>
 					<select name="tipo_voto" id="tipo_voto" class="form-control" required>
 						<option value="">Select...</option>
-						<option value=1 <?php if($information[0]["tipo_voto"] == 1) { echo "selected"; }  ?>>Solo Presidente</option>
-						<option value=2 <?php if($information[0]["tipo_voto"] == 2) { echo "selected"; }  ?>>Presidente y Diputado Uninominales</option>
-						<option value=3 <?php if($information[0]["tipo_voto"] == 3) { echo "selected"; }  ?>>Presidente, Diputado Uninominales y Especiales</option>
+						<option value=1 <?php if($information[0]["tipo_voto"] == 1) { echo "selected"; }  ?>>Presidente y Diputados Especiales</option>
+						<option value=2 <?php if($information[0]["tipo_voto"] == 2) { echo "selected"; }  ?>>Presidente y Diputados Uninominales</option>
+						<option value=3 <?php if($information[0]["tipo_voto"] == 3) { echo "selected"; }  ?>>Presidente, Diputados Uninominales y Diputados Especiales</option>
 					</select>
 				</div>
 			</div>

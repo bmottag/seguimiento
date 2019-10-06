@@ -146,8 +146,8 @@ if ($retornoError) {
 					<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
 						<thead>
 							<tr>
-								<th class="text-center">Número mesa</th>
-								<th class="text-center">Número personas habilitadas</th>
+								<th class="text-center">No. mesa</th>
+								<th class="text-center">No. personas habilitadas</th>
 								<th class="text-center">Tipo voto</th>
 								<th class="text-center">Editar</th>
 							</tr>
@@ -161,32 +161,43 @@ if ($retornoError) {
 									
 									switch ($lista['tipo_voto']) {
 											case 1:
-													$valor = 'Solo Presidente';
+													$valor = 'Presidente y Diputados Especiales';
 													$clase = "text-success";
 													break;
 											case 2:
-													$valor = 'Presidente y Diputado';
+													$valor = 'Presidente y Diputados Uninominales';
 													$clase = "text-danger";
 													break;
 											case 3:
-													$valor = 'Presidente, Diputado y Especiales';
+													$valor = 'Presidente, Diputados Uninominales y Diputados Especiales';
 													$clase = "text-warning";
 													break;
 									}
 									echo "<td class='text-center'>";
 									echo '<p class="' . $clase . '"><strong>' . $valor . '</strong></p>';
 									echo "</td>";
+									
+									echo "<td class='text-center'>";
+									?>
+									
+<a href="<?php echo base_url("admin/asignar_auditor/" . $lista['id_mesa'] . "/delegado"); ?>" class="btn btn-info btn-xs">Auditor <span class="fa fa-gears fa-fw" aria-hidden="true"></a>
+						<?php 
+if($lista['fk_id_usuario_auditor']){
+	echo "<p class='text-primary text-center'>" . $lista['nom_delegado'] . " " . $lista['ape_delegado'] . "</br>";
+	echo "C.C. " . $lista['cedula_delegado'] . "</br>";
+	echo "<a href='" . base_url("admin/updateDelegado/" . $lista['id_sitio']) . "' class='text-primary text-center'>Eliminar</p>";
+}else{
+	echo "<p class='text-danger text-center'><strong>Falta</strong></p>";
+}
+
+									echo "</td>";
+									
 									echo "<td class='text-center'>";
 						?>
 									<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_mesa']; ?>" >
 										Editar <span class="glyphicon glyphicon-edit" aria-hidden="true">
 									</button>
 									
-									<br><br>
-
-<button type="button" class="btn btn-danger btn-xs" id="<?php echo $lista['id_mesa']; ?>" >
-	Eliminar <span class="fa fa-times fa-fw" aria-hidden="true">
-</button>
 						<?php
 									echo "</td>";
 							endforeach;
