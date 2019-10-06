@@ -846,12 +846,90 @@ class Admin extends MX_Controller {
 	{
 			$data = array();			
 			
+			$this->load->model("general_model");
+			
 			$idPuesto = $this->input->post("hddIdPuesto");
+			$idAuditorActual = $this->input->post("hddIdAuditorActual");
+			$idAuditorNuevo = $this->input->post("usuario");
 				
 			$data['linkBack'] = "admin/mesas/" . $idPuesto;
 			$data['titulo'] = "<i class='fa fa-gear fa-fw'></i>ASIGNAR";
 			
-			if ($this->admin_model->updateMesa_auditor()) {
+			//si habia un AUDITOR diferente al que estan asigando entonces inactivo al anterior AUDITOR primero
+			//y asigno este NUEVO AUDITOR  a todas la mesas que tenga el ACTUAL AUDITOR
+			//y actualizo la tabla ENCARGADO PUESTO DE VOTACION
+			if($idAuditorActual && $idAuditorActual != $idAuditorNuevo)
+			{
+				$arrParam = array(
+					"table" => "usuario",
+					"primaryKey" => "id_usuario",
+					"id" => $idAuditorActual,
+					"column" => "estado",
+					"value" => 2
+				);
+				$this->general_model->updateRecord($arrParam);//INACTIVO EL AUDITOR ANTERIOR				
+								
+				//Asigno el NUEVO AUDITOR a todas la MESAS que esta el AUDITOR ACTUAL
+				$arrParam = array(
+					"table" => "mesas",
+					"primaryKey" => "fk_id_usuario_auditor",
+					"id" => $idAuditorActual,
+					"column" => "fk_id_usuario_auditor",
+					"value" => $idAuditorNuevo
+				);
+				$this->general_model->updateRecord($arrParam);
+
+				//reviso tabla ENCARGADO PUESTO DE VOTACION
+				//si ya existe registro para el auditor nuevo entonces elimino el registro del auditor viejo
+				//si no existe entonces actualizo el auditor actual
+				$arrParam = array(
+					"idUsuario" => $idAuditorNuevo,
+					"idPuesto" => $idPuesto
+				);
+				$infoEncargado = $this->general_model->get_info_encargado_puesto($arrParam);
+								
+				if($infoEncargado){
+					//elimino el otro registro con el AUDITOR ACTUAL
+					$this->admin_model->deleteEncargado();
+				}else{				
+					//actualizo la tabla ENCARGADO PUESTO VOTACION con el ID AUDITOR
+					$arrParam = array(
+						"table" => "encargado_puesto_votacion",
+						"primaryKey" => "fk_id_puesto_votacion",
+						"id" => $idPuesto,
+						"column" => "fk_id_usuario",
+						"value" => $idAuditorNuevo
+					);
+					$this->general_model->updateRecord($arrParam);
+				}
+								
+			}else{
+				$this->admin_model->updateMesa_auditor();//actualizo la mesa con el ID AUDITOR
+				
+				//adiciono el NUEVO AUDITOR a la tabla ENCARGADO PUESTO VOTACION
+				//verificar si ya existe registro para este puesto para este auditor en la tabla ENCARGADO PUESTO VOTACIOON
+				//si ya existe entonce no se hace nada
+				$arrParam = array(
+					"idUsuario" => $idAuditorNuevo,
+					"idPuesto" => $idPuesto
+				);
+				$infoEncargado = $this->general_model->get_info_encargado_puesto($arrParam);
+								
+				if(!$infoEncargado){
+					$this->admin_model->updateEncargado();
+				}
+				
+			}
+			
+			//ACTIVO AL NUEVO AUDITOR
+			$arrParam = array(
+				"table" => "usuario",
+				"primaryKey" => "id_usuario",
+				"id" => $idAuditorNuevo,
+				"column" => "estado",
+				"value" => 1
+			);
+			if ($this->general_model->updateRecord($arrParam)) {
 				$data["msj"] = "Se asignó el <strong>Auditor</strong> con éxito.";
 				$data["clase"] = "alert-success";
 			}else{

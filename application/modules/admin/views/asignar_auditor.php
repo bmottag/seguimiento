@@ -93,6 +93,7 @@
 					<form  name="form" id="form" class="form-horizontal" method="post" action="<?php echo base_url("admin/guardar_auditor"); ?>" >
 						<input type="hidden" id="hddIdMesa" name="hddIdMesa" value="<?php echo $infoMesa[0]["id_mesa"]; ?>"/>
 						<input type="hidden" id="hddIdPuesto" name="hddIdPuesto" value="<?php echo $infoPuesto[0]["id_puesto_votacion"]; ?>"/>
+						<input type="hidden" id="hddIdAuditorActual" name="hddIdAuditorActual" value="<?php echo $infoMesa[0]["fk_id_usuario_auditor"]; ?>"/>
 
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="usuario">Usuario Auditor: *</label>

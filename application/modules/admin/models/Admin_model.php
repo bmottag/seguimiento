@@ -358,6 +358,41 @@
 	    }
 		
 	    /**
+	     * Adiciono AUDIOTOR A LA TABLA ENCARGADO PUESTO DE VOTACION
+	     * @since  6/10/2019
+	     */
+	    public function updateEncargado()
+		{				
+				$data['fk_id_usuario'] = $this->input->post("usuario");
+				$data['fk_id_puesto_votacion'] = $this->input->post("hddIdPuesto");
+				
+				$query = $this->db->insert('encargado_puesto_votacion', $data);
+				
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+	    }
+		
+		/**
+		 * Delete Record
+		 * @since 6/10/2019
+		 */
+		public function deleteEncargado() 
+		{
+				$idAuditorActual = $this->input->post("hddIdAuditorActual");
+				$idPuesto = $this->input->post("hddIdPuesto");
+				
+				$query = $this->db->delete('encargado_puesto_votacion', array("fk_id_usuario" => $idAuditorActual, "fk_id_puesto_votacion" => $idPuesto));
+				if ($query) {
+					return true;
+				} else {
+					return false;
+				}
+		}
+		
+	    /**
 	     * Actualiar coordinador del SITIO
 		 * param Id municipio int para asignar coordinador a todos los sitios con ese id
 	     * @since  13/5/2017
