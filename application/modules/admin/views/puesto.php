@@ -83,30 +83,29 @@ if ($retornoError) {
 							<tr>
 								<th class="text-center">Número</th>
 								<th class="text-center">Nombre</th>
-								<th class="text-center">Departamento</th>
-								<th class="text-center">Municipio</th>
-								<th class="text-center">Localidad</th>
+								<th class="text-center">Ubicación</th>
+
 								<th class="text-center">Número total mesas </th>
-								<th class="text-center">Circunscripción </th>
 								<th class="text-center">Enlaces</th>
 							</tr>
 						</thead>
 						<tbody>							
 						<?php
+						//pr($info); exit;
+						
 							foreach ($info as $lista):
 									echo "<tr>";
 									echo "<td class='text-center'>" . $lista['numero_puesto_votacion'] . "</td>";
 									echo "<td>" . $lista['nombre_puesto_votacion'] . "</td>";
-									echo "<td>" . $lista['nombre_departamento'] . "</td>";
-									echo "<td>" . $lista['nombre_municipio'] . "</td>";
 									echo "<td>";
-									echo "<strong>ID: </strong>" . $lista['id_localidad'];
-									echo "<br>" . $lista['nombre_localidad'];
+									echo "<strong>Departamento: </strong>" . $lista['nombre_departamento'];
+									echo "<br><strong>Municipio: </strong>" . $lista['nombre_municipio'];
+									echo "<br><strong>ID Localidad: </strong>" . $lista['id_localidad'];
+									echo "<br><strong>Localidad: </strong>" . $lista['nombre_localidad'];
+									echo "<br><strong>Circunscripción: </strong>" . $lista['circunscripcion'];
 									echo "</td>";
 									
 									echo "<td class='text-center'>" . $lista['total_mesas'] . "</td>";
-									echo "<td>" . $lista['circunscripcion'] . "</td>";
-									
 									echo "<td class='text-center'>";
 						?>
 									<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal" id="<?php echo $lista['id_puesto_votacion']; ?>" >
