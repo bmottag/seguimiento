@@ -815,46 +815,44 @@ class Admin extends MX_Controller {
 	
 		
 	/**
-	 * Formulario para asignar delegado al sitio
-     * @since 21/5/2017
+	 * Formulario para asignar AUDITOR a la mesa
+     * @since 6/10/2019
 	 */
-	public function asignar_delegado($idSitio, $rol)
+	public function asignar_auditor($idMesa)
 	{
 			$this->load->model("general_model");
-			$arrParam = array("idSitio" => $idSitio);
-			$data['infoSitio'] = $this->general_model->get_sitios($arrParam);//informacion sitio
-			$data['rol'] = $rol;
-			$lista = "lista_" . $rol;
+			
+			//Informacion de las mesas para el Puesto de votacion
+			$arrParam = array('idMesa' => $idMesa);
+			$data['infoMesa'] = $this->general_model->get_mesas($arrParam);
 
-			$data['usuarios'] = $this->general_model->$lista($arrParam);//listado usuarios
+			//Informacion del Puesto
+			$arrParam = array('idPuesto' => $data['infoMesa'][0]['fk_puesto_votacion_mesas']);
+			$data['infoPuesto'] = $this->general_model->get_puesto($arrParam);
 
-			$data["view"] = 'asignar_delegado';
+			//listado usuarios AUDITORES
+			$arrParam = array("idRol" => 2);
+			$data['usuarios'] = $this->admin_model->get_users($arrParam);
+
+			$data["view"] = 'asignar_auditor';
 			$this->load->view("layout", $data);
 	}
 	
 	/**
-	 * Guardar delegado o coordinador para el sitio
-	 * @since 13/5/2017
+	 * Guardar AUDITOR para la mesa
+	 * @since 6/10/2019
 	 */
-	public function guardar_delegado()
+	public function guardar_auditor()
 	{
 			$data = array();			
+			
+			$idPuesto = $this->input->post("hddIdPuesto");
 				
-			$data['linkBack'] = "admin/sitios/";
+			$data['linkBack'] = "admin/mesas/" . $idPuesto;
 			$data['titulo'] = "<i class='fa fa-gear fa-fw'></i>ASIGNAR";
 			
-			$idSitio = $this->input->post("hddId");
-			//se busca informacion del sitio para asignar el usuario al mismo municipio
-			$this->load->model("general_model");
-			$arrParam = array("idSitio" => $idSitio);
-			$infoSitio = $this->general_model->get_sitios($arrParam);//informacion sitio
-			$idMunicipio = $infoSitio[0]['fk_mpio_divipola']; //envio el id municipio para los coordinadores
-			
-			$rol = $this->input->post("hddRol");
-			$Fmodelo = "updateSitio_" . $rol;
-	
-			if ($this->admin_model->$Fmodelo($idMunicipio)) {
-				$data["msj"] = "Se asignó el <strong>" . $rol . "</strong> con éxito.";
+			if ($this->admin_model->updateMesa_auditor()) {
+				$data["msj"] = "Se asignó el <strong>Auditor</strong> con éxito.";
 				$data["clase"] = "alert-success";
 			}else{
 				$data["msj"] = "<strong>Error!!!</strong> Contactarse con el administrador.";
@@ -1162,32 +1160,33 @@ class Admin extends MX_Controller {
 	}
 	
     /**
-     * actualizamos el campo delegado de los sitio
+     * Se borra el AUDITOR asignado a la mesa
+	 * @since 6/10/2019
      */
-    public function updateDelegado($idSitio) 
+    public function eliminarAuditor($idMesa, $idPuesto) 
 	{
-			if (empty($idSitio) ) {
+			if (empty($idMesa) || empty($idPuesto) ) {
 				show_error('ERROR!!! - You are in the wrong place.');
 			}
 			
-			//actualizamos el campo delegado o coordinador de ls sitio
+			//actualizamos el campo AUDITOR de la MESA
 			$arrParam = array(
-				"table" => "sitios",
-				"primaryKey" => "id_sitio",
-				"id" => $idSitio,
-				"column" => "fk_id_user_delegado",
-				"value" => ""
+				"table" => "mesas",
+				"primaryKey" => "id_mesa",
+				"id" => $idMesa,
+				"column" => "fk_id_usuario_auditor",
+				"value" => 0
 			);
 
 			$this->load->model("general_model");
 
 			if ($this->general_model->updateRecord($arrParam)) {
-				$this->session->set_flashdata('retornoExito', 'Se eliminó el <strong>DELEGADO</strong> del sitio.');
+				$this->session->set_flashdata('retornoExito', 'Se eliminó el <strong>AUDITOR</strong> de la Mesa.');
 			} else {
 				$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Contactarse con el Administrador');
 			}
 			
-			redirect(base_url('admin/sitios'), 'refresh');
+			redirect(base_url('admin/mesas/' . $idPuesto), 'refresh');
     }
 	
     /**
@@ -1642,10 +1641,8 @@ class Admin extends MX_Controller {
 			
 			$this->load->model("general_model");
 			
-			//listado usuarios operadores
-			$arrParam = array(
-				"idRol" => 3
-			);
+			//listado usuarios OPERADORES
+			$arrParam = array("idRol" => 3);
 			$data['usuarios'] = $this->admin_model->get_users($arrParam);
 			
 			$data['departamentos'] = $this->general_model->get_dpto_divipola();//listado de departamentos

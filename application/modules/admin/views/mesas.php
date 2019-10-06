@@ -149,11 +149,12 @@ if ($retornoError) {
 								<th class="text-center">No. mesa</th>
 								<th class="text-center">No. personas habilitadas</th>
 								<th class="text-center">Tipo voto</th>
+								<th class="text-center">Auditor</th>
 								<th class="text-center">Editar</th>
 							</tr>
 						</thead>
 						<tbody>							
-						<?php
+						<?php						
 							foreach ($info as $lista):
 									echo "<tr>";
 									echo "<td class='text-center'>" . $lista['numero_mesa'] . "</td>";
@@ -161,15 +162,15 @@ if ($retornoError) {
 									
 									switch ($lista['tipo_voto']) {
 											case 1:
-													$valor = 'Presidente y Diputados Especiales';
+													$valor = 'Presidente<br> y Diputados Especiales';
 													$clase = "text-success";
 													break;
 											case 2:
-													$valor = 'Presidente y Diputados Uninominales';
+													$valor = 'Presidente<br> y Diputados Uninominales';
 													$clase = "text-danger";
 													break;
 											case 3:
-													$valor = 'Presidente, Diputados Uninominales y Diputados Especiales';
+													$valor = 'Presidente,<br>Diputados Uninominales<br> y Diputados Especiales';
 													$clase = "text-warning";
 													break;
 									}
@@ -180,12 +181,12 @@ if ($retornoError) {
 									echo "<td class='text-center'>";
 									?>
 									
-<a href="<?php echo base_url("admin/asignar_auditor/" . $lista['id_mesa'] . "/delegado"); ?>" class="btn btn-info btn-xs">Auditor <span class="fa fa-gears fa-fw" aria-hidden="true"></a>
+<a href="<?php echo base_url("admin/asignar_auditor/" . $lista['id_mesa']); ?>" class="btn btn-danger btn-xs">Auditor <span class="fa fa-gears fa-fw" aria-hidden="true"></a>
 						<?php 
 if($lista['fk_id_usuario_auditor']){
-	echo "<p class='text-primary text-center'>" . $lista['nom_delegado'] . " " . $lista['ape_delegado'] . "</br>";
-	echo "C.C. " . $lista['cedula_delegado'] . "</br>";
-	echo "<a href='" . base_url("admin/updateDelegado/" . $lista['id_sitio']) . "' class='text-primary text-center'>Eliminar</p>";
+	echo "<p class='text-primary text-center'>" . $lista['nombre'] . "</br>";
+	echo "C.C. " . $lista['numero_documento'] . "</br>";
+	echo "<a href='" . base_url("admin/eliminarAuditor/" . $lista['id_mesa'] . "/" . $lista['fk_puesto_votacion_mesas']) . "' class='text-primary text-center'>Eliminar</p>";
 }else{
 	echo "<p class='text-danger text-center'><strong>Falta</strong></p>";
 }

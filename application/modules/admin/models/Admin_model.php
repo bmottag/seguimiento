@@ -336,20 +336,19 @@
 		
 		
 	    /**
-	     * Actualiar delegado del SITIO
-		 * param Id municipio int no se usa es para el modelo de asignar coordinador
-	     * @since  13/5/2017
+	     * Actualiar AUDITOR del la MESA
+	     * @since  6/10/2019
 	     */
-	    public function updateSitio_delegado($idMunicipio)
+	    public function updateMesa_auditor()
 		{
-				$idSitio = $this->input->post("hddId");
+				$idMesa = $this->input->post("hddIdMesa");
 
 				$data = array(
-					'fk_id_user_delegado' => $this->input->post("usuario")
+					'fk_id_usuario_auditor' => $this->input->post("usuario")
 				);
 
-				$this->db->where('id_sitio', $idSitio);
-				$query = $this->db->update('sitios', $data);
+				$this->db->where('id_mesa', $idMesa);
+				$query = $this->db->update('mesas', $data);
 
 				if ($query) {
 					return true;

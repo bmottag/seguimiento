@@ -102,7 +102,8 @@ class General_model extends CI_Model {
 		 */
 		public function get_mesas($arrDatos) 
 		{
-				$this->db->select();
+				$this->db->select("M.*, CONCAT(U.nombres_usuario, ' ', U.apellidos_usuario) nombre, U.numero_documento");
+				$this->db->join('usuario U', 'U.id_usuario = M.fk_id_usuario_auditor', 'LEFT');
 				
 				if (array_key_exists("idPuesto", $arrDatos)) {
 					$this->db->where('M.fk_puesto_votacion_mesas', $arrDatos["idPuesto"]);
